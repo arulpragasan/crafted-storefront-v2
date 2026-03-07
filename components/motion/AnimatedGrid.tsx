@@ -1,31 +1,28 @@
-// "use client"
+"use client"
 
-// import { motion } from "framer-motion"
+import { motion } from "framer-motion"
 
-// type AnimatedGridProps = {
-//   children: React.ReactNode
-//   stagger?: number
-// }
-
-// export function AnimatedGrid({
-//   children,
-//   stagger = 0.12,
-// }: AnimatedGridProps) {
-//   return (
-//     <motion.div
-//       initial="hidden"
-//       whileInView="show"
-//       viewport={{ once: true }}
-//       variants={{
-//         hidden: {},
-//         show: {
-//           transition: {
-//             staggerChildren: stagger,
-//           },
-//         },
-//       }}
-//     >
-//       {children}
-//     </motion.div>
-//   )
-// }
+export default function AnimatedGrid({
+  children,
+}: {
+  children: React.ReactNode
+}) {
+  return (
+    <motion.div
+      initial="hidden"
+      whileInView="visible"
+      viewport={{ once: true }}
+      variants={{
+        hidden: {},
+        visible: {
+          transition: {
+            staggerChildren: 0.1,
+          },
+        },
+      }}
+      className="grid gap-8 md:grid-cols-3"
+    >
+      {children}
+    </motion.div>
+  )
+}

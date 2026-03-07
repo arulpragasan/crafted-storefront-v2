@@ -25,7 +25,7 @@ export default function ProductsSection({ items }: ProductsSectionProps) {
                         brand={product.brand}
                         image={product.image_url}
                         price={product.price}
-                        href={`/product/${product.slug}`}
+                        href={`/products/${product.slug}`}
                         aspect={(index === 0)||(index === 3)  ? "portrait" : "square"}
                         aspect={"portrait"}
                         className={(index === 0)||(index === 3) ? "md:col-span-2 md:row-span-2" : ""}

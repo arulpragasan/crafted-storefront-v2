@@ -25,7 +25,7 @@ export function ProductCard({
   price,
   image,
   href,
-  aspect = "square",
+  aspect = "portrait",
   priority = false,
   className,
 }: ProductCardProps) {

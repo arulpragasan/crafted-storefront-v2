@@ -15,15 +15,37 @@ const rightNav = [
   { label: "Profile", href: "/profile" },
 ]
 
-export function Header() {
+export function Header({ brandName }: { brandName?: string }) {
   const pathname = usePathname()
+
   const [scrolled, setScrolled] = useState(false)
+  const [showBrand, setShowBrand] = useState(false)
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 20)
+
     window.addEventListener("scroll", onScroll)
     return () => window.removeEventListener("scroll", onScroll)
   }, [])
+
+  useEffect(() => {
+    if (!brandName) return
+
+    const hero = document.getElementById("brand-hero")
+
+    if (!hero) return
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        setShowBrand(!entry.isIntersecting)
+      },
+      { rootMargin: "-80px 0px 0px 0px" }
+    )
+
+    observer.observe(hero)
+
+    return () => observer.disconnect()
+  }, [brandName])
 
   const navLink = (item: { label: string; href: string }) => {
     const active = pathname.startsWith(item.href)
@@ -34,9 +56,7 @@ export function Header() {
         href={item.href}
         className={clsx(
           "relative transition-colors",
-          active ? "text-black" : "text-neutral-600 hover:text-black",
-          "after:absolute after:left-0 after:-bottom-1 after:h-[1px] after:bg-black after:transition-all",
-          active ? "after:w-full" : "after:w-0 hover:after:w-full"
+          active ? "text-black" : "text-neutral-600 hover:text-black"
         )}
       >
         {item.label}
@@ -49,7 +69,7 @@ export function Header() {
       className={clsx(
         "sticky top-0 z-50 transition-all duration-300",
         scrolled
-          ? "bg-white/80 backdrop-blur-xl border-b border-neutral-200 shadow-sm"
+          ? "bg-white/80 backdrop-blur-xl border-b border-neutral-200"
           : "bg-white/60 backdrop-blur-lg"
       )}
     >
@@ -59,28 +79,35 @@ export function Header() {
           scrolled ? "h-16" : "h-20"
         )}
       >
-        {/* Left Navigation */}
+        {/* Left */}
         <nav className="flex items-center gap-8 text-sm tracking-wide">
           {leftNav.map(navLink)}
         </nav>
 
-        {/* Logo */}
+        {/* Center */}
         <div className="flex justify-center">
-          <Link
-            href="/"
-            className={clsx(
-              "font-serif tracking-[0.25em] transition-all duration-300",
-              scrolled ? "text-lg" : "text-xl md:text-2xl"
-            )}
-          >
-            CRAFTED
-          </Link>
+          {showBrand && brandName ? (
+            <span className="text-xs tracking-[0.3em] uppercase text-neutral-700">
+              {brandName}
+            </span>
+          ) : (
+            <Link
+              href="/"
+              className={clsx(
+                "font-serif tracking-[0.25em]",
+                scrolled ? "text-lg" : "text-xl md:text-2xl"
+              )}
+            >
+              CRAFTED
+            </Link>
+          )}
         </div>
 
-        {/* Right Navigation */}
+        {/* Right */}
         <nav className="flex items-center justify-end gap-8 text-sm tracking-wide">
           {rightNav.map(navLink)}
         </nav>
+
       </div>
     </header>
   )

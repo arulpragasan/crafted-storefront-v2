@@ -22,7 +22,7 @@ export default function BrandsSection({ items }) {
               tagline="Runway Collection"
               image={brand.logo_url}
               logo={brand.logo_url}
-              href={`/brand/${brand.slug || brand.id}`}
+              href={`/brands/${brand.slug || brand.id}`}
               className={index === 0 ? "md:col-span-2 md:row-span-2" : ""}
             />
           ))}

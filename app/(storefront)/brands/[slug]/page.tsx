@@ -1,79 +1,111 @@
+import { notFound } from "next/navigation"
+import { BrandHero } from "@/components/brand/BrandHero"
+import { BrandStory } from "@/components/brand/BrandStory"
+import { RunwayStrip } from "@/components/brand/RunwayStrip"
+import { SignatureLooks } from "@/components/brand/SignatureLooks"
+import { ThemedProducts } from "@/components/brand/ThemedProducts"
+import { ConnectWithBrand } from "@/components/brand/ConnectWithBrand"
+import { StickyBrandBar } from "@/components/brand/StickyBrandBar"
 import { Section } from "@/components/layout/Section"
 import { Container } from "@/components/layout/Container"
-import { Grid } from "@/components/layout/Grid"
-import { ProductCard } from "@/components/commerce/ProductCard"
-import { Typography } from "@/components/ui/Typography"
-import { ImageCard } from "@/components/media/ImageCard"
+import { SectionTitle } from "@/components/ui/SectionTitle"
 
-export default function BrandDetailPage() {
-  // mock data (visual only)
-  const brand = {
-    name: "Crafted Studio",
-    tagline: "Heritage craftsmanship. Contemporary silhouettes.",
-    description:
-      "Crafted Studio is a design house rooted in traditional techniques and reimagined through a modern lens. Each creation reflects a balance of heritage, craftsmanship, and refined storytelling.",
-    image: "https://picsum.photos/900/1200?random=90",
-  }
+import ProductsSection from "@/components/sections/ProductsSection"
+import ProgramsSection from "@/components/sections/ProgramsSection"
+import DesignerCarousel from "@/components/sections/DesignerCarousel"
 
-  const looks = Array.from({ length: 6 }).map((_, i) => ({
-    id: i,
-    name: `Look ${i + 1}`,
-    brand: brand.name,
-    image: `https://picsum.photos/600/800?random=${i + 60}`,
-    href: "#",
-  }))
+export const revalidate = 3600
 
+async function getBrandData(slug: string) {
+  const apiUrl =
+    process.env.NEXT_PUBLIC_API_URL || "http://localhost:3002"
+
+  const res = await fetch(`${apiUrl}/api/v2/storefront/brands/${slug}`, {
+    next: { revalidate: 3600 }
+  })
+
+  if (!res.ok) return null
+  return res.json()
+}
+
+export default async function BrandDetailsPage({
+  params
+}: {
+  params: Promise<{ slug: string }>
+}) {
+  const { slug } = await params
+  const data = await getBrandData(slug)
+
+  if (!data || !data.brand) notFound()
+
+  const {
+    brand,
+    brand_story,
+    featured_products = [],
+    themed_products = [],
+    programs = [],
+    explore_brands = []
+  } = data
   return (
-    <Section>
-      <Container size="wide">
-        {/* ========================
-            BRAND HERO
-        ======================== */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-12">
-          {/* Brand imagery */}
-          <div className="rounded-2xl overflow-hidden">
-            <img
-              src={brand.image}
-              alt={brand.name}
-              className="w-full h-full object-cover"
-            />
-          </div>
+    <main className="min-h-screen bg-stone-50">
 
-          {/* Brand context */}
-          <div className="flex flex-col gap-6 md:pt-20">
-            <Typography as="h1">
-              {brand.name}
-            </Typography>
+            <StickyBrandBar
+        name={brand.name}
+        logo={brand.logo_url}
+      />
+      <BrandHero brand={brand} />
 
-            <p className="text-sm text-neutral-500 max-w-md">
-              {brand.tagline}
-            </p>
+      {/* Signature Looks (overlapping hero) */}
+      {featured_products.length > 0 && (
+        <SignatureLooks products={featured_products.slice(0,5)} />
+      )}
 
-            <div className="pt-space-4 max-w-md">
-              <p className="text-neutral-600 leading-relaxed">
-                {brand.description}
-              </p>
-            </div>
-          </div>
-        </div>
+      {/* Story */}
+      {brand.description && (
+        <BrandStory
+          title={brand.name}
+          description={brand.description}
+        />
+      )}
 
-        {/* ========================
-            FEATURED LOOKS
-        ======================== */}
-        <div className="mt-space-16">
-          <Typography as="h2">
-            Featured Looks
-          </Typography>
+      {/* Programs */}
+      {programs.length > 0 && (
+        <ProgramsSection programs={programs} />
+      )}
 
-          <div className="mt-space-8">
-            <Grid columns={3} gap="loose">
-              {looks.map((look) => (
-                <ProductCard key={look.id} {...look} />
-              ))}
-            </Grid>
-          </div>
-        </div>
-      </Container>
-    </Section>
+      {/* Runway Strip */}
+      {/*{featured_products.length > 0 && (
+        <RunwayStrip
+          images={featured_products.map(p => p.image_url)}
+        />
+      )}*/}
+
+      {/* Collections */}
+      {themed_products.length > 0 && (
+        <ThemedProducts themes={themed_products} />
+      )}
+
+      {/* Connect */}
+      <Section className="py-40 bg-stone-100">
+        <Container>
+          <ConnectWithBrand brand={brand} />
+        </Container>
+      </Section>
+
+      {/* Explore Designers */}
+      {explore_brands.length > 0 && (
+        // <Section className="py-32 bg-white">
+        //   <Container>
+        //     <SectionTitle className="mb-20">
+        //       Discover More Designers
+        //     </SectionTitle>
+
+        //     <DesignerCarousel items={explore_brands} />
+        //   </Container>
+        // </Section>
+        <DesignerCarousel items={explore_brands} />
+      )}
+
+    </main>
   )
 }

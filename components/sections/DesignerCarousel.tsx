@@ -17,7 +17,7 @@ export default function DesignerCarousel({ items }: Props) {
       <Container>
 
         <SectionTitle className="mb-10">
-          Featured Designers
+          Discover More Designers
         </SectionTitle>
 
         <div className="flex gap-8 overflow-x-auto pb-6 scrollbar-hide">
@@ -27,7 +27,7 @@ export default function DesignerCarousel({ items }: Props) {
               <BrandCard
                 name={brand.name}
                 image={brand.logo_url}
-                href={`/brand/${brand.slug || brand.id}`}
+                href={`/brands/${brand.slug || brand.id}`}
                 aspect="portrait"
               />
             </div>
