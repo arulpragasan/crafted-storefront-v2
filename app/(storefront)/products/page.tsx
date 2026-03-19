@@ -1,22 +1,43 @@
-import { Section } from "@/components/layout/Section"
+import { getProducts } from "@/lib/api/products"
+import { parseProductsQuery } from "@/lib/utils/parseProductsQuery"
+
 import { Container } from "@/components/layout/Container"
-import { ProductsClient } from "./ProductsClient"
+import { Section } from "@/components/layout/Section"
 
-const products = Array.from({ length: 9 }).map((_, i) => ({
-  id: i,
-  name: `Look ${i + 1}`,
-  brand: "Crafted Studio",
-  price: 7999 + i * 500,
-  image: `https://picsum.photos/600/800?random=${i + 200}`,
-  href: "#",
-}))
+import { ProductsPageContainer } from "@/features/products/components/layout"
+import { ProductsProvider } from "@/features/products/context/products"
 
-export default function ProductsPage() {
+export const dynamic = "force-dynamic"
+
+type SearchParams = Record<string, string | string[] | undefined>
+
+type Props = {
+  searchParams: Promise<Record<string, string | string[] | undefined>>
+}
+
+
+export default async function ProductsPage({ searchParams }: Props) {
+  const resolvedParams = await searchParams   // ✅ unwrap here
+
+  const query = parseProductsQuery(resolvedParams)
+
+  const { products, filters, meta, navigation } =
+    await getProducts(query)
+
   return (
-    <Section>
-      <Container size="wide">
-        <ProductsClient products={products} />
+    <section>
+      <Container>
+
+        <ProductsProvider
+          value={{ products, filters, meta, navigation }}
+        >
+          <ProductsPageContainer
+            category={query.category}
+            subcategory={query.subcategory}
+          />
+        </ProductsProvider>
+
       </Container>
-    </Section>
+    </section>
   )
 }

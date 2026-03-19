@@ -1,22 +1,23 @@
 import { notFound } from "next/navigation"
-import { getProduct } from "@/lib/api/products"
-import { ProductHero } from "@/components/product/ProductHero"
+import { getProduct } from "@/features/products/product-details/api/product/"
 
-export const revalidate = 3600
+import {
+  Breadcrumbs,
+  ProductHero,
+  ProductFloatingBar
+} from "@/features/products/product-details"
 
-export default async function ProductDetailsPage({
-  params
-}: {
-  params: Promise<{ slug: string }>
-}) {
+export default async function ProductDetailsPage({ params }) {
+
   const { slug } = await params
   const data = await getProduct(slug)
-
-  if (!data || !data.product) {
+console.log(data)
+  if (!data?.product) {
     notFound()
   }
 
   const {
+    breadcrumbs = [],
     product,
     gallery = [],
     options = [],
@@ -25,14 +26,24 @@ export default async function ProductDetailsPage({
   } = data
 
   return (
-    <main className="min-h-screen bg-stone-50 selection:bg-stone-200">
-      <ProductHero
-        product={product}
-        gallery={gallery}
-        options={options}
-        variants={variants}
-        variantIndex={variant_index}
-      />
+    <main className="min-h-screen bg-stone-50">
+
+      <section className="max-w-7xl mx-auto px-6 pt-10 pb-16">
+
+        <Breadcrumbs items={breadcrumbs} />
+
+        <div className="mt-6">
+          <ProductHero
+            product={product}
+            gallery={gallery}
+            options={options}
+            variants={variants}
+            variantIndex={variant_index}
+          />
+        </div>
+
+      </section>
+
     </main>
   )
 }
