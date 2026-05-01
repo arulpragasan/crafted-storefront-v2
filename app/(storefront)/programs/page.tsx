@@ -1,12 +1,27 @@
-import { Section } from "@/components/layout/Section"
-import { Container } from "@/components/layout/Container"
+import { Section, Container } from "@/components/layout"
+import { ProgramSection } from "@/features/programs/components/ProgramSection"
+import { getPrograms } from "@/lib/api/programs"
+import { Typography } from "@/components/ui/Typography"
 
-export default function ProgramsPage() {
+export default async function ProgramsPage() {
+  const [current, future, past] = await Promise.all([
+    getPrograms({ status: "current" }),
+    getPrograms({ status: "future" }),
+    getPrograms({ status: "past" })
+  ])
+
   return (
-    <Section>
-      <Container>
-        <h2 className="text-3xl font-light">Programs</h2>
-      </Container>
-    </Section>
+    <>
+      <Section>
+        <Container>
+        <Typography as="h1" variant="display-lg">
+          Programs
+        </Typography>
+        </Container>
+      </Section>
+      <ProgramSection title="Live Now" programs={current.data} />
+      <ProgramSection title="Upcoming" programs={future.data} />
+      <ProgramSection title="Highlights" programs={past.data} />
+    </>
   )
 }
