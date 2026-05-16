@@ -10,6 +10,7 @@ import {
   getThemesByCategory,
   getProducts,
 } from "@/lib/api/categories"
+import { PageSection } from "@/components/layout/PageSection"
 
 
 type PageProps = {
@@ -64,25 +65,32 @@ export default async function CategoryPage({
       <CategoryHero category={category} />
 
       {/* 2️⃣ Editorial Overview */}
-      <EditorialOverview category={category} />
+      <PageSection rhythm="editorial">
+        <EditorialOverview category={category} />
+      </PageSection>
 
       {/* 3️⃣ Explore by Brand */}
       {!showProducts && (
-        <ExploreBrands slug={slug} brands={brands} />
+        <PageSection rhythm="editorial">
+          <ExploreBrands slug={slug} brands={brands} />
+        </PageSection>
       )}
 
       {/* 4️⃣ Explore by Theme */}
       {!showProducts && themes.length > 0 && (
-        <ExploreThemes slug={slug} themes={themes} />
+        <PageSection rhythm="editorial">
+          <ExploreThemes slug={slug} themes={themes} />
+        </PageSection>
       )}
 
       {/* 5️⃣ Products (Conditional) */}
       {showProducts && (
-        <ProductResults
-          slug={slug}
-          products={products}
-          page={page}
-        />
+        <PageSection rhythm="editorial">
+          <ProductResults
+            products={products}
+            page={page}
+          />
+        </PageSection>
       )}
 
     </main>

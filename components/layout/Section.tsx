@@ -4,6 +4,7 @@ import { motion } from "framer-motion"
 import { fadeRise, viewportOnce } from "@/lib/motion/presets"
 import clsx from "clsx"
 import React from "react"
+import { pageSectionSpacingClass } from "@/styles/design-system/spacing"
 
 type SectionVariant =
   | "default"   // standard section
@@ -38,7 +39,7 @@ export function Section({
        Default (most sections)
     ------------------------------------------ */
     case "default":
-      spacingClass = "py-28 md:py-36"
+      spacingClass = pageSectionSpacingClass.default
       break
 
     /* ------------------------------------------
@@ -52,7 +53,7 @@ export function Section({
        Muted background
     ------------------------------------------ */
     case "muted":
-      spacingClass = "py-24 md:py-32"
+      spacingClass = pageSectionSpacingClass.muted
       toneClass = "bg-neutral-50"
       break
 
@@ -60,21 +61,21 @@ export function Section({
        Feature / storytelling
     ------------------------------------------ */
     case "feature":
-      spacingClass = "py-36 md:py-44"
+      spacingClass = pageSectionSpacingClass.feature
       break
 
     /* ------------------------------------------
        Tight sections
     ------------------------------------------ */
     case "tight":
-      spacingClass = "py-16 md:py-20"
+      spacingClass = pageSectionSpacingClass.tight
       break
 
     /* ------------------------------------------
        No spacing
     ------------------------------------------ */
     case "flush":
-      spacingClass = ""
+      spacingClass = pageSectionSpacingClass.flush
       break
   }
 

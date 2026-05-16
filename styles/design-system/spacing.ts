@@ -28,6 +28,25 @@ export const sectionSpacing = {
   flush:   { mobile: "0",     desktop: "0"     },
 } as const
 
+// ─── Page section rhythm classes ─────────────────────────────────────────────
+// Vertical rhythm between page sections. Applied by page/layout composition.
+// Values mirror the existing section variants and raw page-level py-* usage.
+
+export const pageSectionSpacingClass = {
+  /** py-28 md:py-36 — standard editorial sections */
+  default: "py-28 md:py-36",
+  /** py-24 md:py-32 — light-background sections */
+  muted: "py-24 md:py-32",
+  /** py-36 md:py-44 — storytelling / cinematic sections */
+  feature: "py-36 md:py-44",
+  /** py-16 md:py-20 — compact sections */
+  tight: "py-16 md:py-20",
+  /** py-24 — category detail editorial modules */
+  editorial: "py-24",
+  /** no vertical padding */
+  flush: "",
+} as const
+
 // ─── Container max-width scale ───────────────────────────────────────────────
 // Canonical definition — all max-w-* constraints must flow through Container.
 // Inline max-w-* in feature components are violations of this token.
