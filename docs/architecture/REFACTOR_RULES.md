@@ -76,25 +76,46 @@ Examples:
 
 ## Spacing
 
-Pages and features should avoid hardcoded spacing values.
+Spacing ownership should remain layered.
+
+Design-system tokens own:
+
+* reusable spacing values
+* editorial rhythm tokens
+* semantic spacing variants
+
+Layout composition owns:
+
+* page-level section cadence
+* spacing between sections
+* editorial pacing
+
+Sections and features own:
+
+* internal composition spacing
+* local layout rhythm
+* internal grid spacing
 
 Prefer:
 
 * semantic spacing variants
 * token-driven section rhythm
-* centralized spacing definitions
+* centralized editorial cadence
+* constrained spacing abstractions
 
 Avoid:
 
 * repeated py-*
 * repeated gap-*
 * arbitrary spacing values
+* component-owned page rhythm
+* generalized spacing engines
 
 ---
 
 ## Surfaces
 
-Surface styling should remain centralized.
+Surface and presentation styling should remain centralized.
 
 Avoid repeated:
 
@@ -102,12 +123,22 @@ Avoid repeated:
 * radii
 * background combinations
 * overlay gradients
+* cinematic image treatments
+* repeated hover presentation behavior
 
 Prefer:
 
 * semantic surface variants
 * reusable overlay primitives
 * token-driven surfaces
+* restrained presentation tokens
+* centralized cinematic presentation behavior
+
+Avoid introducing:
+
+* generalized media wrapper systems
+* universal card abstractions
+* presentation components that own composition
 
 ---
 
@@ -120,6 +151,15 @@ Use class-variance-authority (CVA) for:
 * surface variants
 * overlay variants
 * layout variants
+
+New variants should only be introduced when they are:
+
+* semantically meaningful
+* visually stable
+* reused across multiple contexts
+* ownership-improving
+
+Avoid implementation-driven variant expansion.
 
 Avoid:
 
@@ -188,6 +228,19 @@ Avoid:
 * feature assumptions
 * API orchestration
 
+Shared UI primitives may own:
+
+* semantic typography
+* restrained presentation behavior
+* reusable cinematic interaction patterns
+* token-driven visual consistency
+
+Shared UI primitives should avoid:
+
+* feature storytelling
+* page composition ownership
+* domain-specific rendering flow
+
 ---
 
 # Hooks Rules
@@ -236,12 +289,29 @@ Motion should remain:
 * restrained
 * subtle
 * compositional
+* editorial in pacing
 
 Prefer:
 
 * reveal motion
 * stagger rhythm
 * cinematic pacing
+* centralized motion timing
+* reusable easing rhythm
+
+Shared motion layers may centralize:
+
+* timing
+* easing
+* repeated transition rhythm
+* cinematic interaction cadence
+
+Feature components should continue owning:
+
+* motion sequencing
+* storytelling composition
+* feature choreography
+* reveal timing decisions
 
 Avoid:
 
@@ -249,6 +319,37 @@ Avoid:
 * aggressive animation
 * excessive choreography
 * attention-seeking transitions
+* generalized animation frameworks
+* speculative motion abstractions
+
+---
+
+# Editorial Rhythm Rules
+
+The storefront should maintain consistent cinematic pacing across pages.
+
+Editorial rhythm should remain:
+
+* spacious
+* restrained
+* compositional
+* intentional
+
+Page-level section spacing should be owned by layout composition primitives rather than individual sections.
+
+Prefer:
+
+* centralized page rhythm
+* semantic section cadence
+* compositional whitespace
+* constrained layout rhythm tokens
+
+Avoid:
+
+* mechanically uniform layouts
+* dense stacking systems
+* utility-driven page composition
+* component-owned vertical pacing
 
 ---
 
@@ -329,9 +430,21 @@ AI-assisted refactors should:
 * preserve editorial rhythm
 * preserve semantic layering
 * minimize visual drift
+* preserve ownership boundaries
+* favor constrained semantic abstractions
+
+AI-assisted refactors should avoid:
+
+* generalized framework-style abstractions
+* speculative reuse
+* premature systemization
+* universal component systems
+* excessive tokenization
+* implementation-driven APIs
 
 When uncertain:
 
 * prefer stability over cleverness
 * prefer constrained systems over flexible generic systems
 * prefer explicit ownership over abstraction
+* prefer compositional clarity over reuse density

@@ -32,13 +32,15 @@ This is NOT:
 
 The frontend architecture follows layered ownership.
 
-Pages compose layouts.
+Pages compose layouts and editorial rhythm.
 
 Feature modules own domain behavior.
 
-UI primitives own visual rules.
+UI primitives own reusable visual behavior.
 
-Design tokens own styling values.
+Layout primitives own compositional spacing and page cadence.
+
+Design tokens own semantic visual values.
 
 The system should evolve through:
 
@@ -65,13 +67,15 @@ The visual system should remain:
 * typography-led
 * image-led
 * editorial in rhythm
+* cinematic in pacing
 * minimal in decoration
 
 Prefer:
 
 * semantic spacing
+* compositional whitespace
 * clean hierarchy
-* subtle motion
+* restrained motion rhythm
 * cinematic presentation
 * compositional clarity
 
@@ -83,6 +87,7 @@ Avoid:
 * aggressive animations
 * dashboard-style layouts
 * visually noisy UI
+* mechanically uniform spacing
 
 ---
 
@@ -120,6 +125,8 @@ The application uses:
 
 * semantic typography primitives
 * semantic spacing tokens
+* restrained motion tokens
+* centralized presentation behavior
 * centralized design tokens
 * class-variance-authority (CVA)
 * feature-first ownership
@@ -134,6 +141,8 @@ Feature components should avoid:
 * duplicated spacing values
 * duplicated overlay logic
 * repeated surface styling
+* repeated motion timing
+* component-owned page rhythm
 
 ---
 
@@ -143,6 +152,7 @@ Pages:
 
 * compose layouts
 * orchestrate sections
+* coordinate editorial pacing
 * avoid visual styling decisions
 
 Features:
@@ -150,6 +160,7 @@ Features:
 * own domain rendering
 * own feature-specific hooks
 * own feature-specific API integration
+* own storytelling composition
 
 UI primitives:
 
@@ -157,12 +168,19 @@ UI primitives:
 * own semantic variants
 * consume design tokens
 
+Layout primitives:
+
+* own page-level spacing rhythm
+* own compositional cadence
+* own structural alignment
+
 Design tokens:
 
-* own spacing
+* own spacing values
 * own typography values
-* own motion values
+* own motion rhythm
 * own color values
+* own presentation behavior
 * own elevation/radius values
 
 ---
@@ -177,10 +195,22 @@ When assisting with refactors:
 * avoid dashboard-oriented patterns
 * avoid uncontrolled component explosion
 * preserve editorial rhythm and hierarchy
+* preserve compositional pacing
 * prefer semantic naming over implementation naming
+* preserve ownership boundaries
+
+Avoid introducing:
+
+* generalized framework-style abstractions
+* universal wrapper systems
+* speculative reusable APIs
+* implementation-driven component systems
+* generalized layout engines
+* excessive tokenization
 
 When uncertain:
 
 * preserve the existing architectural direction
 * prefer stability over cleverness
 * prefer constrained systems over flexible generic systems
+* prefer compositional clarity over abstraction density

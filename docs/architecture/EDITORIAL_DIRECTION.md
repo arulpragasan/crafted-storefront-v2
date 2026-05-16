@@ -73,14 +73,21 @@ Sections should breathe.
 
 Whitespace is structural, not leftover space.
 
-Scrolling should feel:
+Editorial rhythm should feel:
 
 * paced
 * cinematic
 * intentional
 * layered
+* compositional
 
-The application should encourage exploration rather than rapid utility interaction.
+Scrolling should reinforce narrative flow rather than rapid utility interaction.
+
+Vertical spacing should feel curated rather than mechanically uniform.
+
+The application should encourage exploration rather than rapid transactional behavior.
+
+Consistent compositional pacing is more important than maximizing information density.
 
 ---
 
@@ -194,6 +201,7 @@ Avoid:
 * animation-heavy interactions
 
 Motion should rarely become the focus.
+Motion rhythm should feel cohesive across the application rather than individually expressive per component.
 
 ---
 
@@ -228,8 +236,11 @@ Layouts should prioritize:
 * image rhythm
 * pacing
 * visual hierarchy
+* editorial cadence
 
 The system should feel editorial rather than grid-mechanical.
+
+Section-to-section rhythm should feel deliberate and curated rather than mechanically repeated.
 
 Avoid:
 
@@ -237,6 +248,7 @@ Avoid:
 * dense information stacking
 * repetitive section structures
 * visually mechanical layouts
+* uniform spacing systems that flatten pacing
 
 ---
 
@@ -244,6 +256,7 @@ Avoid:
 
 Components should remain:
 
+* rhythm-aware
 * semantic
 * restrained
 * compositional
@@ -258,6 +271,7 @@ Components should avoid becoming:
 * effect-heavy
 
 Consistency of rhythm is more important than component novelty.
+Components should support the pacing of the page rather than compete for attention individually.
 
 ---
 
@@ -269,6 +283,14 @@ The design system should optimize for:
 * visual consistency
 * restrained flexibility
 * compositional stability
+* editorial rhythm consistency
+
+The design system should centralize:
+
+* repeated visual language
+* cinematic interaction rhythm
+* semantic typography behavior
+* compositional spacing cadence
 
 Avoid:
 
@@ -276,6 +298,8 @@ Avoid:
 * generic component-library abstraction
 * overly flexible APIs
 * visual experimentation through primitives
+* generalized framework-style abstractions
+* abstraction-driven design decisions
 
 The design system should guide behavior rather than maximize freedom.
 
@@ -290,6 +314,7 @@ Crafted should evolve as a cohesive editorial platform with:
 * restrained motion language
 * semantic UI systems
 * cinematic presentation principles
+* cohesive editorial pacing
 
 Future redesigns should evolve the system gradually rather than replace its identity.
 

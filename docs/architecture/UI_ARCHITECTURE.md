@@ -212,18 +212,43 @@ Examples:
 * Grid
 * Section
 * Page
+* PageSection
 
 Responsibilities:
 
 * spacing structure
 * responsive layout behavior
 * compositional alignment
+* page-level editorial rhythm
+* section-to-section pacing
 
-Avoid:
+Layout primitives may own:
+
+* vertical page rhythm
+* compositional spacing
+* responsive alignment structure
+
+Layout primitives should avoid:
 
 * domain rendering
 * cinematic storytelling logic
 * feature ownership
+* content-specific presentation behavior
+
+Page-level spacing between sections should be owned by layout composition primitives rather than individual sections.
+
+Sections should own:
+
+* internal composition
+* internal grids
+* content structure
+* internal spacing rhythm
+
+Pages/layouts should own:
+
+* spacing between sections
+* editorial pacing
+* vertical composition rhythm
 
 ---
 
@@ -242,6 +267,28 @@ Responsibilities:
 * reusable animation behavior
 * motion orchestration primitives
 * viewport reveal utilities
+* restrained editorial motion rhythm
+
+Shared motion primitives may consume centralized motion tokens for:
+
+* timing
+* easing
+* transition rhythm
+* repeated cinematic interaction pacing
+
+Motion primitives should avoid:
+
+* feature choreography
+* page-specific motion sequences
+* domain-specific transitions
+* generalized animation frameworks
+* speculative motion abstractions
+
+Feature components should continue owning:
+
+* when motion occurs
+* cinematic sequencing
+* storytelling composition
 
 Avoid:
 
@@ -260,6 +307,17 @@ Used primarily for:
 * landing pages
 * editorial page composition
 * CMS-driven assembly
+
+Reusable sections should prioritize:
+
+* editorial composition
+* narrative flow
+* content pacing
+* compositional clarity
+
+Sections should generally avoid owning page-level vertical rhythm.
+
+External spacing between sections should be handled by layout composition primitives.
 
 Examples:
 
@@ -291,7 +349,17 @@ Examples:
 * colors
 * shadows
 * motion
+* presentation
 * radius
+
+The design-system layer may own:
+
+* semantic typography scales
+* editorial spacing rhythm
+* cinematic presentation behavior
+* restrained motion timing
+* reusable overlay treatments
+* shared surface styling
 
 All reusable visual values should originate from:
 
@@ -304,12 +372,15 @@ Avoid:
 * duplicated Tailwind values
 * repeated spacing patterns
 * scattered visual constants
+* feature-owned visual duplication
+* composition-owning abstractions
 
 Feature components should consume tokens through:
 
 * UI primitives
 * semantic variants
 * centralized utilities
+* restrained presentation tokens
 
 ---
 
@@ -535,6 +606,11 @@ GOOD:
 * colocated feature logic
 * constrained reusable primitives
 * incremental refactors
+* semantic presentation tokens
+* centralized editorial rhythm
+* page-owned section spacing
+* restrained motion tokenization
+* composition-preserving abstractions
 
 GOOD:
 
@@ -556,6 +632,12 @@ Avoid:
 * uncontrolled abstraction layers
 * parallel design systems
 * large generic helper frameworks
+* generalized card systems
+* universal media wrappers
+* layout engine abstractions
+* generalized animation frameworks
+* component-owned page rhythm
+* speculative spacing systems
 
 Avoid:
 
@@ -587,6 +669,42 @@ Avoid:
 * simultaneous architecture redesign
 * uncontrolled component expansion
 * replacing stable primitives unnecessarily
+
+# Editorial Rhythm Ownership
+
+The storefront emphasizes cinematic pacing and editorial whitespace rhythm.
+
+Ownership should remain layered:
+
+```txt
+Design system
+  → spacing tokens and motion rhythm
+
+Layout primitives
+  → page-level section cadence
+
+Sections
+  → internal composition rhythm
+
+Features
+  → storytelling structure
+```
+
+Editorial rhythm should remain:
+
+* restrained
+* spacious
+* compositional
+* intentional
+
+Avoid:
+
+* mechanically uniform layouts
+* dense stacking systems
+* auto-generated spacing behavior
+* utility-driven page composition
+
+---
 
 # Responsive Architecture
 
