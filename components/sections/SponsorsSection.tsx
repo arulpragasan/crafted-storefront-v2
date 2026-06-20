@@ -1,18 +1,16 @@
-import { HomepageResponse } from "@/types/homepage"
 import { Section } from "@/components/layout/Section"
-import { SectionTitle } from "@/components/ui/SectionTitle"
+import { Headline, Caption } from "@/components/ui/Typography"
 import { Container } from "@/components/layout/Container"
 import { Reveal } from "@/components/motion/Reveal"
-import { Caption } from "@/components/ui/Typography"
 
 export default function SponsorsSection({ items }) {
   return (
     <Section variant="tight">
-      <Container size="default">
+      <Container size="content">
 
-        <SectionTitle align="center" className="mb-16">
+        <Headline as="h2" align="center" className="mb-16">
           Partners
-        </SectionTitle>
+        </Headline>
 
         <Reveal>
           <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-x-12 gap-y-12 justify-items-center">

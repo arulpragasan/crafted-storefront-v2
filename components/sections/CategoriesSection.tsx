@@ -1,32 +1,33 @@
 import { Section } from "@/components/layout/Section"
-import { SectionTitle } from "@/components/ui/SectionTitle"
+import { Headline } from "@/components/ui/Typography"
 import { Container } from "@/components/layout/Container"
 import { Reveal } from "@/components/motion/Reveal"
-import { EditorialGrid } from "@/components/layout/EditorialGrid"
-import { CategoryCard } from "@/features/categories/components/card/CategoryCard"
+import { CategoryTile } from "./categories/CategoryTile"
 
 export default function CategoriesSection({ items }) {
-  return (
-    <Section variant="default">
-      <Container>
+  if (!items?.length) return null
 
-        <SectionTitle spacing="toGrid">
+  const categories = items.slice(0, 8)
+
+  return (
+    <Section rhythm="default">
+      <Container size="wide">
+
+        <Headline as="h2" className="mb-14">
           Explore
-        </SectionTitle>
+        </Headline>
 
         <Reveal>
-          <EditorialGrid className="grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
-
-            {items.map((item) => (
-              <CategoryCard
+          <div className="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-4 gap-4">
+            {categories.map((item) => (
+              <CategoryTile
                 key={item.id}
-                title={item.name}
+                name={item.name}
                 image={item.image_url}
-                href={`/category/${item.slug}`}
+                href={`/categories/${item.slug}`}
               />
             ))}
-
-          </EditorialGrid>
+          </div>
         </Reveal>
 
       </Container>

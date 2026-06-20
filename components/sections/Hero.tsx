@@ -6,7 +6,7 @@ import { heroZoom, fadeRise } from "@/lib/motion/presets"
 
 import { Section } from "@/components/layout/Section"
 import { Container } from "@/components/layout/Container"
-import { Title, Text, Caption } from "@/components/ui/Typography"
+import { Display, Body, Caption } from "@/components/ui/Typography"
 import { EditorialCTA } from "@/components/ui/EditorialCTA"
 import { imagePresentationClass } from "@/styles/design-system/presentation"
 
@@ -51,17 +51,17 @@ export function Hero() {
           </Caption>
 
           {/* Headline */}
-          <Title className="leading-[1.05]">
+          <Display align="center" className="leading-[1.05]">
             Where Design
             <br />
             Meets Story
-          </Title>
+          </Display>
 
           {/* Description */}
-          <Text className="max-w-xl mx-auto text-neutral-600">
+          <Body className="max-w-xl mx-auto text-neutral-600">
             Discover brands, products, and runway programs through a curated
             editorial experience crafted for modern fashion events.
-          </Text>
+          </Body>
 
           {/* CTAs */}
           <div className="flex justify-center gap-4 pt-4">

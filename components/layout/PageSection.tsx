@@ -1,14 +1,29 @@
-import clsx from "clsx"
 import React from "react"
-import { pageSectionSpacingClass } from "@/styles/design-system/spacing"
+import { Section } from "./Section"
+import type { sectionRhythmClass } from "@/styles/design-system/spacing"
 
-type PageSectionRhythm = keyof typeof pageSectionSpacingClass
+type PageSectionRhythm =
+  | "default"
+  | "muted"
+  | "feature"
+  | "tight"
+  | "editorial"
+  | "flush"
 
 type PageSectionProps = {
   children: React.ReactNode
   rhythm?: PageSectionRhythm
   tone?: "default" | "muted"
   className?: string
+}
+
+const rhythmMap: Record<PageSectionRhythm, keyof typeof sectionRhythmClass> = {
+  default:   "default",
+  muted:     "muted",
+  feature:   "feature",
+  tight:     "compact",
+  editorial: "editorial",
+  flush:     "flush",
 }
 
 export function PageSection({
@@ -18,15 +33,12 @@ export function PageSection({
   className,
 }: PageSectionProps) {
   return (
-    <section
-      className={clsx(
-        "relative w-full",
-        pageSectionSpacingClass[rhythm],
-        tone === "muted" && "bg-neutral-50",
-        className
-      )}
+    <Section
+      rhythm={rhythmMap[rhythm]}
+      tone={tone}
+      className={className}
     >
       {children}
-    </section>
+    </Section>
   )
 }

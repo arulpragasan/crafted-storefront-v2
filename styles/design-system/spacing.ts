@@ -47,6 +47,33 @@ export const pageSectionSpacingClass = {
   flush: "",
 } as const
 
+// ─── Section rhythm classes (foundation) ─────────────────────────────────────
+// Consumed by <Section rhythm="…">. Maps semantic rhythm names to Tailwind classes.
+
+export const sectionRhythmClass = {
+  /** py-16 md:py-20 — compact utility sections */
+  compact: "py-16 md:py-20",
+  /** py-28 md:py-36 — standard editorial sections */
+  default: "py-28 md:py-36",
+  /** py-24 md:py-32 — light-background sections (muted rhythm) */
+  muted: "py-24 md:py-32",
+  /** py-36 md:py-44 — storytelling / cinematic sections */
+  feature: "py-36 md:py-44",
+  /** py-24 — category detail editorial modules */
+  editorial: "py-24",
+  /** no vertical padding */
+  flush: "",
+} as const
+
+// ─── Section tone classes (foundation) ───────────────────────────────────────
+// Consumed by <Section tone="…">. Maps semantic tone names to surface classes.
+
+export const sectionToneClass = {
+  default: "",
+  muted:   "bg-neutral-50",
+  dark:    "bg-neutral-900 text-white",
+} as const
+
 // ─── Container max-width scale ───────────────────────────────────────────────
 // Canonical definition — all max-w-* constraints must flow through Container.
 // Inline max-w-* in feature components are violations of this token.
@@ -63,12 +90,25 @@ export const containerWidth = {
 } as const
 
 // ─── Container horizontal padding ────────────────────────────────────────────
-// Applied inside Container only — px-5 md:px-16.
+// Applied inside Container only — px-6 md:px-12 lg:px-16.
 // Must not be reproduced inline on feature components.
 
 export const containerPadding = {
-  mobile:  "1.25rem", // px-5  → 20px
-  desktop: "4rem",    // px-16 → 64px
+  mobile:  "1.5rem", // px-6  → 24px
+  tablet:  "3rem",   // px-12 → 48px
+  desktop: "4rem",   // px-16 → 64px
+} as const
+
+export const containerPaddingClass = "px-6 md:px-12 lg:px-16" as const
+
+// ─── Container width classes ─────────────────────────────────────────────────
+// Tailwind class forms of containerWidth values for direct consumption.
+
+export const containerWidthClass = {
+  narrow:  "max-w-[860px]",
+  content: "max-w-[1100px]",
+  wide:    "max-w-[1280px]",
+  full:    "max-w-[1800px]",
 } as const
 
 // ─── Component-level padding ─────────────────────────────────────────────────
@@ -132,4 +172,6 @@ export const sectionHeaderSpacingClass = {
 } as const
 
 export type SectionSpacingKey   = keyof typeof sectionSpacing
+export type SectionRhythmKey    = keyof typeof sectionRhythmClass
+export type SectionToneKey      = keyof typeof sectionToneClass
 export type ContainerWidthKey   = keyof typeof containerWidth

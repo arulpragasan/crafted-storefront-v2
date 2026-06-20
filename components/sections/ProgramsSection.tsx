@@ -1,7 +1,7 @@
 import { Section } from "@/components/layout/Section"
 import { Container } from "@/components/layout/Container"
 import { Reveal } from "@/components/motion/Reveal"
-import { Title, Subtitle, Text, Muted } from "@/components/ui/Typography"
+import { Headline, Subheading, Body, Meta } from "@/components/ui/Typography"
 
 interface Program {
   id: number
@@ -15,8 +15,6 @@ interface ProgramsSectionProps {
 }
 
 export default function ProgramsSection({ programs }: ProgramsSectionProps) {
-  console.log("Programs:", programs)
-  console.table(programs)
   if (!programs?.length) return null
 
   return (
@@ -26,14 +24,14 @@ export default function ProgramsSection({ programs }: ProgramsSectionProps) {
 
           {/* Left Sticky Intro */}
           <div className="sticky top-32 self-start">
-            <Title className="mb-6">
+            <Headline as="h2" className="mb-6">
               Experience the Program
-            </Title>
+            </Headline>
 
-            <Text className="text-neutral-600">
+            <Body>
               A curated sequence of runway shows, designer talks,
               and collection launches presented throughout the event.
-            </Text>
+            </Body>
           </div>
 
           {/* Timeline */}
@@ -63,20 +61,20 @@ export default function ProgramsSection({ programs }: ProgramsSectionProps) {
                     " />
 
                     {/* time */}
-                    <Muted className="mb-1">
+                    <Meta as="time" className="mb-1 block">
                       {day} • {time}
-                    </Muted>
+                    </Meta>
 
                     {/* title */}
-                    <Subtitle>
+                    <Subheading as="h3">
                       {p.title}
-                    </Subtitle>
+                    </Subheading>
 
                     {/* description */}
                     {p.description && (
-                      <Text className="mt-2 max-w-md">
+                      <Body className="mt-2 max-w-md">
                         {p.description}
-                      </Text>
+                      </Body>
                     )}
 
                   </div>

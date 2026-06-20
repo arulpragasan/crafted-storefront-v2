@@ -11,14 +11,24 @@
  *
  * Migration targets:
  *   Title      → Headline
- *   Subtitle   → SectionTitle
- *   CardTitle  → SectionTitle (as="h4")
+ *   Subtitle   → Subheading
+ *   CardTitle  → CardHeading
  *   Text       → Body
  *   Muted      → Caption (tone="muted") or Meta for label roles
  *
  * ─── SECTION 2 — Semantic CVA primitives ─────────────────────────────────────
  *
- * Display, Headline, SectionTitle, Body, Meta, Caption
+ * Display, Headline, Subheading, CardHeading, SectionTitle, Body, Meta, Caption
+ *
+ * Hierarchy (top → bottom):
+ *   Display      — hero / big-moment headlines
+ *   Headline     — page / section-level headings
+ *   Subheading   — subsection headings
+ *   CardHeading  — card-level headings
+ *   SectionTitle — configurable section/card titles (size variants)
+ *   Body         — running prose
+ *   Caption      — secondary captions
+ *   Meta         — editorial labels / eyebrows
  *
  * Governed by styles/design-system/typography.ts tokens.
  * All primitives support:
@@ -256,6 +266,90 @@ interface SectionTitleProps extends VariantProps<typeof sectionTitleVariants> {
 export function SectionTitle({ as: Tag = "h3", size, tone, align, children, className }: SectionTitleProps) {
   return (
     <Tag className={cn(sectionTitleVariants({ size, tone, align }), className)}>
+      {children}
+    </Tag>
+  )
+}
+
+// ── Subheading ───────────────────────────────────────────────────────────────
+// Subsection heading between Headline and card-level headings.
+// font-serif · text-xl md:text-2xl · leading-snug
+// Use for: subsection introductions, content group headers, supporting headings.
+
+const subheadingVariants = cva(
+  "font-serif text-xl md:text-2xl leading-snug",
+  {
+    variants: {
+      tone: {
+        default: "text-neutral-900",
+        muted:   "text-neutral-500",
+        inverse: "text-white",
+      },
+      align: {
+        left:   "text-left",
+        center: "text-center",
+        right:  "text-right",
+      },
+    },
+    defaultVariants: {
+      tone:  "default",
+      align: "left",
+    },
+  }
+)
+
+interface SubheadingProps extends VariantProps<typeof subheadingVariants> {
+  as?: HeadingElement
+  children: React.ReactNode
+  className?: string
+}
+
+export function Subheading({ as: Tag = "h3", tone, align, children, className }: SubheadingProps) {
+  return (
+    <Tag className={cn(subheadingVariants({ tone, align }), className)}>
+      {children}
+    </Tag>
+  )
+}
+
+// ── CardHeading ──────────────────────────────────────────────────────────────
+// Card-level heading for discovery cards, list items, content blocks.
+// Token: typeScale.cardTitle
+// font-serif · text-lg md:text-xl · leading-snug
+// Use for: product cards, program cards, editorial items, brand cards.
+// Migration target for legacy CardTitle.
+
+const cardHeadingVariants = cva(
+  "font-serif text-lg md:text-xl leading-snug",
+  {
+    variants: {
+      tone: {
+        default: "text-neutral-900",
+        muted:   "text-neutral-500",
+        inverse: "text-white",
+      },
+      align: {
+        left:   "text-left",
+        center: "text-center",
+        right:  "text-right",
+      },
+    },
+    defaultVariants: {
+      tone:  "default",
+      align: "left",
+    },
+  }
+)
+
+interface CardHeadingProps extends VariantProps<typeof cardHeadingVariants> {
+  as?: HeadingElement
+  children: React.ReactNode
+  className?: string
+}
+
+export function CardHeading({ as: Tag = "h4", tone, align, children, className }: CardHeadingProps) {
+  return (
+    <Tag className={cn(cardHeadingVariants({ tone, align }), className)}>
       {children}
     </Tag>
   )

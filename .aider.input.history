@@ -1,0 +1,476 @@
+
+# 2026-06-17 18:43:32.227292
++n
+
+# 2026-06-17 18:44:29.628350
++/add app/(storefront)/programs/page.tsx features/programs/components/ProgramSection.tsx features/programs/components/ProgramCard.tsx
+
+# 2026-06-17 18:44:47.877637
++Act as a senior Product Designer and Next.js Frontend Engineer.
++
++Context
++
++The Programs Listing Page is already implemented.
++
++Current structure:
++
++* Hero
++* Spotlight Program
++* Live Now
++* Coming Soon
++* Explore Programs
++
++Components already exist:
++
++* ProgramCard
++* ProgramGrid
++* ProgramSection
++
++We are NOT adding:
++
++* search
++* filters
++* pagination
++* sorting
++* tabs
++* accordions
++
++Goal
++
++Refine the page to feel premium, editorial and content-first.
++
++This page should feel closer to:
++
++* Apple Events
++* Masterclass
++* Netflix Collections
++* Modern editorial publishing
++
++and less like:
++
++* conference software
++* webinar platform
++* admin dashboard
++* event management system
++
++Design Objectives
++
++1. Strong visual hierarchy
++
++The page should immediately communicate:
++
++* Featured experience
++* Currently active experiences
++* Discoverable program catalog
++
++2. More breathing room
++
++Review:
++
++* vertical rhythm
++* section spacing
++* content density
++* card spacing
++
++Prefer fewer elements with more space.
++
++3. Improve the Hero
++
++Review:
++
++* heading scale
++* width
++* typography
++* alignment
++
++The hero should introduce the page rather than explain it.
++
++4. Improve Spotlight Presentation
++
++The spotlight section should feel like the editorial centerpiece.
++
++Review:
++
++* image prominence
++* spacing
++* content hierarchy
++* CTA visibility
++
++5. Improve Program Cards
++
++Review:
++
++* information density
++* hierarchy
++* metadata placement
++
++Use the existing API fields:
++
++* brand
++* session_count
++* speaker_count
++* featured_session
++
++Help users quickly understand what the program contains.
++
++6. Improve Section Hierarchy
++
++Review ordering and visual weight of:
++
++* Spotlight
++* Live Now
++* Coming Soon
++* Explore Programs
++
++The page should guide the eye naturally.
++
++7. Responsive Review
++
++Review:
++
++* mobile experience
++* tablet experience
++* desktop experience
++
++Ensure the page feels intentional on all screen sizes.
++
++Implementation Constraints
++
++* Reuse existing design system
++* Reuse existing components
++* Do not introduce new dependencies
++* Do not add new features
++* Do not add filters
++* Do not add search
++* Do not add pagination
++
++Output
++
++1. UX critique of the current implementation
++2. Recommended improvements
++3. Specific code changes to make
++4. Prioritized list:
++
++   * Must Have
++   * Nice to Have
++   * Future Ideas
++
++Focus on refinement and presentation quality, not functionality.
++
+
+# 2026-06-17 18:50:24.922752
++Act as a senior product designer and React engineer.
++
++Review the ProgramCard implementation.
++
++Do not redesign the component.
++
++Do not change the overall layout.
++
++Do not introduce new sections.
++
++Goal
++
++Refine the poster card hierarchy for content discovery.
++
++Current poster card displays:
++
++* brand
++* session count
++* program name
++* speaker count
++
++Problem
++
++Users can see the program title but cannot quickly understand what the program contains.
++
++The API already provides:
++
++program.featured_session?.name
++
++Requirements
++
++1. Surface featured_session.name in the poster card.
++
++Recommended hierarchy:
++
++Brand + Session Count
++
++Program Name
++
++Featured Session Label
++
++Featured Session Name
++
++Speaker Count
++
++2. Keep the card visually calm.
++
++Avoid:
++
++* descriptions
++* badges
++* additional metadata
++* extra icons
++
++3. Review spacing and typography hierarchy.
++
++The Program Name should remain the primary focal point.
++
++Featured Session should be secondary.
++
++Speaker Count should remain tertiary.
++
++4. Review mobile layout.
++
++Ensure the card still feels balanced when the featured session name wraps onto two lines.
++
++5. Do not modify the spotlight card unless there is a strong UX reason.
++
++Output:
++
++* UX critique
++* Recommended refinements
++* Exact code changes
++* Explanation of why the hierarchy improves discoverability
+
+# 2026-06-17 19:48:58.758198
++/add lib/api/programs.ts
+
+# 2026-06-17 19:49:02.038277
++/add lib/api/products.ts
+
+# 2026-06-17 19:49:06.441253
++Act as a senior Next.js engineer and product designer.
++
++Context
++
++The Programs Listing Page is complete.
++
++We are now implementing the Program Details Page.
++
++Important
++
++Assume the backend endpoint is already implemented and working.
++
++GET /api/v2/storefront/programs/:slug
++
++Frontend only.
++
++Follow the same patterns already used in the project for:
++
++* Product Details Page
++
++Review the existing codebase and follow the established conventions.
++
++Tasks
++
++STEP 1 — Implement API Client
++
++Create the frontend API request for Program Details.
++
++Follow the same approach used by:
++
++* getProduct(...)
++
++Do not invent a new API layer.
++
++Reuse the existing fetch helpers and response patterns.
++
++Implement:
++
++getProgram(slug)
++
++Assume the API response shape is:
++
++{
++program,
++stats,
++featured_session,
++speakers,
++sessions
++}
++
++STEP 2 — Implement Program Details Page
++
++Implement:
++
++app/(storefront)/programs/[slug]/page.tsx
++
++Focus on UX and presentation.
++
++Program = Collection Page
++
++Session = Content Page
++
++The Program page should feel closer to:
++
++* Netflix Series Page
++* Apple Event Page
++* Masterclass Course Page
++
++and less like:
++
++* Conference Agenda
++* Webinar Schedule
++* Event Management Software
++
++Information Architecture
++
++Identity
++↓
++Entry Point
++↓
++Content
++↓
++Context
++
++Page Structure
++
++1. Hero
++
++Show:
++
++* cover image
++* brand
++* program name
++* description
++* session count
++* speaker count
++
++Primary CTA
++
++Start Watching →
++
++CTA destination:
++
++featured_session
++
++fallback:
++
++first session
++
++Do NOT create a separate Featured Session section.
++
++The Hero CTA is the entry point.
++
++2. Sessions
++
++Most important section.
++
++Render immediately after the Hero.
++
++Adaptive Layout
++
++If sessions.length === 1
++
++* single large session card
++
++If sessions.length between 2 and 5
++
++* responsive 2-column grid
++
++If sessions.length >= 6
++
++* responsive 3-column grid
++
++Each session card should display:
++
++* thumbnail
++* session type
++* session name
++* speaker names (if available)
++* media type
++* status
++
++Each card links to:
++
++/programs/[program_slug]/sessions/[session_slug]
++
++Do NOT render:
++
++* timelines
++* schedules
++* agendas
++* calendars
++
++3. Speakers
++
++Render lightweight speaker cards.
++
++Show:
++
++* avatar
++* name
++* title
++* company
++
++4. About Program
++
++Render:
++
++* program description
++
++Optionally display:
++
++* session count
++* speaker count
++
++Desktop:
++two-column layout
++
++Mobile:
++stacked layout
++
++5. More From Brand
++
++Placeholder section only.
++
++No API integration yet.
++
++Reuse existing ProgramCard.
++
++Implementation Constraints
++
++* Reuse existing design system
++* Reuse existing Section
++* Reuse existing Container
++* Reuse existing Typography components
++* Reuse existing Grid where appropriate
++* Follow existing storefront patterns
++
++Do NOT create new reusable abstractions yet.
++
++Do NOT create:
++
++* ProgramHero
++* ProgramSessions
++* ProgramSpeakers
++* ProgramAbout
++
++Build the page directly first.
++
++Output
++
++1. Files to create or modify
++2. API client implementation
++3. Program Details page implementation
++4. Any frontend assumptions made about the API response
+
+# 2026-06-17 19:52:20.597812
++y
+
+# 2026-06-20 13:15:37.280954
++n
+
+# 2026-06-20 15:48:11.109961
++/model
+
+# 2026-06-20 15:48:25.201367
++n
+
+# 2026-06-20 15:58:14.582000
++exit
+
+# 2026-06-20 15:58:21.888477
++n

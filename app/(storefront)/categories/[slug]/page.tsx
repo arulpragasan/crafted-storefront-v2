@@ -1,98 +1,63 @@
 import { notFound } from "next/navigation"
+
+import { PageSection } from "@/components/layout/PageSection"
+import { Container } from "@/components/layout/Container"
+import { EditorialRail } from "@/features/categories/components/rail/EditorialRail"
 import CategoryHero from "./components/CategoryHero"
 import EditorialOverview from "./components/EditorialOverview"
-import ExploreBrands from "./components/ExploreBrands"
 import ExploreThemes from "./components/ExploreThemes"
-import ProductResults from "./components/ProductResults"
+import RefineEntry from "./components/RefineEntry"
 import {
   getCategoryBySlug,
-  getBrandsByCategory,
   getThemesByCategory,
-  getProducts,
+  getBrandsByCategory,
 } from "@/lib/api/categories"
-import { PageSection } from "@/components/layout/PageSection"
-
 
 type PageProps = {
   params: Promise<{ slug: string }>
-  searchParams?: Promise<{
-    brand?: string
-    theme?: string
-    page?: string
-  }>
 }
 
-export default async function CategoryPage({
-  params,
-  searchParams,
-}: PageProps) {
+export default async function CategoryPage({ params }: PageProps) {
   const { slug } = await params
-  const resolvedSearchParams = await searchParams
 
-  const brand = resolvedSearchParams?.brand
-  const theme = resolvedSearchParams?.theme
-  const page = Number(resolvedSearchParams?.page ?? 1)
-
-
-  // 🔹 Fetch category meta
   const category = await getCategoryBySlug(slug)
   if (!category) return notFound()
 
-  // 🔹 Fetch curated brands for this category
-  const brands = await getBrandsByCategory(slug)
-
-  // 🔹 Fetch curated themes
-  const themes = await getThemesByCategory(slug)
-
-  const showProducts = Boolean(brand || theme)
-
-  let products = null
-
-  if (showProducts) {
-    products = await getProducts({
-      category: slug,
-      brand,
-      theme,
-      page,
-      limit: 24,
-    })
-  }
+  const [themes, brands] = await Promise.all([
+    getThemesByCategory(slug),
+    getBrandsByCategory(slug),
+  ])
 
   return (
     <main>
-
-      {/* 1️⃣ Hero */}
+      {/* 1. Hero */}
       <CategoryHero category={category} />
 
-      {/* 2️⃣ Editorial Overview */}
+      {/* 2. Editorial Intro */}
       <PageSection rhythm="editorial">
         <EditorialOverview category={category} />
       </PageSection>
 
-      {/* 3️⃣ Explore by Brand */}
-      {!showProducts && (
-        <PageSection rhythm="editorial">
-          <ExploreBrands slug={slug} brands={brands} />
-        </PageSection>
-      )}
-
-      {/* 4️⃣ Explore by Theme */}
-      {!showProducts && themes.length > 0 && (
-        <PageSection rhythm="editorial">
+      {/* 3. Explore by Theme — dominant */}
+      <PageSection rhythm="editorial">
+        <Container size="wide">
           <ExploreThemes slug={slug} themes={themes} />
-        </PageSection>
-      )}
+        </Container>
+      </PageSection>
 
-      {/* 5️⃣ Products (Conditional) */}
-      {showProducts && (
-        <PageSection rhythm="editorial">
-          <ProductResults
-            products={products}
-            page={page}
-          />
-        </PageSection>
-      )}
+      {/* 4. Explore by Brand */}
+      <EditorialRail
+        title="Explore by Brand"
+        items={brands}
+        getHref={(brand) => `/categories/${slug}?brand=${brand.slug}`}
+      />
 
+      {/* 5. Refine Entry */}
+      <PageSection rhythm="editorial">
+        <Container size="wide">
+          <RefineEntry href={`/categories/${slug}?refine=1`} />
+        </Container>
+      </PageSection>
     </main>
   )
 }

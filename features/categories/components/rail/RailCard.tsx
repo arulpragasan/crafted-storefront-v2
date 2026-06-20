@@ -10,36 +10,31 @@ import {
   imagePresentationClass,
 } from "@/styles/design-system/presentation"
 import { cardContentSpacingClass } from "@/styles/design-system/spacing"
-import type { Category } from "@/lib/api/categories"
+import type { DiscoveryItem } from "@/lib/api/categories"
 
-type CategoryCardProps = {
-  category: Category
-  priority?: boolean
+type RailCardProps = {
+  item: DiscoveryItem
+  href: string
   className?: string
 }
 
-export function CategoryCard({
-  category,
-  priority = false,
-  className,
-}: CategoryCardProps) {
+export function RailCard({ item, href, className }: RailCardProps) {
   return (
     <Link
-      href={`/categories/${category.slug}`}
+      href={href}
       className={clsx(
         "group block rounded-2xl focus:outline-none focus-visible:ring-2 focus-visible:ring-neutral-900",
         className
       )}
     >
       <article className={cardContentSpacingClass.mediaToCopy}>
-        {/* Portrait image — zoom only, no lift */}
-        <div className={clsx("relative aspect-[3/4]", surfacePresentationClass.imageTile)}>
+        {/* Editorial rail media — zoom only */}
+        <div className={clsx("relative aspect-[4/3]", surfacePresentationClass.imageTile)}>
           <Image
-            src={category.image}
-            alt={category.title}
+            src={item.image}
+            alt={item.name}
             fill
-            priority={priority}
-            sizes="(min-width: 1024px) 30vw, (min-width: 640px) 45vw, 100vw"
+            sizes="(min-width: 1024px) 30vw, 80vw"
             className={clsx(
               imagePresentationClass.cover,
               imagePresentationClass.hoverZoomEaseOut,
@@ -49,7 +44,7 @@ export function CategoryCard({
         </div>
 
         <SectionTitle as="h3" size="card">
-          {category.title}
+          {item.name}
         </SectionTitle>
       </article>
     </Link>
