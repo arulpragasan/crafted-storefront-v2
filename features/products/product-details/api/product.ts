@@ -1,8 +1,8 @@
-export async function getProduct(slug: string) {
-    const baseUrl = process.env.NEXT_PUBLIC_API_URL || "http://localhost:3000"
+import { API_BASE_URL } from "@/lib/config/publicUrls"
 
+export async function getProduct(slug: string) {
     try {
-        const res = await fetch(`${baseUrl}/api/v2/storefront/products/${slug}`, {
+        const res = await fetch(`${API_BASE_URL}/api/v2/storefront/products/${slug}`, {
             next: { revalidate: 3600 }
         })
 

@@ -5,8 +5,20 @@ import { motion, useScroll, useTransform } from "framer-motion"
 import { Reveal } from "@/components/motion/Reveal"
 import { ScrollDiscover } from "@/components/ui/ScrollDiscover"
 import { Title, Text } from "@/components/ui/Typography"
+import { getImageUrl } from "@/lib/utils/getImageUrl"
 
-export function BrandHero({ brand }: any) {
+type BrandHeroData = {
+  cover_image?: string | null
+  logo_url?: string | null
+  name: string
+  tagline?: string | null
+}
+
+type BrandHeroProps = {
+  brand: BrandHeroData
+}
+
+export function BrandHero({ brand }: BrandHeroProps) {
   const { scrollY } = useScroll()
 
   // background parallax
@@ -25,12 +37,11 @@ export function BrandHero({ brand }: any) {
       {/* Parallax Background */}
       <motion.div style={{ y: bgY }} className="absolute inset-0">
         <Image
-          src={brand.cover_image || brand.logo_url}
+          src={getImageUrl(brand.cover_image || brand.logo_url)}
           alt={brand.name}
           fill
           priority
           className="object-cover scale-110"
-          unoptimized={process.env.NODE_ENV === "development"}
         />
       </motion.div>
 
@@ -52,7 +63,7 @@ export function BrandHero({ brand }: any) {
           {brand.logo_url && (
             <Reveal>
               <img
-                src={brand.logo_url}
+                src={getImageUrl(brand.logo_url)}
                 alt={`${brand.name} logo`}
                 className="h-12 mb-6 opacity-90"
               />
@@ -69,7 +80,6 @@ export function BrandHero({ brand }: any) {
               }}
             >
               <Title
-                id="brand-hero-title"
                 className="text-white max-w-3xl"
               >
                 {brand.name}

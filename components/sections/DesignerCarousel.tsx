@@ -16,7 +16,7 @@ export default function DesignerCarousel({ items }: Props) {
 
       <Container>
 
-        <SectionTitle className="mb-10">
+        <SectionTitle spacing="toGrid">
           Discover More Designers
         </SectionTitle>
 

@@ -9,16 +9,10 @@ export function EditorialGrid({ children, className }: Props) {
   return (
     <div
       className={clsx(
-        "grid grid-cols-2 md:grid-cols-4 gap-x-8 gap-y-16",
-
-        // Editorial stagger
-        "[&>*:nth-child(4n+2)]:md:translate-y-8",
-        "[&>*:nth-child(4n+4)]:md:-translate-y-4",
+        "grid grid-cols-2 md:grid-cols-4 gap-x-8 gap-y-14 md:gap-x-10 md:gap-y-16",
+        className,
       )}
-
-      
     >
-
       {children}
     </div>
   )

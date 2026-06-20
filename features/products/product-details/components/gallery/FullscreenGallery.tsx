@@ -3,8 +3,7 @@
 import Image from "next/image"
 import { useEffect, useRef } from "react"
 import { useGallery } from "../context/GalleryContext"
-
-const IMAGE_HOST = process.env.NEXT_PUBLIC_IMAGE_HOST
+import { getImageUrl } from "@/lib/utils/getImageUrl"
 
 export function FullscreenGallery() {
 
@@ -61,8 +60,6 @@ export function FullscreenGallery() {
   // ✅ conditional return AFTER hooks
   if (!fullscreen) return null
 
-  const img = images[activeIndex]
-
   return (
     <div
       className="fixed inset-0 bg-black z-50 flex items-center justify-center"
@@ -101,11 +98,10 @@ export function FullscreenGallery() {
 
           <Image
             key={i}
-            src={`${IMAGE_HOST}${img.url}`}
+            src={getImageUrl(img.url)}
             alt=""
             fill
             sizes="80vw"
-            unoptimized
             className={`object-contain absolute inset-0 transition-opacity duration-300
             ${i === activeIndex ? "opacity-100" : "opacity-0"}`}
           />

@@ -41,6 +41,16 @@ export const pageSectionSpacingClass = {
   feature: "py-36 md:py-44",
   /** py-16 md:py-20 — compact sections */
   tight: "py-16 md:py-20",
+  /** pt-20 pb-16 md:pt-24 md:pb-20 — first homepage section after hero */
+  homeIntro: "pt-20 pb-16 md:pt-24 md:pb-20",
+  /** py-20 md:py-28 — standard homepage editorial sections */
+  homeDefault: "py-20 md:py-28",
+  /** py-24 md:py-32 — homepage centerpiece sections */
+  homeFeature: "py-24 md:py-32",
+  /** pt-20 pb-24 md:pt-24 md:pb-32 — cinematic homepage banner */
+  homeCampaign: "pt-20 pb-24 md:pt-24 md:pb-32",
+  /** py-12 md:py-16 — compact homepage partner sections */
+  homeTight: "py-12 md:py-16",
   /** py-24 — category detail editorial modules */
   editorial: "py-24",
   /** no vertical padding */

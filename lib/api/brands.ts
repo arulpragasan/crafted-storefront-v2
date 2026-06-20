@@ -1,11 +1,10 @@
 import { buildBrandsUrl, BrandsQuery } from "../utils/buildBrandsUrl"
-
-const BASE_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:3002"
+import { API_BASE_URL } from "@/lib/config/publicUrls"
 
 export async function fetchBrands(query: BrandsQuery) {
   const url = buildBrandsUrl(query)
 
-  const res = await fetch(`${BASE_URL}${url}`, {
+  const res = await fetch(`${API_BASE_URL}${url}`, {
     cache: "no-store",
   })
 

@@ -4,8 +4,19 @@ import Image from "next/image"
 import Link from "next/link"
 import { motion } from "framer-motion"
 import { Caption } from "@/components/ui/Typography"
+import { getImageUrl } from "@/lib/utils/getImageUrl"
 
-export function RelatedBrands({ brands }: any) {
+type RelatedBrand = {
+  slug: string
+  name: string
+  logo_url?: string | null
+}
+
+type RelatedBrandsProps = {
+  brands?: RelatedBrand[]
+}
+
+export function RelatedBrands({ brands }: RelatedBrandsProps) {
   if (!brands || brands.length === 0) return null
 
   return (
@@ -21,7 +32,7 @@ export function RelatedBrands({ brands }: any) {
         {/* Grid */}
         <div className="flex justify-center gap-8 md:gap-12 flex-wrap">
 
-          {brands.map((b: any, i: number) => (
+          {brands.map((b, i) => (
             <motion.div
               key={b.slug}
               initial={{ opacity: 0 }}
@@ -34,7 +45,7 @@ export function RelatedBrands({ brands }: any) {
                 <div className="relative w-28 h-28 md:w-32 md:h-32 overflow-hidden">
 
                   <Image
-                    src={b.logo_url}
+                    src={getImageUrl(b.logo_url)}
                     alt={b.name}
                     fill
                     className="

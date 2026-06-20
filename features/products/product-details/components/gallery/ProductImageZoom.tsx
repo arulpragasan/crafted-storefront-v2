@@ -2,13 +2,19 @@
 
 import Image from "next/image"
 import { useRef, useState } from "react"
+import { getImageUrl } from "@/lib/utils/getImageUrl"
 
-export function ProductImageZoom({ src, onClick }) {
+type ProductImageZoomProps = {
+  src: string
+  onClick?: () => void
+}
 
-  const containerRef = useRef(null)
+export function ProductImageZoom({ src, onClick }: ProductImageZoomProps) {
+  const containerRef = useRef<HTMLDivElement | null>(null)
   const [backgroundPosition, setBackgroundPosition] = useState("50% 50%")
+  const imageSrc = getImageUrl(src)
 
-  function handleMouseMove(e) {
+  function handleMouseMove(e: React.MouseEvent<HTMLDivElement>) {
 
     const rect = containerRef.current?.getBoundingClientRect()
 
@@ -30,12 +36,11 @@ export function ProductImageZoom({ src, onClick }) {
 
       {/* base image */}
       <Image
-        src={src}
+        src={imageSrc}
         alt=""
         fill
         sizes="(max-width:1024px)100vw,50vw"
         priority
-        unoptimized
         className="object-cover"
       />
 
@@ -43,7 +48,7 @@ export function ProductImageZoom({ src, onClick }) {
       <div
         className="absolute inset-0 opacity-0 hover:opacity-100 transition pointer-events-none"
         style={{
-          backgroundImage: `url(${src})`,
+          backgroundImage: `url(${imageSrc})`,
           backgroundRepeat: "no-repeat",
           backgroundSize: "200%",
           backgroundPosition: backgroundPosition

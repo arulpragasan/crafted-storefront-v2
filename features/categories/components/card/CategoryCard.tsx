@@ -1,57 +1,57 @@
 "use client"
 
-import Image from "next/image"
+import { ImageTile } from "@/components/ui/ImageTile"
 import Link from "next/link"
 import clsx from "clsx"
+import React from "react"
 
-import { SectionTitle } from "@/components/ui/Typography"
-import {
-  surfacePresentationClass,
-  imagePresentationClass,
-} from "@/styles/design-system/presentation"
+import { SectionTitle, Caption } from "@/components/ui/Typography"
 import { cardContentSpacingClass } from "@/styles/design-system/spacing"
-import type { Category } from "@/lib/api/categories"
 
 type CategoryCardProps = {
-  category: Category
+  title: string
+  subtitle?: string
+  image: string
+  href?: string
   priority?: boolean
   className?: string
 }
 
 export function CategoryCard({
-  category,
+  title,
+  subtitle,
+  image,
+  href,
   priority = false,
   className,
 }: CategoryCardProps) {
+
+  const Wrapper: React.ElementType = href ? Link : "div"
+
   return (
-    <Link
-      href={`/categories/${category.slug}`}
-      className={clsx(
-        "group block rounded-2xl focus:outline-none focus-visible:ring-2 focus-visible:ring-neutral-900",
-        className
-      )}
+    <Wrapper
+      href={href ?? ""}
+      className={clsx("group block focus:outline-none", className)}
     >
       <article className={cardContentSpacingClass.mediaToCopy}>
-        {/* Portrait image — zoom only, no lift */}
-        <div className={clsx("relative aspect-[3/4]", surfacePresentationClass.imageTile)}>
-          <Image
-            src={category.image}
-            alt={category.title}
-            fill
-            priority={priority}
-            sizes="(min-width: 1024px) 30vw, (min-width: 640px) 45vw, 100vw"
-            className={clsx(
-              imagePresentationClass.cover,
-              imagePresentationClass.hoverZoomEaseOut,
-              "motion-reduce:transition-none motion-reduce:transform-none"
-            )}
-          />
+
+        <ImageTile
+          src={image}
+          alt={title}
+          aspect="square"
+          priority={priority}
+        />
+
+        <div className={cardContentSpacingClass.copyStack}>
+          {/* size="compact" preserves the original text-base md:text-lg scale exactly */}
+          <SectionTitle as="h3" size="compact">{title}</SectionTitle>
+
+          {subtitle && (
+            <Caption tone="muted">{subtitle}</Caption>
+          )}
         </div>
 
-        <SectionTitle as="h3" size="card">
-          {category.title}
-        </SectionTitle>
       </article>
-    </Link>
+    </Wrapper>
   )
 }

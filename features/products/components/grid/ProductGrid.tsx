@@ -2,17 +2,10 @@
 
 import { ProductCard } from "@/features/products/components/card/ProductCard"
 import { RevealOnView } from "@/components/motion/RevealOnView"
+import { getImageUrl } from "@/lib/utils/getImageUrl"
+import { EmptyState } from "./EmptyState"
 
 import { useProducts } from "@/features/products/context/products"
-
-const API_BASE =
-  process.env.NEXT_PUBLIC_API_URL || "http://localhost:3002"
-
-function resolveImageUrl(path?: string) {
-  if (!path) return "/images/product-placeholder.jpg"
-  if (path.startsWith("http")) return path
-  return `${API_BASE}${path}`
-}
 
 export function ProductGrid() {
   const { products } = useProducts()
@@ -41,8 +34,7 @@ export function ProductGrid() {
           <ProductCard
             name={product.name}
             brand={product.brand?.name}
-            image={resolveImageUrl(product.image_url)}
-            hoverImage={resolveImageUrl(product.hover_image_url)}
+            image={getImageUrl(product.image_url)}
             href={`/products/${product.slug}`}
             priority={index < 4}
           />

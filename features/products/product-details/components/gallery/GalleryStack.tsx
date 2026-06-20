@@ -1,10 +1,18 @@
 "use client"
 
 import { ProductImageZoom } from "./ProductImageZoom"
+import { getImageUrl } from "@/lib/utils/getImageUrl"
 
-const IMAGE_HOST = process.env.NEXT_PUBLIC_IMAGE_HOST
+type GalleryImage = {
+  url: string
+}
 
-export function GalleryStack({ images, imageRefs }) {
+type GalleryStackProps = {
+  images: GalleryImage[]
+  imageRefs: React.MutableRefObject<(HTMLDivElement | null)[]>
+}
+
+export function GalleryStack({ images, imageRefs }: GalleryStackProps) {
 
   return (
     <div className="flex flex-col gap-6">
@@ -13,12 +21,14 @@ export function GalleryStack({ images, imageRefs }) {
 
         <div
           key={i}
-          ref={(el) => (imageRefs.current[i] = el)}
+          ref={(el) => {
+            imageRefs.current[i] = el
+          }}
           className="relative aspect-[3/4]"
         >
 
           <ProductImageZoom
-            src={`${IMAGE_HOST}${img.url}`}
+            src={getImageUrl(img.url)}
           />
 
         </div>

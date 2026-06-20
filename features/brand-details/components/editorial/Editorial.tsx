@@ -3,8 +3,19 @@
 import Image from "next/image"
 import Link from "next/link"
 import { CardTitle, Caption } from "@/components/ui/Typography"
+import { getImageUrl } from "@/lib/utils/getImageUrl"
 
-export function Editorial({ items }: any) {
+type EditorialItem = {
+  slug: string
+  title: string
+  image_url?: string | null
+}
+
+type EditorialProps = {
+  items: EditorialItem[]
+}
+
+export function Editorial({ items }: EditorialProps) {
   return (
     <section className="py-32 bg-black text-white">
 
@@ -16,12 +27,12 @@ export function Editorial({ items }: any) {
 
         <div className="grid md:grid-cols-3 gap-10">
 
-          {items.map((item: any) => (
+          {items.map((item) => (
             <Link key={item.slug} href={`/editorial/${item.slug}`} className="group">
 
               <div className="relative aspect-[4/5]">
                 <Image
-                  src={item.image_url}
+                  src={getImageUrl(item.image_url)}
                   alt={item.title}
                   fill
                   className="object-cover group-hover:scale-110 transition duration-1000"

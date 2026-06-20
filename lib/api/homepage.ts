@@ -1,10 +1,11 @@
 // lib/api/homepage.ts
 
 import { HomepageResponse } from "@/types/homepage"
+import { API_BASE_URL } from "@/lib/config/publicUrls"
 
 export async function getHomepage(): Promise<HomepageResponse> {
   const res = await fetch(
-    `${process.env.NEXT_PUBLIC_API_URL}/api/v2/storefront/homepage.json`,
+    `${API_BASE_URL}/api/v2/storefront/homepage.json`,
     { next: { revalidate: 60 } }
   )
 

@@ -1,82 +1,108 @@
+"use client"
+
+import { motion } from "framer-motion"
+import { fadeRise, viewportOnce } from "@/lib/motion/presets"
 import clsx from "clsx"
 import React from "react"
-import { sectionRhythmClass, sectionToneClass } from "@/styles/design-system/spacing"
-
-// ─── Foundation Types ────────────────────────────────────────────────────────
-
-type SectionRhythm = keyof typeof sectionRhythmClass
-
-type SectionTone = keyof typeof sectionToneClass
-
-// ─── Legacy Variant (backward compat) ───────────────────────────────────────
+import { pageSectionSpacingClass } from "@/styles/design-system/spacing"
 
 type SectionVariant =
-  | "default"
-  | "hero"
-  | "muted"
-  | "feature"
-  | "tight"
-  | "flush"
+  | "default"   // standard section
+  | "hero"      // full screen
+  | "muted"     // light background
+  | "feature"   // larger breathing space
+  | "tight"     // compact
+  | "flush"     // no spacing
 
 type SectionProps = {
   children: React.ReactNode
   variant?: SectionVariant
-  rhythm?: SectionRhythm
-  tone?: SectionTone
   noMotion?: boolean
   className?: string
 }
 
-// ─── Legacy variant → rhythm/tone translation ────────────────────────────────
-
-function resolveVariant(variant: SectionVariant): { rhythm: string; tone: string } {
-  switch (variant) {
-    case "hero":
-      return { rhythm: "min-h-screen flex items-center", tone: "" }
-    case "muted":
-      return { rhythm: sectionRhythmClass.muted, tone: sectionToneClass.muted }
-    case "feature":
-      return { rhythm: sectionRhythmClass.feature, tone: "" }
-    case "tight":
-      return { rhythm: sectionRhythmClass.compact, tone: "" }
-    case "flush":
-      return { rhythm: sectionRhythmClass.flush, tone: "" }
-    default:
-      return { rhythm: sectionRhythmClass.default, tone: "" }
-  }
-}
-
-// ─── Component ───────────────────────────────────────────────────────────────
-
 export function Section({
   children,
-  variant,
-  rhythm,
-  tone,
+  variant = "default",
+  noMotion = false,
   className,
 }: SectionProps) {
-  let spacingClass: string
-  let toneClass: string
+  /* ======================================================
+     Variant styles (semantic, not mechanical)
+  ====================================================== */
 
-  if (rhythm !== undefined || tone !== undefined) {
-    spacingClass = sectionRhythmClass[rhythm ?? "default"]
-    toneClass = sectionToneClass[tone ?? "default"]
-  } else {
-    const resolved = resolveVariant(variant ?? "default")
-    spacingClass = resolved.rhythm
-    toneClass = resolved.tone
+  let spacingClass = ""
+  let toneClass = ""
+
+  switch (variant) {
+    /* ------------------------------------------
+       Default (most sections)
+    ------------------------------------------ */
+    case "default":
+      spacingClass = pageSectionSpacingClass.default
+      break
+
+    /* ------------------------------------------
+       Hero (full screen cinematic)
+    ------------------------------------------ */
+    case "hero":
+      spacingClass = "min-h-screen flex items-center"
+      break
+
+    /* ------------------------------------------
+       Muted background
+    ------------------------------------------ */
+    case "muted":
+      spacingClass = pageSectionSpacingClass.muted
+      toneClass = "bg-neutral-50"
+      break
+
+    /* ------------------------------------------
+       Feature / storytelling
+    ------------------------------------------ */
+    case "feature":
+      spacingClass = pageSectionSpacingClass.feature
+      break
+
+    /* ------------------------------------------
+       Tight sections
+    ------------------------------------------ */
+    case "tight":
+      spacingClass = pageSectionSpacingClass.tight
+      break
+
+    /* ------------------------------------------
+       No spacing
+    ------------------------------------------ */
+    case "flush":
+      spacingClass = pageSectionSpacingClass.flush
+      break
+  }
+
+  const baseClass = clsx(
+    "relative w-full",
+    spacingClass,
+    toneClass,
+    className
+  )
+
+  /* ======================================================
+     Render
+  ====================================================== */
+
+  if (noMotion) {
+    return <section className={baseClass}>{children}</section>
   }
 
   return (
-    <section
-      className={clsx(
-        "relative w-full",
-        spacingClass,
-        toneClass,
-        className
-      )}
+    <motion.section
+      variants={fadeRise}
+      initial="hidden"
+      whileInView="show"
+      viewport={viewportOnce}
+      className={baseClass}
     >
       {children}
-    </section>
+    </motion.section>
   )
 }

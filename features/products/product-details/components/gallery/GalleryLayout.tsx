@@ -3,8 +3,7 @@
 import { GalleryRail } from "./GalleryRail"
 import { ProductImageZoom } from "./ProductImageZoom"
 import { useGallery } from "../context/GalleryContext"
-
-const IMAGE_HOST = process.env.NEXT_PUBLIC_IMAGE_HOST
+import { getImageUrl } from "@/lib/utils/getImageUrl"
 
 export function GalleryLayout() {
 
@@ -18,7 +17,7 @@ export function GalleryLayout() {
       <GalleryRail />
 
       <ProductImageZoom
-        src={`${IMAGE_HOST}${activeImage.url}`}
+        src={getImageUrl(activeImage.url)}
         onClick={openFullscreen}
       />
 

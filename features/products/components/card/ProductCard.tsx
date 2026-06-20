@@ -15,6 +15,7 @@ type ProductCardProps = {
   brand?: string
   price?: number | string
   aspect?: "portrait" | "square" | "landscape"
+  spacing?: "default" | "editorial"
   priority?: boolean
   className?: string
 }
@@ -26,15 +27,26 @@ export function ProductCard({
   image,
   href,
   aspect = "portrait",
+  spacing = "default",
   priority = false,
   className,
 }: ProductCardProps) {
+  const mediaSpacingClass =
+    spacing === "editorial"
+      ? "space-y-5 md:space-y-6"
+      : cardContentSpacingClass.mediaToCopy
+
+  const copySpacingClass =
+    spacing === "editorial"
+      ? "space-y-2"
+      : cardContentSpacingClass.copyStack
+
   return (
     <Link
       href={href}
       className={clsx("group block focus:outline-none", className)}
     >
-      <article className={cardContentSpacingClass.mediaToCopy}>
+      <article className={mediaSpacingClass}>
 
         <ImageTile
           src={image}
@@ -44,7 +56,7 @@ export function ProductCard({
           sizes="(max-width: 768px) 100vw, 33vw"
         />
 
-        <div className={cardContentSpacingClass.copyStack}>
+        <div className={copySpacingClass}>
           {/* Brand identifier — editorial label role, not a caption or helper text */}
           {brand && (
             <Meta>{brand}</Meta>

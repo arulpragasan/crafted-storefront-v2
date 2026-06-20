@@ -2,8 +2,7 @@
 
 import Image from "next/image"
 import { useGallery } from "../context/GalleryContext"
-
-const IMAGE_HOST = process.env.NEXT_PUBLIC_IMAGE_HOST
+import { getImageUrl } from "@/lib/utils/getImageUrl"
 
 export function GalleryRail() {
 
@@ -22,11 +21,10 @@ export function GalleryRail() {
         >
 
           <Image
-            src={`${IMAGE_HOST}${img.url}`}
+            src={getImageUrl(img.url)}
             alt=""
             fill
             sizes="72px"
-            unoptimized
             className="object-cover"
           />
 
