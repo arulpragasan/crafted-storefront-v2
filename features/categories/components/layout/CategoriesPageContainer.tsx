@@ -2,11 +2,6 @@ import { Container } from "@/components/layout/Container"
 import { PageSection } from "@/components/layout/PageSection"
 import type { Category } from "@/lib/api/categories"
 import { CategoriesEditorialHero } from "../sections/CategoriesEditorialHero"
-import { CategoryNarrativeInterlude } from "../sections/CategoryNarrativeInterlude"
-import {
-  EditorialDiscoverySection,
-  type EditorialDiscoveryItem,
-} from "../sections/EditorialDiscoverySection"
 import { PrimaryCategoryAtlas } from "../sections/PrimaryCategoryAtlas"
 
 type CategoriesPageContainerProps = {
@@ -51,6 +46,7 @@ function createDiscoveryItems(categories: Category[]): EditorialDiscoveryItem[] 
 export function CategoriesPageContainer({
   categories,
 }: CategoriesPageContainerProps) {
+  console.log("categories", categories)
   return (
     <main>
       <PageSection rhythm="feature">
@@ -59,28 +55,12 @@ export function CategoriesPageContainer({
         </Container>
       </PageSection>
 
-      <PageSection rhythm="flush" className="pb-28 md:pb-36">
+      <PageSection rhythm="tight">
         <Container size="wide">
           <PrimaryCategoryAtlas categories={categories} />
         </Container>
       </PageSection>
 
-      <PageSection rhythm="feature" tone="muted">
-        <Container size="content">
-          <CategoryNarrativeInterlude featureCategory={categories[0]} />
-        </Container>
-      </PageSection>
-
-      <PageSection rhythm="feature">
-        <Container size="wide">
-          <EditorialDiscoverySection
-            eyebrow="Discover Through"
-            title="Future paths for moods, occasions, and material worlds."
-            description="This section is structured for the next layer of discovery while staying intentionally light today."
-            items={createDiscoveryItems(categories)}
-          />
-        </Container>
-      </PageSection>
     </main>
   )
 }

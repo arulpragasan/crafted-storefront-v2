@@ -22,6 +22,9 @@ type EditorialDiscoverySectionProps = {
   items: EditorialDiscoveryItem[]
 }
 
+
+
+
 export function EditorialDiscoverySection({
   eyebrow,
   title,

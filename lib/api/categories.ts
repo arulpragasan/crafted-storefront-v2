@@ -1,144 +1,119 @@
-/* ======================================================
-   Mock Database
-====================================================== */
+import { API_BASE_URL } from "@/lib/config/publicUrls"
 
-type Category = {
-  slug: string
-  title: string
-  image: string
-  shortDescription: string
-  editorialText: string
-}
-
-type Brand = {
-  slug: string
-  name: string
-  image: string
-  logo: string
-}
-
-type Theme = {
-  slug: string
-  name: string
-  image: string
-}
-
-type Product = {
+export type CategorySubcategory = {
   id: number
   name: string
-  brand: string
-  category: string
-  theme?: string
-  image: string
+  slug: string
+  href: string
 }
 
-const categories: Category[] = [
-  {
-    slug: "wedding-wear",
-    title: "Wedding Wear",
-    image:
-      "https://images.unsplash.com/photo-1519741497674-611481863552?q=80&w=2000",
-    shortDescription:
-      "Timeless silhouettes crafted for ceremonial elegance.",
-    editorialText:
-      "Wedding wear in Crafted reflects heritage techniques, modern form, and intentional storytelling. It is not about volume, but refinement.",
-  },
-]
+export type Category = {
+  id: number
+  position: number
 
-const brands: Brand[] = [
-  {
-    slug: "manish-malhotra",
-    name: "Manish Malhotra",
-    image:
-      "https://images.unsplash.com/photo-1520975922071-4c9f2f8f4a1c?q=80&w=1200",
-  },
-  {
-    slug: "sabyasachi",
-    name: "Sabyasachi",
-    image:
-      "https://images.unsplash.com/photo-1495121605193-b116b5b09a9f?q=80&w=1200",
-  },
-  {
-    slug: "rahul-mishra",
-    name: "Rahul Mishra",
-    image:
-      "https://images.unsplash.com/photo-1503342217505-b0a15ec3261c?q=80&w=1200",
-  },
-]
+  name: string
+  slug: string
+  href: string
 
-const themes: Theme[] = [
-  {
-    slug: "heritage-craft",
-    name: "Heritage Craft",
-    image:
-      "https://images.unsplash.com/photo-1520975922071-4c9f2f8f4a1c?q=80&w=1200",
-  },
-  {
-    slug: "modern-minimal",
-    name: "Modern Minimal",
-    image:
-      "https://images.unsplash.com/photo-1490481651871-ab68de25d43d?q=80&w=1200",
-  },
-]
+  description: string
 
-const products: Product[] = Array.from({ length: 60 }).map((_, i) => ({
-  id: i + 1,
-  name: `Bridal Look ${i + 1}`,
-  brand: i % 2 === 0 ? "manish-malhotra" : "sabyasachi",
-  category: "wedding-wear",
-  theme: i % 3 === 0 ? "heritage-craft" : "modern-minimal",
-  image: `https://picsum.photos/600/800?random=${i + 20}`,
-}))
+  imageUrl: string | null
 
-/* ======================================================
-   API Mock Functions
-====================================================== */
-
-export async function getCategoryBySlug(slug: string) {
-  return categories.find((c) => c.slug === slug) ?? null
+  subcategories: CategorySubcategory[]
 }
 
-export async function getBrandsByCategory(slug: string) {
-  // In real API, you'd filter by category relation
-  return brands.slice(0, 8)
+export type CategoriesPageData = {
+  type: "category"
+  categories: Category[]
 }
 
-export async function getThemesByCategory(slug: string) {
-  return themes
+type RawCategoryMedia = {
+  cover_image?: {
+    url?: string | null
+  } | null
 }
 
-type ProductQuery = {
-  category: string
-  brand?: string
-  theme?: string
-  page?: number
-  limit?: number
+type RawCategorySubcategory = {
+  id: number
+  name: string
+  slug: string
 }
 
-export async function getProducts({
-  category,
-  brand,
-  theme,
-  page = 1,
-  limit = 24,
-}: ProductQuery) {
-  let filtered = products.filter((p) => p.category === category)
+type RawCategory = {
+  id: number
+  position?: number | null
+  name: string
+  slug: string
+  description?: string | null
+  media?: RawCategoryMedia
+  subcategories?: RawCategorySubcategory[] | null
+}
 
-  if (brand) {
-    filtered = filtered.filter((p) => p.brand === brand)
+type CategoriesApiResponse = {
+  data: {
+    type: "category"
+    items: RawCategory[]
   }
+}
 
-  if (theme) {
-    filtered = filtered.filter((p) => p.theme === theme)
-  }
+function categoryHref(slug: string) {
+  return slug.startsWith("/") ? slug : `/${slug}`
+}
 
-  const start = (page - 1) * limit
-  const end = start + limit
+function categoryDescription(category: RawCategory) {
+  return (
+    category.description?.trim() ||
+    `Explore ${category.name.toLowerCase()} through creators, themes, and curated collections.`
+  )
+}
 
-  const paginated = filtered.slice(start, end)
-
+function transformCategory(category: RawCategory): Category {
   return {
-    items: paginated,
-    hasNext: end < filtered.length,
+    id: category.id,
+    position: category.position ?? 0,
+
+    name: category.name,
+    slug: category.slug,
+    href: categoryHref(category.slug),
+
+    description: categoryDescription(category),
+
+    imageUrl: category.media?.cover_image?.url ?? null,
+
+    subcategories:
+      category.subcategories?.map((subcategory) => ({
+        id: subcategory.id,
+        name: subcategory.name,
+        slug: subcategory.slug,
+        href: categoryHref(subcategory.slug),
+      })) ?? [],
   }
+}
+
+function transformCategoriesResponse(
+  response: CategoriesApiResponse
+): CategoriesPageData {
+  return {
+    type: response.data.type,
+    categories: [...response.data.items]
+      .sort((a, b) => (a.position ?? 0) - (b.position ?? 0))
+      .map(transformCategory),
+  }
+}
+
+export async function getCategories(): Promise<CategoriesPageData> {
+  const res = await fetch(
+    `${API_BASE_URL}/api/v2/storefront/categories.json`,
+    {
+      next: { revalidate: 60 },
+    }
+  )
+
+  if (!res.ok) {
+    throw new Error("Failed to fetch categories")
+  }
+
+  const data = (await res.json()) as CategoriesApiResponse
+
+  return transformCategoriesResponse(data)
 }
