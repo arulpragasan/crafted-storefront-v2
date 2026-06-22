@@ -2,18 +2,13 @@ import { notFound } from "next/navigation"
 
 import { PageSection } from "@/components/layout/PageSection"
 import { Container } from "@/components/layout/Container"
-import { EditorialRail } from "@/features/categories/components/rail/EditorialRail"
 
 import CategoryHero from "./components/CategoryHero"
 import EditorialOverview from "./components/EditorialOverview"
-import ExploreThemes from "./components/ExploreThemes"
+import ExploreSubcategories from "./components/ExploreSubcategories"
 import RefineEntry from "./components/RefineEntry"
 
-import {
-  getCategoryBySlug,
-  getThemesByCategory,
-  getBrandsByCategory,
-} from "@/lib/api/categories"
+import { getCategoryBySlug } from "@/lib/api/categories"
 
 type PageProps = {
   params: Promise<{ slug: string }>
@@ -38,21 +33,14 @@ export default async function CategoryPage({ params }: PageProps) {
         <EditorialOverview category={category} />
       </PageSection>
 
-      {/* 3. Explore by Theme */}
+      {/* 3. Explore by Subcategory */}
       <PageSection rhythm="editorial">
         <Container size="wide">
           <ExploreSubcategories subcategories={category.explore.subcategories} />
         </Container>
       </PageSection>
 
-      {/* 4. Explore by Brand */}
-      <EditorialRail
-        title="Explore by Brand"
-        items={brands}
-        getHref={(brand) => `/products?category=${slug}&brand=${brand.slug}`}
-      />
-
-      {/* 5. Refine Entry */}
+      {/* 4. Refine Entry */}
       <PageSection rhythm="editorial">
         <Container size="wide">
           <RefineEntry href={`/products?category=${slug}&refine=1`} />

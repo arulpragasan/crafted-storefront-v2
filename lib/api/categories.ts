@@ -118,6 +118,14 @@ export async function getCategories(): Promise<CategoriesPageData> {
   return transformCategoriesResponse(data)
 }
 
+export type CategoryDetailSubcategory = {
+  id: number
+  name: string
+  permalink: string
+  description?: string | null
+  image_url?: string | null
+}
+
 export type CategoryDetail = {
   id: number
   name: string
@@ -135,15 +143,7 @@ export type CategoryDetail = {
   }
 
   explore: {
-    subcategories: {
-      id: number
-      name: string
-      permalink: string
-    }[]
-
-    themes: any[]
-    occasions: any[]
-    brands: any[]
+    subcategories: CategoryDetailSubcategory[]
   }
 
   refine: {
