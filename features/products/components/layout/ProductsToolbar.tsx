@@ -8,22 +8,15 @@ export function ProductsToolbar({
   onToggleFilters,
 }: Props) {
   return (
-    <div className="flex items-center justify-between border-b pb-4">
+    <div className="flex items-center justify-between pb-4">
 
-      <button onClick={onToggleFilters} className="text-sm font-medium tracking-wide">
-        {showFilters ? "Hide Filters" : "Show Filters"}
-      </button>
-
-      <div className="text-sm text-neutral-500">
-        {/*{count} items*/}
-      </div>
-
-      <button className="text-sm hover:text-black transition">
-        Sort ↓
+      <button
+        onClick={onToggleFilters}
+        className="text-xs uppercase tracking-wider text-neutral-500 hover:text-black transition-colors duration-200"
+      >
+        {showFilters ? "Hide Filters" : "Filters"}
       </button>
 
     </div>
   )
 }
-
-

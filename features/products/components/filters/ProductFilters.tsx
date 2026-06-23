@@ -4,8 +4,20 @@ import { FilterSection } from "./FilterSection"
 import { FilterItem } from "./FilterItem"
 import { useProductFilters } from "./useProductFilters"
 
+function normalizeToArray(val: string | string[] | undefined): string[] {
+  if (!val) return []
+  if (typeof val === "string") {
+    return val.includes(",") ? val.split(",") : [val]
+  }
+  return val
+}
+
 export function ProductFilters() {
   const { filters, query, toggle } = useProductFilters()
+
+  const activeBrands = normalizeToArray(query.brand)
+  const activeThemes = normalizeToArray(query.theme)
+  const activeOccasions = normalizeToArray(query.occasion)
 
   return (
     <div className="space-y-10 text-sm">
@@ -16,7 +28,7 @@ export function ProductFilters() {
             key={b.slug}
             label={b.name}
             count={b.count}
-            active={query.brand?.includes(b.slug)}
+            active={activeBrands.includes(b.slug)}
             onClick={() => toggle("brand", b.slug)}
           />
         ))}
@@ -28,7 +40,7 @@ export function ProductFilters() {
             key={t.slug}
             label={t.name}
             count={t.count}
-            active={query.theme?.includes(t.slug)}
+            active={activeThemes.includes(t.slug)}
             onClick={() => toggle("theme", t.slug)}
           />
         ))}
@@ -40,7 +52,7 @@ export function ProductFilters() {
             key={o.slug}
             label={o.name}
             count={o.count}
-            active={query.occasion?.includes(o.slug)}
+            active={activeOccasions.includes(o.slug)}
             onClick={() => toggle("occasion", o.slug)}
           />
         ))}

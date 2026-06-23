@@ -1,6 +1,7 @@
 "use client"
 
 import { useState, useCallback, useEffect } from "react";
+import Image from "next/image";
 import type { SessionMedia } from "@/features/sessions/types";
 
 type GalleryMedia = Extract<SessionMedia, { kind: "image_gallery" }>;
@@ -41,11 +42,13 @@ export function GalleryStage({ media, title }: GalleryStageProps) {
 
   if (total === 0) {
     return (
-      <div className="stage stage--gallery">
-        <img
-          className="stage__featured"
+      <div className="relative w-full overflow-hidden rounded-3xl bg-gray-100 aspect-video">
+        <Image
+          className="object-cover"
           src="/images/placeholder.png"
           alt={title}
+          fill
+          sizes="(max-width: 768px) 100vw, (max-width: 1200px) 80vw, 1100px"
         />
       </div>
     );
@@ -55,17 +58,22 @@ export function GalleryStage({ media, title }: GalleryStageProps) {
   const altText = currentImage.alt || title;
 
   return (
-    <div className="stage stage--gallery">
-      <div className="stage__featured-wrapper">
-        <img
-          className="stage__featured"
+    <div className="flex flex-col gap-4">
+      {/* Featured image */}
+      <div className="relative w-full overflow-hidden rounded-3xl bg-gray-100 aspect-video">
+        <Image
+          className="object-cover"
           src={currentImage.url}
           alt={altText}
+          fill
+          sizes="(max-width: 768px) 100vw, (max-width: 1200px) 80vw, 1100px"
+          priority
         />
+
         {!isSingle && (
           <>
             <button
-              className="stage__nav stage__nav--prev"
+              className="absolute left-3 top-1/2 -translate-y-1/2 flex h-10 w-10 items-center justify-center rounded-full bg-white/80 text-xl text-gray-800 shadow backdrop-blur-sm transition-colors hover:bg-white focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500"
               onClick={goPrev}
               aria-label="Previous image"
               type="button"
@@ -73,59 +81,45 @@ export function GalleryStage({ media, title }: GalleryStageProps) {
               ‹
             </button>
             <button
-              className="stage__nav stage__nav--next"
+              className="absolute right-3 top-1/2 -translate-y-1/2 flex h-10 w-10 items-center justify-center rounded-full bg-white/80 text-xl text-gray-800 shadow backdrop-blur-sm transition-colors hover:bg-white focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500"
               onClick={goNext}
               aria-label="Next image"
               type="button"
             >
               ›
             </button>
-            <span className="stage__counter">
+            <span className="absolute bottom-3 right-3 rounded-full bg-black/60 px-3 py-1 text-xs font-medium text-white backdrop-blur-sm">
               {currentIndex + 1} / {total}
             </span>
           </>
         )}
       </div>
 
+      {/* Thumbnail strip */}
       {!isSingle && (
-        <>
-          {/* Desktop thumbnail strip */}
-          <div className="stage__thumbnails" aria-hidden="true">
-            {images.map((image, index) => (
-              <button
-                key={index}
-                className={`stage__thumbnail ${
-                  index === currentIndex ? "stage__thumbnail--active" : ""
-                }`}
-                onClick={() => setCurrentIndex(index)}
-                type="button"
-                aria-label={`Go to image ${index + 1}`}
-              >
-                <img
-                  src={image.url}
-                  alt={image.alt || title}
-                />
-              </button>
-            ))}
-          </div>
-
-          {/* Mobile dot navigation */}
-          <div className="stage__dots" role="tablist" aria-label="Image navigation">
-            {images.map((_, index) => (
-              <button
-                key={index}
-                className={`stage__dot ${
-                  index === currentIndex ? "stage__dot--active" : ""
-                }`}
-                onClick={() => setCurrentIndex(index)}
-                type="button"
-                role="tab"
-                aria-selected={index === currentIndex}
-                aria-label={`Image ${index + 1}`}
+        <div className="flex gap-2 overflow-x-auto pb-1">
+          {images.map((image, index) => (
+            <button
+              key={index}
+              className={`relative flex-shrink-0 h-16 w-24 overflow-hidden rounded-lg border-2 transition-all focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 ${
+                index === currentIndex
+                  ? "border-blue-600 opacity-100"
+                  : "border-transparent opacity-60 hover:opacity-90"
+              }`}
+              onClick={() => setCurrentIndex(index)}
+              type="button"
+              aria-label={`Go to image ${index + 1}`}
+            >
+              <Image
+                className="object-cover"
+                src={image.url}
+                alt={image.alt || title}
+                fill
+                sizes="96px"
               />
-            ))}
-          </div>
-        </>
+            </button>
+          ))}
+        </div>
       )}
     </div>
   );

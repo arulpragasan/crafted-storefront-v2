@@ -23,33 +23,20 @@ export function FilterItem({
         transition-all duration-200
         ${active
           ? "text-black font-medium"
-          : "text-neutral-600 hover:text-black"}
+          : "text-neutral-500 hover:text-black"}
       `}
     >
-      {/* Left side */}
-      <span className="flex items-center gap-3">
-
-        {/* Active indicator (luxury dot) */}
-        <span
-          className={`
-            h-1.5 w-1.5 rounded-full transition-all duration-200
-            ${active ? "bg-black scale-100" : "bg-neutral-300 scale-75 group-hover:scale-100"}
-          `}
-        />
-
-        <span className="capitalize">
-          {label}
-        </span>
+      <span className="capitalize">
+        {label}
       </span>
 
-      {/* Count */}
       {count !== undefined && (
         <Caption
           className={`
             tabular-nums transition
             ${active
-              ? "text-black"
-              : "group-hover:text-neutral-600"}
+              ? "text-neutral-900"
+              : "text-neutral-400 group-hover:text-neutral-600"}
           `}
         >
           {count}

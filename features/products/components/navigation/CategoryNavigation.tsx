@@ -18,8 +18,6 @@ type Props = {
   currentSubcategory?: string
 }
 
-import { Muted } from "@/components/ui/Typography"
-
 export function CategoryNavigation({
   categories = [],
   subcategories = [],
@@ -36,8 +34,11 @@ export function CategoryNavigation({
   const searchParams = useSearchParams()
 
   const hasSubcategories = !!subcategories?.length
-  const items =
-    currentCategory && hasSubcategories ? subcategories : categories
+  const isSubcategoryLevel = !!currentCategory && hasSubcategories
+
+  const items = isSubcategoryLevel ? subcategories : categories
+
+  const activeSlug = isSubcategoryLevel ? currentSubcategory : currentCategory
 
   const clearHref = buildProductsUrl(searchParams, {
     category: null,
@@ -53,14 +54,11 @@ export function CategoryNavigation({
     })
   }
 
-  // 🔥 Find active item
-  const activeSlug = currentCategory
-    ? currentSubcategory
-    : currentCategory
-
-  // 🔥 Animate underline position
   useEffect(() => {
-    if (!activeSlug) return
+    if (!activeSlug) {
+      setIndicatorStyle({ width: 0, left: 0 })
+      return
+    }
 
     const el = itemRefs.current[activeSlug]
     const container = scrollRef.current
@@ -71,10 +69,9 @@ export function CategoryNavigation({
 
       setIndicatorStyle({
         width: elRect.width,
-        left: elRect.left - containerRect.left,
+        left: elRect.left - containerRect.left + container.scrollLeft,
       })
 
-      // 🔥 Auto center active item
       el.scrollIntoView({
         behavior: "smooth",
         inline: "center",
@@ -86,56 +83,43 @@ export function CategoryNavigation({
   return (
     <div className="sticky top-0 z-30 bg-white/95 backdrop-blur border-b border-neutral-200">
 
-      {/* Label */}
-      <Muted className="uppercase tracking-widest mb-4 px-6">
-        Collections
-      </Muted>
-
       <div className="relative flex items-center">
 
-        {/* LEFT ARROW */}
+        {/* Left fade/arrow */}
         <button
           onClick={() => scroll("left")}
-          className="
-            absolute left-0 z-10 h-full w-12
-            flex items-center justify-center
-            bg-gradient-to-r from-white via-white/90 to-transparent
-            opacity-50 hover:opacity-100 transition
-          "
+          className="absolute left-0 z-10 h-full w-10 flex items-center justify-center bg-gradient-to-r from-white via-white/90 to-transparent opacity-0 hover:opacity-100 transition-opacity"
+          aria-label="Scroll left"
         >
           ‹
         </button>
 
-        {/* SCROLL AREA */}
+        {/* Scroll area */}
         <div
           ref={scrollRef}
-          className="
-            overflow-x-auto scrollbar-hide w-full
-            scroll-smooth
-          "
+          className="overflow-x-auto scrollbar-hide w-full scroll-smooth"
         >
-          <div className="relative flex gap-8 px-12 min-w-max items-center overflow-hidden">
+          <div className="relative flex gap-8 px-6 min-w-max items-center py-4">
 
-            {/* BACK */}
+            {/* Back link */}
             {currentCategory && (
               <Link
                 href={clearHref}
                 scroll={false}
-                className="text-sm text-neutral-500 hover:text-black whitespace-nowrap transition"
+                className="text-xs uppercase tracking-wider text-neutral-400 hover:text-black whitespace-nowrap transition-colors duration-200"
               >
                 ← All
               </Link>
             )}
 
             {items.map((item) => {
-              const isActive =
-                currentCategory
-                  ? currentSubcategory === item.slug
-                  : currentCategory === item.slug
+              const isActive = isSubcategoryLevel
+                ? currentSubcategory === item.slug
+                : currentCategory === item.slug
 
               const href = buildProductsUrl(
                 searchParams,
-                currentCategory && hasSubcategories
+                isSubcategoryLevel
                   ? { subcategory: item.slug }
                   : { category: item.slug, subcategory: null }
               )
@@ -149,12 +133,11 @@ export function CategoryNavigation({
                     itemRefs.current[item.slug] = el
                   }}
                   className={`
-                    text-sm font-medium whitespace-nowrap
-                    pb-2 transition-colors duration-200
-                    ${
-                      isActive
-                        ? "text-black"
-                        : "text-neutral-500 hover:text-black"
+                    text-sm whitespace-nowrap
+                    pb-1 transition-colors duration-200
+                    ${isActive
+                      ? "text-black font-medium"
+                      : "text-neutral-500 hover:text-black"
                     }
                   `}
                 >
@@ -163,27 +146,24 @@ export function CategoryNavigation({
               )
             })}
 
-            {/* 🔥 Animated underline */}
-            <span
-              className="absolute bottom-0 h-[1px] bg-black transition-all duration-300 ease-out"
-              style={{
-                width: indicatorStyle.width,
-                transform: `translateX(${indicatorStyle.left}px)`,
-              }}
-            />
-
+            {/* Animated underline */}
+            {activeSlug && (
+              <span
+                className="absolute bottom-0 h-px bg-black transition-all duration-300 ease-out pointer-events-none"
+                style={{
+                  width: indicatorStyle.width,
+                  transform: `translateX(${indicatorStyle.left}px)`,
+                }}
+              />
+            )}
           </div>
         </div>
 
-        {/* RIGHT ARROW */}
+        {/* Right fade/arrow */}
         <button
           onClick={() => scroll("right")}
-          className="
-            absolute right-0 z-10 h-full w-12
-            flex items-center justify-center
-            bg-gradient-to-l from-white via-white/90 to-transparent
-            opacity-50 hover:opacity-100 transition
-          "
+          className="absolute right-0 z-10 h-full w-10 flex items-center justify-center bg-gradient-to-l from-white via-white/90 to-transparent opacity-0 hover:opacity-100 transition-opacity"
+          aria-label="Scroll right"
         >
           ›
         </button>
