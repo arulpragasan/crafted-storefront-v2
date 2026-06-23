@@ -1,3 +1,5 @@
+"use client"
+
 import type { SessionMedia } from "@/features/sessions/types";
 
 type GatewayMedia = Extract<SessionMedia, { kind: "external_link" }>;

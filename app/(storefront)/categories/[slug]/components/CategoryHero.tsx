@@ -1,7 +1,7 @@
 import Image from "next/image"
 
 import { CategoryDetail } from "@/lib/api/categories"
-import { getImageUrl } from "@/lib/utils/images"
+import { getImageUrl } from "@/lib/utils/getImageUrl"
 
 type CategoryHeroProps = {
   category: CategoryDetail

@@ -1,3 +1,5 @@
+"use client"
+
 import type { SessionMedia } from "@/features/sessions/types";
 
 type InstagramMedia = Extract<SessionMedia, { kind: "instagram_post" }>;

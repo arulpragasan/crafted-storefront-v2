@@ -99,31 +99,31 @@ function humanizeType(value: string) {
  * across the sessions array so the Highlights block always has content when
  * sessions exist.
  */
-function getSessionTypeHighlights(stats: Stats, sessions: Session[]): Highlight[] {
-  const raw = stats.session_types
-  const counts = new Map<string, number>()
+// function getSessionTypeHighlights(stats: Stats, sessions: Session[]): Highlight[] {
+//   const raw = stats.session_types
+//   const counts = new Map<string, number>()
 
-  if (Array.isArray(raw)) {
-    for (const type of raw) {
-      if (type) counts.set(type, (counts.get(type) ?? 0) + 1)
-    }
-  } else if (raw && typeof raw === "object") {
-    for (const [type, count] of Object.entries(raw)) {
-      if (type) counts.set(type, Number(count) || 0)
-    }
-  }
+//   if (Array.isArray(raw)) {
+//     for (const type of raw) {
+//       if (type) counts.set(type, (counts.get(type) ?? 0) + 1)
+//     }
+//   } else if (raw && typeof raw === "object") {
+//     for (const [type, count] of Object.entries(raw)) {
+//       if (type) counts.set(type, Number(count) || 0)
+//     }
+//   }
 
-  if (counts.size === 0) {
-    for (const session of sessions) {
-      const type = session.session_type
-      if (type) counts.set(type, (counts.get(type) ?? 0) + 1)
-    }
-  }
+//   if (counts.size === 0) {
+//     for (const session of sessions) {
+//       const type = session.session_type
+//       if (type) counts.set(type, (counts.get(type) ?? 0) + 1)
+//     }
+//   }
 
-  return [...counts.entries()]
-    .map(([label, count]) => ({ label: humanizeType(label), count }))
-    .sort((a, b) => b.count - a.count)
-}
+//   return [...counts.entries()]
+//     .map(([label, count]) => ({ label: humanizeType(label), count }))
+//     .sort((a, b) => b.count - a.count)
+// }
 
 // ─────────────────────────────────────────────────────────────────────────────
 // Page
@@ -146,7 +146,7 @@ export default async function ProgramDetailsPage({ params }: PageProps) {
     notFound()
   }
 
-  const { program, stats, featured_session, speakers, sessions } = data
+  const { program, stats, featured_session, sessions } = data
 
   const cover = getImageUrl(program.cover_image_url)
   const isLive = program.status === "live"
@@ -164,7 +164,7 @@ export default async function ProgramDetailsPage({ params }: PageProps) {
       `${stats.speaker_count} ${stats.speaker_count === 1 ? "speaker" : "speakers"}`,
   ].filter(Boolean) as string[]
 
-  const highlights = getSessionTypeHighlights(stats, sessions)
+  // const highlights = getSessionTypeHighlights(stats, sessions)
 
   const sessionTypes = Object.entries(stats.session_types || {})
     .filter(([, count]) => count > 0)
@@ -266,7 +266,14 @@ export default async function ProgramDetailsPage({ params }: PageProps) {
 
                 {/* Session Types */}
                 {sessionTypes.length > 0 && (
+  <Caption tone="inverse">
+    Includes {sessionTypes.join(" • ")}
+  </Caption>
+)}
+                {/*
+                {sessionTypes.length > 0 && (
                   <div className="flex flex-col gap-3 pt-5">
+
                     {sessionTypes.map((type) => (
                       <span
                         key={type}
@@ -282,7 +289,7 @@ export default async function ProgramDetailsPage({ params }: PageProps) {
                       </span>
                     ))}
                   </div>
-                )}
+                )}*/}
 
                 {/* CTA */}
                 {entryHref && (
@@ -394,6 +401,28 @@ export default async function ProgramDetailsPage({ params }: PageProps) {
 //   3. Type metadata  — supporting eyebrow (smallest, lightest)
 // ─────────────────────────────────────────────────────────────────────────────
 
+function sessionPlaceholder(type?: string) {
+  switch (type) {
+    case "showcase":
+      return "/images/placeholders/showcase.jpg"
+
+    case "interview":
+      return "/images/placeholders/interview.jpg"
+
+    case "talk":
+      return "/images/placeholders/talk.jpg"
+
+    case "panel":
+      return "/images/placeholders/panel.jpg"
+
+    case "workshop":
+      return "/images/placeholders/workshop.jpg"
+
+    default:
+      return "/images/placeholders/talk.jpg"
+  }
+}
+
 function SessionCard({
   session,
   programSlug,
@@ -404,7 +433,8 @@ function SessionCard({
   isLarge?: boolean
 }) {
   const href = `/programs/${programSlug}/sessions/${session.slug}`
-  const thumbnail = getImageUrl(session.thumbnail_url)
+  const thumbnail = getImageUrl(session.thumbnail_url) || sessionPlaceholder(session.session_type)
+  
   const isLive = session.status === "live"
 
   const typeMeta = session.session_type
@@ -413,7 +443,7 @@ function SessionCard({
 
   return (
     <Link href={href} className="group block">
-      <article className={cn( "flex flex-col", isLarge && "max-w-5xl" )} >
+      <article className={cn( "flex flex-col", isLarge ? "max-w-4xl" : "" )} >
         {/* Thumbnail */}
         <div
           className={cn(
@@ -496,39 +526,39 @@ function SessionCard({
 // Speaker Card (page-local)
 // ─────────────────────────────────────────────────────────────────────────────
 
-function SpeakerCard({ speaker }: { speaker: Speaker }) {
-  const avatar = getImageUrl(speaker.avatar_url)
-  const role = [speaker.title, speaker.company].filter(Boolean).join(", ")
+// function SpeakerCard({ speaker }: { speaker: Speaker }) {
+//   const avatar = getImageUrl(speaker.avatar_url)
+//   const role = [speaker.title, speaker.company].filter(Boolean).join(", ")
 
-  return (
-    <article className="flex flex-col items-center gap-4 text-center">
-      {/* Avatar */}
-      <div className="relative h-24 w-24 md:h-28 md:w-28 overflow-hidden rounded-full bg-neutral-100 ring-1 ring-neutral-900/5">
-        <Image
-          src={avatar}
-          alt={speaker.name}
-          fill
-          sizes="112px"
-          className="object-cover"
-        />
-      </div>
+//   return (
+//     <article className="flex flex-col items-center gap-4 text-center">
+//       {/* Avatar */}
+//       <div className="relative h-24 w-24 md:h-28 md:w-28 overflow-hidden rounded-full bg-neutral-100 ring-1 ring-neutral-900/5">
+//         <Image
+//           src={avatar}
+//           alt={speaker.name}
+//           fill
+//           sizes="112px"
+//           className="object-cover"
+//         />
+//       </div>
 
-      {/* Info */}
-      <div className="flex flex-col gap-1.5">
-        <CardHeading className="text-base md:text-lg">{speaker.name}</CardHeading>
+//       {/* Info */}
+//       <div className="flex flex-col gap-1.5">
+//         <CardHeading className="text-base md:text-lg">{speaker.name}</CardHeading>
 
-        {role && (
-          <Caption variant="plain" tone="secondary" className="text-xs leading-snug">
-            {role}
-          </Caption>
-        )}
+//         {role && (
+//           <Caption variant="plain" tone="secondary" className="text-xs leading-snug">
+//             {role}
+//           </Caption>
+//         )}
 
-        {speaker.bio && (
-          <Body className="mt-1 line-clamp-2 text-sm text-neutral-500">
-            {speaker.bio}
-          </Body>
-        )}
-      </div>
-    </article>
-  )
-}
+//         {speaker.bio && (
+//           <Body className="mt-1 line-clamp-2 text-sm text-neutral-500">
+//             {speaker.bio}
+//           </Body>
+//         )}
+//       </div>
+//     </article>
+//   )
+// }

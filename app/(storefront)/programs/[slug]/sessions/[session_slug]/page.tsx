@@ -5,6 +5,7 @@ import { SessionHeader } from "@/features/sessions/components/SessionHeader"
 import { SpeakerRow } from "@/features/sessions/components/SpeakerRow"
 import { ExpandableDescription } from "@/features/sessions/components/ExpandableDescription"
 import { UpNext } from "@/features/sessions/components/UpNext"
+import { Stage } from "@/features/sessions/components/stage/Stage"
 
 import { getSession } from "@/lib/api/sessions"
 
@@ -24,6 +25,7 @@ export default async function SessionDetailsPage({
 
   try {
     data = await getSession(slug, session_slug)
+    console.log(JSON.stringify(data, null, 2))
   } catch {
     notFound()
   }
@@ -44,9 +46,10 @@ export default async function SessionDetailsPage({
 
             {/* Temporary media placeholder */}
             <div className="aspect-video rounded-3xl bg-neutral-100 flex items-center justify-center">
-              <span className="text-sm text-neutral-500">
-                Session Media Coming Soon
-              </span>
+              <Stage
+                media={session.media}
+                title={session.name}
+              />
             </div>
 
             <SessionHeader session={sessionHeaderData} />

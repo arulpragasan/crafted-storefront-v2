@@ -28,14 +28,9 @@ export default async function CategoryPage({ params }: PageProps) {
       {/* 1. Hero */}
       <CategoryHero category={category} />
 
-      {/* 2. Editorial Introduction */}
-      <PageSection rhythm="editorial">
-        <EditorialOverview category={category} />
-      </PageSection>
-
       {/* 3. Explore by Subcategory */}
-      <PageSection rhythm="editorial">
-        <Container size="wide">
+      <PageSection >
+        <Container>
           <ExploreSubcategories subcategories={category.explore.subcategories} />
         </Container>
       </PageSection>
