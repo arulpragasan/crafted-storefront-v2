@@ -5,7 +5,9 @@ type Props = {
 }
 
 function formatLabel(value: string) {
-  return value
+  const segment = value.includes("/") ? value.split("/").pop()! : value
+
+  return segment
     .replace(/-/g, " ")
     .replace(/\b\w/g, (l) => l.toUpperCase())
 }
@@ -19,31 +21,30 @@ function formatList(values?: string[]) {
 
   if (formatted.length === 2) return `${formatted[0]} & ${formatted[1]}`
 
-  return `${formatted[0]} +${formatted.length - 1} more`
+  return `${formatted.slice(0, 2).join(", ")} & more`
 }
 
 import { Body, Headline } from "@/components/ui/Typography"
 
 export function ProductsHeader({ category, brand, theme }: Props) {
-  let title = "The Curated Collection"
-  let description =
-    "Discover our meticulously curated selection of designer pieces."
+  let title = "The Collection"
+  let description: string | null = null
 
   if (category) {
-    const formatted = formatLabel(category)
-    title = formatted
-    description = `Explore our exclusive collection of ${formatted}.`
+    title = formatLabel(category)
+  }
+
+  if (theme && theme.length > 0) {
+    const formatted = formatList(theme)
+    title = category
+      ? `${formatLabel(category)} — ${formatted}`
+      : `${formatted} Collection`
   }
 
   if (brand && brand.length > 0) {
     const formatted = formatList(brand)
     title = formatted
-    description = `Discover the latest pieces from ${formatted}.`
-  }
-
-  if (theme && theme.length > 0) {
-    const formatted = formatList(theme)
-    title = `${formatted} Collection`
+    description = `Pieces from ${formatted}.`
   }
 
   return (
@@ -53,7 +54,7 @@ export function ProductsHeader({ category, brand, theme }: Props) {
       </Headline>
 
       {description && (
-        <Body>
+        <Body className="text-neutral-500">
           {description}
         </Body>
       )}

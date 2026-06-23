@@ -4,19 +4,19 @@ export function EmptyState() {
   return (
     <div className="flex flex-col items-center justify-center py-24 text-center">
 
-      <CardTitle className="mb-2">
-        No products found
+      <CardTitle className="mb-3">
+        Nothing here yet
       </CardTitle>
 
-      <Muted className="mb-6 max-w-sm">
-        Try adjusting your filters or explore other collections to find something you love.
+      <Muted className="mb-8 max-w-sm">
+        No pieces match the current selection. Try adjusting your filters or explore another collection.
       </Muted>
 
       <a
         href="/products"
-        className="text-sm underline underline-offset-4 hover:text-black transition"
+        className="text-sm underline underline-offset-4 decoration-neutral-300 hover:decoration-black hover:text-black transition-colors duration-200"
       >
-        Explore all products
+        View all pieces
       </a>
 
     </div>

@@ -81,7 +81,7 @@ export function CategoryNavigation({
   }, [activeSlug])
 
   return (
-    <div className="sticky top-0 z-30 bg-white/95 backdrop-blur border-b border-neutral-200">
+    <div className="sticky top-0 z-30 bg-white/95 backdrop-blur-sm border-b border-neutral-100">
 
       <div className="relative flex items-center">
 
@@ -100,6 +100,11 @@ export function CategoryNavigation({
           className="overflow-x-auto scrollbar-hide w-full scroll-smooth"
         >
           <div className="relative flex gap-8 px-6 min-w-max items-center py-4">
+
+            {/* Context label */}
+            <span className="text-xs uppercase tracking-widest text-neutral-400 select-none whitespace-nowrap">
+              Collections
+            </span>
 
             {/* Back link */}
             {currentCategory && (

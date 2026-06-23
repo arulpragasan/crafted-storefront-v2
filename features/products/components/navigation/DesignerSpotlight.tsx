@@ -35,7 +35,11 @@ export function DesignerSpotlight() {
   }
 
   return (
-    <nav className="mb-16" aria-label="Featured designers">
+    <nav className="mb-12" aria-label="Featured designers">
+
+      <h3 className="text-xs uppercase tracking-widest text-neutral-400 mb-5">
+        Featured Designers
+      </h3>
 
       <div className="flex flex-wrap items-baseline gap-x-6 gap-y-3">
         {designers.map((designer, index) => {
