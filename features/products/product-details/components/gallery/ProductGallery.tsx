@@ -9,72 +9,84 @@ type Props = {
 
 export function ProductGallery({ images }: Props) {
   const [currentIndex, setCurrentIndex] = useState(0)
+  
+  console.log("images prop", images)
 
-  const hasImages = images.length > 0
-  const hasMultiple = images.length > 1
+  const validImages = images.filter(
+    (image): image is string =>
+      typeof image === "string" &&
+      image.trim().length > 0
+  )
+
+  const hasImages = validImages.length > 0
+  const hasMultiple = validImages.length > 1
 
   if (!hasImages) {
     return (
       <div className="relative w-full aspect-[3/4] overflow-hidden rounded-2xl bg-neutral-100">
         <Image
-          className="object-cover"
           src="/images/placeholder.png"
           alt="Product image"
           fill
-          sizes="(max-width: 768px) 100vw, (max-width: 1200px) 60vw, 700px"
           priority
+          className="object-cover"
+          sizes="(max-width: 768px) 100vw, (max-width: 1200px) 60vw, 700px"
         />
       </div>
     )
   }
 
-  const currentImage = images[currentIndex]
+  const currentImage =
+    validImages[currentIndex] || "/images/placeholder.png"
 
   return (
     <div className="flex flex-col gap-4">
-
-      {/* Primary image */}
+      {/* Main Image */}
       <div className="relative w-full aspect-[3/4] overflow-hidden rounded-2xl bg-neutral-100">
         <Image
-          className="object-cover"
-          src={currentImage}
+          src={
+            currentImage && currentImage.trim().length > 0
+              ? currentImage
+              : "/images/placeholder.png"
+          }
           alt="Product image"
           fill
-          sizes="(max-width: 768px) 100vw, (max-width: 1200px) 60vw, 700px"
           priority
+          className="object-cover"
+          sizes="(max-width: 768px) 100vw, (max-width: 1200px) 60vw, 700px"
         />
       </div>
 
-      {/* Thumbnail rail — only when multiple images */}
+      {/* Thumbnails */}
       {hasMultiple && (
         <div className="flex gap-2 overflow-x-auto pb-1">
-          {images.map((image, index) => (
+          {validImages.map((image, index) => (
             <button
-              key={index}
-              onClick={() => setCurrentIndex(index)}
+              key={`${image}-${index}`}
               type="button"
+              onClick={() => setCurrentIndex(index)}
               aria-label={`View image ${index + 1}`}
               className={`
-                relative flex-shrink-0 h-20 w-16 overflow-hidden rounded-lg border transition-all
+                relative h-20 w-16 flex-shrink-0 overflow-hidden rounded-lg border transition-all
                 focus:outline-none focus-visible:ring-2 focus-visible:ring-black
-                ${index === currentIndex
-                  ? "border-black opacity-100"
-                  : "border-transparent opacity-50 hover:opacity-80"
+                ${
+                  index === currentIndex
+                    ? "border-black opacity-100"
+                    : "border-transparent opacity-50 hover:opacity-80"
                 }
               `}
             >
               <Image
-                className="object-cover"
                 src={image}
                 alt={`Thumbnail ${index + 1}`}
                 fill
+                className="object-cover"
                 sizes="64px"
               />
             </button>
           ))}
         </div>
       )}
-
     </div>
   )
 }

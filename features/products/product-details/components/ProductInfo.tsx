@@ -24,9 +24,6 @@ type Props = {
 
 export function ProductInfo({
   product,
-  options,
-  variants,
-  variantIndex,
   themes = [],
   occasions = [],
 }: Props) {
@@ -35,69 +32,98 @@ export function ProductInfo({
   const brandName = product.brand?.name
   const productName = product.name
   const price = product.price
-  const shortDescription = product.short_description
+  const shortDescription =
+    product.short_description || product.description
 
-  const hasMetadata = themes.length > 0 || occasions.length > 0
+  const metadata = [
+    ...themes.map((t) => t.name),
+    ...occasions.map((o) => o.name),
+  ]
 
   return (
-    <div className="flex flex-col gap-8 py-2">
+    <div className="flex flex-col gap-10 py-4">
 
       {/* Brand */}
       {brandName && (
-        <span className="text-xs uppercase tracking-widest text-neutral-400">
-          {brandName}
-        </span>
-      )}
-
-      {/* Product name */}
-      <h1 className="text-2xl lg:text-3xl font-light tracking-tight text-black">
-        {productName}
-      </h1>
-
-      {/* Price */}
-      {price && (
-        <span className="text-lg text-neutral-700">
-          {price}
-        </span>
-      )}
-
-      {/* Short description */}
-      {shortDescription && (
-        <p className="text-sm leading-relaxed text-neutral-500">
-          {shortDescription}
-        </p>
-      )}
-
-      {/* Themes & Occasions */}
-      {hasMetadata && (
-        <div className="flex flex-wrap gap-x-4 gap-y-1 pt-2">
-          {themes.map((theme) => (
-            <span
-              key={theme.slug}
-              className="text-xs tracking-wide text-neutral-400"
-            >
-              {theme.name}
-            </span>
-          ))}
-          {occasions.map((occasion) => (
-            <span
-              key={occasion.slug}
-              className="text-xs tracking-wide text-neutral-400"
-            >
-              {occasion.name}
-            </span>
-          ))}
+        <div>
+          <p className="text-xs uppercase tracking-[0.28em] text-neutral-400">
+            {brandName}
+          </p>
         </div>
       )}
 
-      {/* Request Quote CTA */}
-      <div className="pt-4">
+      {/* Product */}
+      <div className="space-y-5">
+
+        <h1 className="font-serif text-4xl leading-none tracking-tight text-black lg:text-5xl">
+          {productName}
+        </h1>
+
+        {price && (
+          <p className="text-lg text-neutral-700">
+            {price}
+          </p>
+        )}
+
+      </div>
+
+      {/* Intro */}
+      {shortDescription && (
+        <div className="max-w-md">
+          <p className="text-[15px] leading-8 text-neutral-600">
+            {shortDescription
+              .split("\n")[0]
+              .trim()}
+          </p>
+        </div>
+      )}
+
+      {/* Metadata */}
+      {metadata.length > 0 && (
+        <div className="border-t border-neutral-200 pt-6">
+
+          <p className="mb-3 text-[11px] uppercase tracking-[0.25em] text-neutral-400">
+            Collection Notes
+          </p>
+
+          <div className="flex flex-wrap gap-x-3 gap-y-2 text-sm text-neutral-600">
+            {metadata.map((item) => (
+              <span key={item}>
+                {item}
+              </span>
+            ))}
+          </div>
+
+        </div>
+      )}
+
+      {/* CTA */}
+      <div className="border-t border-neutral-200 pt-8">
+
         <button
           onClick={() => setQuoteOpen(true)}
-          className="w-full py-4 text-sm uppercase tracking-wider font-medium text-white bg-black hover:bg-neutral-800 transition-colors duration-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-black focus-visible:ring-offset-2"
+          className="
+            w-full
+            border
+            border-black
+            bg-black
+            py-4
+            text-xs
+            uppercase
+            tracking-[0.22em]
+            text-white
+            transition-colors
+            duration-200
+            hover:bg-neutral-900
+            focus:outline-none
+            focus-visible:ring-2
+            focus-visible:ring-black
+            focus-visible:ring-offset-2
+          "
         >
           Request Quote
         </button>
+
       </div>
 
       <RequestQuoteModal

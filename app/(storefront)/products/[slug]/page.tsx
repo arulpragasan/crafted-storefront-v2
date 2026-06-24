@@ -3,8 +3,14 @@ import { getProduct } from "@/features/products/product-details/api/product/"
 
 import {
   Breadcrumbs,
+  CraftStory,
+  DesignerNote,
+  MoreFromBrand,
+  ProductActions,
+  ProductDetails,
+  ProductFloatingBar,
   ProductHero,
-  ProductFloatingBar
+  ProductInfo
 } from "@/features/products/product-details"
 
 export default async function ProductDetailsPage({ params }) {
@@ -23,7 +29,16 @@ console.log(data)
     options = [],
     variants = [],
     variant_index = {},
+    details = null,
+    designer_note = null,
+    recommendations = {},
   } = data
+
+  console.log("gallery", gallery)
+  console.log(
+    "mapped images",
+    gallery.map((g) => g.url)
+  )
 
   return (
     <main className="min-h-screen bg-stone-50">
@@ -41,6 +56,33 @@ console.log(data)
             variantIndex={variant_index}
           />
         </div>
+
+        <CraftStory
+          story={{
+            title: "The Craft",
+            description: product.description,
+          }}
+        />
+
+        <ProductDetails
+          details={
+            Object.values(details || {}).some(Boolean)
+              ? details
+              : {
+                  material: "Raw Silk",
+                  craft: "Hand Embroidery",
+                  origin: "India",
+                  care: "Dry Clean Only",
+                }
+          }
+        />
+
+        <DesignerNote note={designer_note} />
+
+        <MoreFromBrand
+          products={recommendations.more_from_brand}
+          brandName={product.brand?.name}
+        />
 
       </section>
 

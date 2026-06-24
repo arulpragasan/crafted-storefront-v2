@@ -12,18 +12,34 @@ export function CraftStory({ story }: Props) {
 
   const { title, description } = story
 
-  if (!description || description.trim() === "") return null
+  if (!description?.trim()) return null
+
+  const paragraphs = description
+    .split("\n")
+    .map((line) => line.trim())
+    .filter(Boolean)
 
   return (
-    <section className="max-w-7xl mx-auto px-6 py-16 border-t border-neutral-200">
+    <section className="border-t border-neutral-200 py-24">
 
-      <h2 className="text-xs uppercase tracking-widest text-neutral-400 mb-6">
-        {title && title.trim() !== "" ? title : "The Craft"}
-      </h2>
+      <div className="max-w-4xl">
 
-      <p className="max-w-2xl text-base leading-relaxed text-neutral-700">
-        {description}
-      </p>
+        <h2 className="mb-8 text-xs uppercase tracking-widest text-neutral-400">
+          {title?.trim() || "The Craft"}
+        </h2>
+
+        <div className="max-w-2xl space-y-6">
+          {paragraphs.map((paragraph, index) => (
+            <p
+              key={index}
+              className="text-base leading-relaxed text-neutral-700"
+            >
+              {paragraph}
+            </p>
+          ))}
+        </div>
+
+      </div>
 
     </section>
   )

@@ -31,10 +31,12 @@ export function ProductHero({
   occasions = [],
 }: Props) {
 
+  const galleryImages = gallery.map((image) => image.url)
+
   return (
     <div className="grid lg:grid-cols-[1fr_420px] gap-16">
 
-      <ProductGallery images={gallery} />
+      <ProductGallery images={galleryImages} />
 
       <ProductInfo
         product={product}
