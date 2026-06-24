@@ -17,6 +17,7 @@ export function BrandDetailsLayout({ data }: any) {
     messages = [],
   } = data
 
+console.log("themed_products:" , themed_products)
   return (
     <>
       {/* HERO */}

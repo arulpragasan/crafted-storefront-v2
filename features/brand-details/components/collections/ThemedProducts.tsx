@@ -1,20 +1,17 @@
-import { Caption, Headline } from "@/components/ui/Typography"
-import ProductCard from "@/components/cards/ProductCard"
+import { Headline } from "@/components/ui/Typography"
+import { ProductCard } from "@/features/products/components/card/ProductCard"
 
 type Product = {
   id: number | string
   name: string
   slug: string
-  price?: number
-  compare_at_price?: number
+  price?: string
   image_url?: string
-  brand_name?: string
-  [key: string]: any
+  brand?: string
 }
 
 type Theme = {
-  name: string
-  slug?: string
+  theme: string
   products: Product[]
 }
 
@@ -26,16 +23,25 @@ export function ThemedProducts({ themes }: Props) {
   return (
     <section className="py-16 px-6 lg:px-8 space-y-16">
       {themes.map((theme) => (
-        <div key={theme.slug || theme.name} className="space-y-6">
+        <div key={theme.theme} className="space-y-6">
+
           <Headline size="sm" className="tracking-tight">
-            {theme.name}
+            {theme.theme}
           </Headline>
 
-          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 md:gap-6">
+          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
             {theme.products.map((product) => (
-              <ProductCard key={product.id} product={product} />
+              <ProductCard
+                key={product.id}
+                name={product.name}
+                image={product.image_url || "/images/placeholder.png"}
+                price={product.price}
+                href={`/products/${product.slug}`}
+                aspect="portrait"
+              />
             ))}
           </div>
+
         </div>
       ))}
     </section>
