@@ -16,12 +16,17 @@ type Brand = {
   product_count: number
   logo_url: string | null
   banner_url: string | null
-  top_products: { image_url?: string }[]
+  top_products: { name?: string; image_url?: string }[]
 }
 
 export function FeaturedBrandCard({ brand }: { brand: Brand }) {
   const products = brand.top_products || []
   const hasFullCollage = products.length >= 3
+
+  const productNames = products
+    .filter((p) => p.name)
+    .slice(0, 3)
+    .map((p) => p.name)
 
   return (
     <Link href={`/brands/${brand.slug}`} className="group block">
@@ -102,8 +107,15 @@ export function FeaturedBrandCard({ brand }: { brand: Brand }) {
               <SectionTitle as="h4" size="card" tone="inverse">
                 {brand.name}
               </SectionTitle>
+
+              {productNames.length > 0 && (
+                <p className="text-xs text-white/70 mt-1 line-clamp-1">
+                  {productNames.join(", ")}
+                </p>
+              )}
+
               <Caption variant="plain" tone="inverse">
-                {brand.product_count} products
+                {brand.product_count} pieces
               </Caption>
             </div>
 

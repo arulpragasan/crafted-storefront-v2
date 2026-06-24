@@ -1,476 +1,987 @@
 
-# 2026-06-17 18:43:32.227292
+# 2026-06-22 19:28:06.442028
 +n
 
-# 2026-06-17 18:44:29.628350
-+/add app/(storefront)/programs/page.tsx features/programs/components/ProgramSection.tsx features/programs/components/ProgramCard.tsx
+# 2026-06-22 19:29:21.152186
++\add lib/api/categories.ts app/(storefront)/categories/[slug]/page.tsx
 
-# 2026-06-17 18:44:47.877637
-+Act as a senior Product Designer and Next.js Frontend Engineer.
-+
-+Context
-+
-+The Programs Listing Page is already implemented.
-+
-+Current structure:
-+
-+* Hero
-+* Spotlight Program
-+* Live Now
-+* Coming Soon
-+* Explore Programs
-+
-+Components already exist:
-+
-+* ProgramCard
-+* ProgramGrid
-+* ProgramSection
-+
-+We are NOT adding:
-+
-+* search
-+* filters
-+* pagination
-+* sorting
-+* tabs
-+* accordions
-+
-+Goal
-+
-+Refine the page to feel premium, editorial and content-first.
-+
-+This page should feel closer to:
-+
-+* Apple Events
-+* Masterclass
-+* Netflix Collections
-+* Modern editorial publishing
-+
-+and less like:
-+
-+* conference software
-+* webinar platform
-+* admin dashboard
-+* event management system
-+
-+Design Objectives
-+
-+1. Strong visual hierarchy
-+
-+The page should immediately communicate:
-+
-+* Featured experience
-+* Currently active experiences
-+* Discoverable program catalog
-+
-+2. More breathing room
-+
-+Review:
-+
-+* vertical rhythm
-+* section spacing
-+* content density
-+* card spacing
-+
-+Prefer fewer elements with more space.
-+
-+3. Improve the Hero
-+
-+Review:
-+
-+* heading scale
-+* width
-+* typography
-+* alignment
-+
-+The hero should introduce the page rather than explain it.
-+
-+4. Improve Spotlight Presentation
-+
-+The spotlight section should feel like the editorial centerpiece.
-+
-+Review:
-+
-+* image prominence
-+* spacing
-+* content hierarchy
-+* CTA visibility
-+
-+5. Improve Program Cards
-+
-+Review:
-+
-+* information density
-+* hierarchy
-+* metadata placement
-+
-+Use the existing API fields:
-+
-+* brand
-+* session_count
-+* speaker_count
-+* featured_session
-+
-+Help users quickly understand what the program contains.
-+
-+6. Improve Section Hierarchy
-+
-+Review ordering and visual weight of:
-+
-+* Spotlight
-+* Live Now
-+* Coming Soon
-+* Explore Programs
-+
-+The page should guide the eye naturally.
-+
-+7. Responsive Review
-+
-+Review:
-+
-+* mobile experience
-+* tablet experience
-+* desktop experience
-+
-+Ensure the page feels intentional on all screen sizes.
-+
-+Implementation Constraints
-+
-+* Reuse existing design system
-+* Reuse existing components
-+* Do not introduce new dependencies
-+* Do not add new features
-+* Do not add filters
-+* Do not add search
-+* Do not add pagination
-+
-+Output
-+
-+1. UX critique of the current implementation
-+2. Recommended improvements
-+3. Specific code changes to make
-+4. Prioritized list:
-+
-+   * Must Have
-+   * Nice to Have
-+   * Future Ideas
-+
-+Focus on refinement and presentation quality, not functionality.
-+
+# 2026-06-22 19:29:41.109043
++n
 
-# 2026-06-17 18:50:24.922752
-+Act as a senior product designer and React engineer.
+# 2026-06-22 19:29:49.554132
++/add lib/api/categories.ts app/(storefront)/categories/[slug]/page.tsx
+
+# 2026-06-22 19:32:03.177135
++Review the current Category Detail implementation and migrate it to the new API contract.
 +
-+Review the ProgramCard implementation.
++Current API:
 +
-+Do not redesign the component.
++{
++  id,
++  name,
++  permalink,
++  description,
++  media,
++  editorial,
++  explore: {
++    subcategories,
++    themes,
++    occasions,
++    brands
++  },
++  refine
++}
 +
-+Do not change the overall layout.
++Requirements:
 +
-+Do not introduce new sections.
++1. Remove all usage of:
++   - getThemesByCategory()
++   - getBrandsByCategory()
 +
-+Goal
++2. Remove Explore by Brand section completely.
 +
-+Refine the poster card hierarchy for content discovery.
++3. Create ExploreSubcategories component.
 +
-+Current poster card displays:
++4. Render:
++   category.explore.subcategories
 +
-+* brand
-+* session count
-+* program name
-+* speaker count
++5. Subcategory card should display:
++   - image (if present)
++   - name
++   - optional description
 +
-+Problem
++6. Clicking a subcategory should navigate to:
 +
-+Users can see the program title but cannot quickly understand what the program contains.
++   /products?category=<subcategory.permalink>
 +
-+The API already provides:
++7. Keep:
++   - CategoryHero
++   - EditorialOverview
++   - RefineEntry
 +
-+program.featured_session?.name
++8. Products must NOT render on Category Detail Page.
 +
-+Requirements
++9. Filters must NOT render on Category Detail Page.
 +
-+1. Surface featured_session.name in the poster card.
++10. Update TypeScript types to match the new API.
 +
-+Recommended hierarchy:
++11. Show all modified files before applying changes.
 +
-+Brand + Session Count
++Focus on the smallest possible diff.
++Do not rename unrelated files.
++Do not refactor the entire categories feature.
+
+# 2026-06-22 19:32:33.596849
++y
+
+# 2026-06-22 23:01:56.108044
++Review the Category Detail Page implementation and complete the migration from the old mock contract to the new backend API contract.
 +
-+Program Name
++UX EXPECTATIONS (IMPORTANT)
++====================================================
 +
-+Featured Session Label
++This is NOT a product listing page.
 +
-+Featured Session Name
++This page is an editorial discovery layer.
 +
-+Speaker Count
++The user should:
 +
-+2. Keep the card visually calm.
++1. Understand the category.
++2. Explore subcategories.
++3. Decide where to go next.
++
++The page should feel:
++
++- Premium
++- Modern
++- Calm
++- Editorial
++- Image-first
 +
 +Avoid:
 +
-+* descriptions
-+* badges
-+* additional metadata
-+* extra icons
++- Dashboard layouts
++- Utility-heavy layouts
++- Filter-heavy layouts
++- Dense grids
++- Product-listing appearance
 +
-+3. Review spacing and typography hierarchy.
++Mobile UX requirements:
 +
-+The Program Name should remain the primary focal point.
++- Hero image must remain visible above the fold.
++- Category title should appear immediately.
++- Avoid excessive vertical whitespace.
++- Avoid large empty screens.
++- Subcategories should be easy to scan and tap.
++- Cards should stack naturally on mobile.
++- Maintain generous spacing without creating empty gaps.
 +
-+Featured Session should be secondary.
++Current issue:
 +
-+Speaker Count should remain tertiary.
++The page contains excessive vertical whitespace above the category content.
 +
-+4. Review mobile layout.
++The Hero should establish the category immediately and should not create a large empty area when image/content is missing.
 +
-+Ensure the card still feels balanced when the featured session name wraps onto two lines.
++TARGET PAGE STRUCTURE
++====================================================
 +
-+5. Do not modify the spotlight card unless there is a strong UX reason.
++Hero
++↓
++Editorial Introduction
++↓
++Explore Subcategories
++↓
++Refine Entry
 +
-+Output:
++Products must NEVER appear.
 +
-+* UX critique
-+* Recommended refinements
-+* Exact code changes
-+* Explanation of why the hierarchy improves discoverability
-
-# 2026-06-17 19:48:58.758198
-+/add lib/api/programs.ts
-
-# 2026-06-17 19:49:02.038277
-+/add lib/api/products.ts
-
-# 2026-06-17 19:49:06.441253
-+Act as a senior Next.js engineer and product designer.
++Filters must NEVER appear.
 +
-+Context
-+
-+The Programs Listing Page is complete.
-+
-+We are now implementing the Program Details Page.
-+
-+Important
-+
-+Assume the backend endpoint is already implemented and working.
-+
-+GET /api/v2/storefront/programs/:slug
-+
-+Frontend only.
-+
-+Follow the same patterns already used in the project for:
-+
-+* Product Details Page
-+
-+Review the existing codebase and follow the established conventions.
-+
-+Tasks
-+
-+STEP 1 — Implement API Client
-+
-+Create the frontend API request for Program Details.
-+
-+Follow the same approach used by:
-+
-+* getProduct(...)
-+
-+Do not invent a new API layer.
-+
-+Reuse the existing fetch helpers and response patterns.
-+
-+Implement:
-+
-+getProgram(slug)
-+
-+Assume the API response shape is:
++NEW BACKEND API CONTRACT
++====================================================
 +
 +{
-+program,
-+stats,
-+featured_session,
-+speakers,
-+sessions
++  id,
++  name,
++  permalink,
++  description,
++
++  media: {
++    cover_image: {
++      url
++    }
++  },
++
++  editorial: {
++    introduction
++  },
++
++  explore: {
++    subcategories
++  },
++
++  refine
 +}
 +
-+STEP 2 — Implement Program Details Page
++TASKS
++====================================================
 +
-+Implement:
++1. Fix CategoryHero
 +
-+app/(storefront)/programs/[slug]/page.tsx
++The component still uses old mock fields:
 +
-+Focus on UX and presentation.
++- category.image
++- category.title
++- category.shortDescription
 +
-+Program = Collection Page
++Replace with:
 +
-+Session = Content Page
++- category.media?.cover_image?.url
++- category.name
++- category.description
 +
-+The Program page should feel closer to:
++Requirements:
 +
-+* Netflix Series Page
-+* Apple Event Page
-+* Masterclass Course Page
++- Handle missing image gracefully.
++- Avoid excessive empty space when image is missing.
++- Keep premium editorial styling.
++- Hero should immediately communicate the category.
 +
-+and less like:
++----------------------------------------------------
 +
-+* Conference Agenda
-+* Webinar Schedule
-+* Event Management Software
++2. Fix EditorialOverview
 +
-+Information Architecture
++Remove usage of old fields:
 +
-+Identity
-+↓
-+Entry Point
-+↓
-+Content
-+↓
-+Context
++- editorialText
++- shortDescription
++- title
 +
-+Page Structure
++Use:
 +
-+1. Hero
++category.editorial?.introduction
 +
-+Show:
++Fallback:
 +
-+* cover image
-+* brand
-+* program name
-+* description
-+* session count
-+* speaker count
++category.description
 +
-+Primary CTA
++----------------------------------------------------
 +
-+Start Watching →
++3. Review CategoryDetail Type
 +
-+CTA destination:
++Ensure all TypeScript types match the backend payload.
 +
-+featured_session
++Remove references to:
 +
-+fallback:
++- title
++- image
++- shortDescription
++- editorialText
 +
-+first session
++----------------------------------------------------
 +
-+Do NOT create a separate Featured Session section.
++4. Review ExploreSubcategories
 +
-+The Hero CTA is the entry point.
++Use:
 +
-+2. Sessions
++category.explore.subcategories
 +
-+Most important section.
++Each item should navigate to:
 +
-+Render immediately after the Hero.
++/products?category=<subcategory.permalink>
 +
-+Adaptive Layout
++Keep current implementation if already correct.
 +
-+If sessions.length === 1
++Do not convert this into a product grid.
 +
-+* single large session card
++----------------------------------------------------
 +
-+If sessions.length between 2 and 5
++5. Fix RefineEntry
 +
-+* responsive 2-column grid
++Use:
 +
-+If sessions.length >= 6
++/products?category=<category.permalink>&refine=1
 +
-+* responsive 3-column grid
++instead of:
 +
-+Each session card should display:
++/products?category=<slug>&refine=1
 +
-+* thumbnail
-+* session type
-+* session name
-+* speaker names (if available)
-+* media type
-+* status
++----------------------------------------------------
 +
-+Each card links to:
++6. Remove Dead Code
 +
-+/programs/[program_slug]/sessions/[session_slug]
++Remove any remaining references to:
 +
-+Do NOT render:
++- ExploreBrands
++- getBrandsByCategory
++- getThemesByCategory
++- mock category API fields
++- unused imports
++- unused types
 +
-+* timelines
-+* schedules
-+* agendas
-+* calendars
++----------------------------------------------------
 +
-+3. Speakers
++7. Review Image Handling
 +
-+Render lightweight speaker cards.
++Ensure CategoryHero image uses the same image URL handling strategy as the Categories Listing Page.
 +
-+Show:
++Use getImageUrl() if necessary.
 +
-+* avatar
-+* name
-+* title
-+* company
++Image loading should behave consistently between:
 +
-+4. About Program
++- Categories Listing Page
++- Category Detail Page
 +
-+Render:
++----------------------------------------------------
 +
-+* program description
++8. Architecture Constraints
 +
-+Optionally display:
++Do NOT:
 +
-+* session count
-+* speaker count
++- Rename files
++- Move files
++- Introduce new sections
++- Redesign the page
++- Refactor unrelated code
 +
-+Desktop:
-+two-column layout
++Keep the smallest possible diff.
 +
-+Mobile:
-+stacked layout
++DELIVERABLE
++====================================================
 +
-+5. More From Brand
++Before applying changes:
 +
-+Placeholder section only.
-+
-+No API integration yet.
-+
-+Reuse existing ProgramCard.
-+
-+Implementation Constraints
-+
-+* Reuse existing design system
-+* Reuse existing Section
-+* Reuse existing Container
-+* Reuse existing Typography components
-+* Reuse existing Grid where appropriate
-+* Follow existing storefront patterns
-+
-+Do NOT create new reusable abstractions yet.
-+
-+Do NOT create:
-+
-+* ProgramHero
-+* ProgramSessions
-+* ProgramSpeakers
-+* ProgramAbout
-+
-+Build the page directly first.
-+
-+Output
-+
-+1. Files to create or modify
-+2. API client implementation
-+3. Program Details page implementation
-+4. Any frontend assumptions made about the API response
++1. Show all files that will be modified.
++2. Explain why each file needs changes.
++3. Highlight any API/type mismatches discovered.
++4. Then apply the changes.
 
-# 2026-06-17 19:52:20.597812
+# 2026-06-22 23:02:35.318761
 +y
 
-# 2026-06-20 13:15:37.280954
+# 2026-06-23 18:25:16.858566
 +n
 
-# 2026-06-20 15:48:11.109961
-+/model
+# 2026-06-23 18:26:03.354229
++Focus on React architecture, UX design patterns, component composition, Next.js App Router, and frontend engineering best practices. The goal is to build maintainable, production-quality React applications while learning scalable UI architecture.
++
++Task:
++Refactor the session stage components to use the existing React/Tailwind design system instead of the generated stage__* CSS classes.
++
++Files:
++
++* features/sessions/components/stage/PlayerStage.tsx
++* features/sessions/components/stage/GalleryStage.tsx
++* features/sessions/components/stage/InstagramStage.tsx
++* features/sessions/components/stage/GatewayStage.tsx
++
++Requirements:
++
++General:
++
++* Remove all stage__* and stage--* class names.
++* Use Tailwind utility classes only.
++* Follow existing project patterns and component architecture.
++* Use Next.js Image component instead of img.
++* Do not introduce CSS modules.
++* Do not introduce custom CSS files.
++* Preserve all media payload types defined in features/sessions/types.ts.
++* Keep Stage.tsx unchanged.
++
++PlayerStage:
++
++* Use aspect-video layout.
++* Use rounded-3xl container.
++* Show poster image before play.
++* Show large centered play button.
++* Replace poster with full-width iframe/video player after play.
++* Support:
++
++  * youtube_video
++  * youtube_live
++  * uploaded_video
++* Display live badge for youtube_live.
++
++GalleryStage:
++
++* Large featured image.
++* Thumbnail strip below.
++* Clicking a thumbnail changes the featured image.
++* Responsive layout.
++* Use existing design-system spacing conventions.
++
++InstagramStage:
++
++* Editorial card layout.
++* Large image/poster.
++* CTA: "View on Instagram".
++* Open in new tab.
++
++GatewayStage:
++
++* Editorial card layout.
++* Large image/poster.
++* CTA: "Open Experience".
++* Open in new tab.
++
++Architecture Goals:
++
++* Keep components small and composable.
++* Prefer clear React patterns over clever abstractions.
++* Use TypeScript discriminated unions correctly.
++* Optimize for readability and learning React architecture.
++* Match the visual language used elsewhere in the react-event project.
++
++Expected Outcome:
++
++* All 6 media types render correctly:
++
++  * youtube_video
++  * youtube_live
++  * uploaded_video
++  * image_gallery
++  * instagram_post
++  * external_link
++* Session Details page looks visually consistent with the rest of the application.
++* No references remain to stage__* or stage--* classes.
++
 
-# 2026-06-20 15:48:25.201367
+# 2026-06-23 18:26:54.199959
++/add features/sessions/components/stage/PlayerStage.tsx features/sessions/components/stage/GalleryStage.tsx features/sessions/components/stage/InstagramStage.tsx features/sessions/components/stage/GatewayStage.tsx
+
+# 2026-06-23 18:27:03.364166
++Focus on React architecture, UX design patterns, component composition, Next.js App Router, and frontend engineering best practices. The goal is to build maintainable, production-quality React applications while learning scalable UI architecture.
++
++Task:
++Refactor the session stage components to use the existing React/Tailwind design system instead of the generated stage__* CSS classes.
++
++Files:
++
++* features/sessions/components/stage/PlayerStage.tsx
++* features/sessions/components/stage/GalleryStage.tsx
++* features/sessions/components/stage/InstagramStage.tsx
++* features/sessions/components/stage/GatewayStage.tsx
++
++Requirements:
++
++General:
++
++* Remove all stage__* and stage--* class names.
++* Use Tailwind utility classes only.
++* Follow existing project patterns and component architecture.
++* Use Next.js Image component instead of img.
++* Do not introduce CSS modules.
++* Do not introduce custom CSS files.
++* Preserve all media payload types defined in features/sessions/types.ts.
++* Keep Stage.tsx unchanged.
++
++PlayerStage:
++
++* Use aspect-video layout.
++* Use rounded-3xl container.
++* Show poster image before play.
++* Show large centered play button.
++* Replace poster with full-width iframe/video player after play.
++* Support:
++
++  * youtube_video
++  * youtube_live
++  * uploaded_video
++* Display live badge for youtube_live.
++
++GalleryStage:
++
++* Large featured image.
++* Thumbnail strip below.
++* Clicking a thumbnail changes the featured image.
++* Responsive layout.
++* Use existing design-system spacing conventions.
++
++InstagramStage:
++
++* Editorial card layout.
++* Large image/poster.
++* CTA: "View on Instagram".
++* Open in new tab.
++
++GatewayStage:
++
++* Editorial card layout.
++* Large image/poster.
++* CTA: "Open Experience".
++* Open in new tab.
++
++Architecture Goals:
++
++* Keep components small and composable.
++* Prefer clear React patterns over clever abstractions.
++* Use TypeScript discriminated unions correctly.
++* Optimize for readability and learning React architecture.
++* Match the visual language used elsewhere in the react-event project.
++
++Expected Outcome:
++
++* All 6 media types render correctly:
++
++  * youtube_video
++  * youtube_live
++  * uploaded_video
++  * image_gallery
++  * instagram_post
++  * external_link
++* Session Details page looks visually consistent with the rest of the application.
++* No references remain to stage__* or stage--* classes.
+
+# 2026-06-23 18:53:25.263614
++/add features/products/components/filters/ActiveFilters.tsx features/products/components/filters/FilterItem.tsx features/products/components/filters/FilterGroup.tsx features/products/components/filters/ProductFilters.tsx features/products/components/layout/ProductsToolbar.tsx features/products/components/navigation/DesignerSpotlight.tsx features/products/components/navigation/CategoryNavigation.tsx features/products/components/layout/ProductsSidebar.tsx
+
+# 2026-06-23 18:55:41.431413
++Review and improve the Product Listing Page filter experience.
++
++Goals:
++
++1. Fix Clear All so it resets all active filters correctly.
++2. Remove duplicate sort controls. Keep a single sorting experience.
++3. Fix any state inconsistencies between filter components.
++4. Remove decorative filter bullets/dots.
++5. Replace active filter pills with a more editorial luxury treatment.
++6. Remove sidebar resize functionality completely.
++7. Simplify sidebar visual hierarchy.
++8. Fix category active state bugs.
++9. Fix Designer Spotlight selection behavior.
++
++Design references:
++- SSENSE
++- Net-a-Porter
++- MyTheresa
++
++Avoid:
++- Shopify-style chips
++- SaaS pills
++- Decorative bullets
++- Resizable sidebars
++
++Keep existing functionality working.
++
++Before editing:
++Explain your plan.
++
++After editing:
++Summarize every change made.
+
+# 2026-06-23 19:02:18.481237
++Review the current Product Listing Page after the filter cleanup.
++
++Focus only on:
++
++1. Designer Spotlight
++2. Product Header
++3. Product Card hierarchy
++
++Goals:
++
++- Make Designer Spotlight feel editorial rather than a tag cloud.
++- Make products the primary focus of the page.
++- Improve brand-first hierarchy in product cards.
++- Remove generic ecommerce language.
++- Keep the existing design system.
++- Do not change filtering behavior.
++- Do not redesign the page.
++
++Explain your plan first, then implement.
+
+# 2026-06-23 19:24:19.282484
++/add features/products/components/navigation/DesignerSpotlight.tsx features/products/components/navigation/CategoryNavigation.tsx features/products/components/layout/ProductsHeader.tsx features/products/components/grid/EmptyState.tsx
+
+# 2026-06-23 19:24:56.393185
++Project: react-event
++
++Review and improve the Product Listing Page using the current Crafted design system.
++
++Files to review:
++
++features/products/components/navigation/DesignerSpotlight.tsx
++features/products/components/navigation/CategoryNavigation.tsx
++features/products/components/layout/ProductsHeader.tsx
++features/products/components/grid/EmptyState.tsx
++
++Goals:
++
++1. Designer Spotlight
++
++* Current implementation feels like floating metadata.
++* Keep it editorial and luxury.
++* Keep a subtle heading (e.g. "Featured Designers").
++* Do NOT use pills, tags, bordered buttons, or chip UI.
++* Designers should feel curated, not filter controls.
++* Use typography, spacing, and hierarchy similar to SSENSE, Net-a-Porter, and MyTheresa.
++* Preserve existing filter behavior.
++
++2. Product Listing Page Titles
++
++* Remove CMS-looking titles such as:
++  "Themes/Modern Ceremony Collection"
++* Generate clean editorial titles:
++  "Modern Ceremony"
++  "Modern Ceremony Collection"
++  "Bridal"
++  "Saffron Loom"
++* Do not expose taxonomy paths or internal data structures.
++
++3. Category Navigation
++
++* Current navigation became too quiet after cleanup.
++* Reintroduce subtle context.
++* Add a restrained editorial label such as:
++  "Collections"
++* Avoid visual noise.
++* Keep products as the primary focus.
++* Do not bring back heavy blur effects, oversized indicators, or decorative chrome.
++
++4. Empty State
++   Replace generic ecommerce copy:
++
++"No products found"
++
++with a more editorial luxury tone.
++
++Examples:
++
++* "No pieces match the current selection."
++* "Try adjusting your selections or explore another collection."
++
++Keep it concise and elegant.
++
++Requirements
++
++* Do not redesign the page.
++* Do not change layout structure.
++* Do not introduce new components.
++* Do not add animations.
++* Do not add decorative luxury elements.
++* Stay consistent with the existing Crafted typography system.
++* Preserve accessibility.
++* Explain the planned changes first.
++* Then implement.
+
+# 2026-06-23 20:03:08.765601
++/add public/pdp_payload.json
+
+# 2026-06-23 20:11:09.668477
++/add app/(storefront)/products/[slug]/page.tsx features/products/product-details/components/ProductHero.tsx
+
+# 2026-06-23 20:11:17.977889
++Goal
++
++Complete the Product Details Page (PDP) using data that already exists in the current API payload.
++
++Important Constraints
++
++* Do NOT redesign the hero/gallery layout.
++* Do NOT redesign typography.
++* Do NOT redesign spacing system.
++* Do NOT introduce new design patterns.
++* Do NOT modify PLP, Categories, Brands, Programs, Sessions, or shared design-system components.
++* Do NOT add backend changes.
++* Do NOT change API contracts.
++* Do NOT add mock recommendation products.
++* Do NOT add wishlist, reviews, ratings, checkout, cart, or ecommerce functionality.
++* Do NOT add a floating CTA bar.
++* Do NOT add a sticky CTA bar.
++* Keep all existing visual language and design tokens.
++
++Only implement the items below.
++
++---
++
++1. Fix existing PDP data binding issues
++
++---
++
++Verify and fix:
++
++* Brand name displays correctly from:
++  product.brand.name
++
++* Product price displays correctly from:
++  product.price
++
++Remove any incorrect references such as:
++
++* product.brand_name
++
++Use only the existing API payload.
++
++---
++
++2. Gallery single-image handling
++
++---
++
++Current payload frequently contains only one gallery image.
++
++If:
++
++gallery.length <= 1
++
++Then:
++
++* Hide thumbnail rail completely.
++* Show only the primary image.
++* Avoid rendering a thumbnail list with a single duplicate image.
++
++Do not redesign multi-image behavior.
++
++---
++
++3. Themes and Occasions
++
++---
++
++Using:
++
++themes[]
++occasions[]
++
++Render understated metadata near the product information area.
++
++Example:
++
++Royal Heritage
++Wedding Ceremony
++Reception
++
++Requirements:
++
++* Quiet editorial treatment.
++* Not pills/chips.
++* No heavy borders.
++* No colorful badges.
++* Hide section when arrays are empty.
++
++---
++
++4. Designer Note section
++
++---
++
++Create a new PDP section:
++
++Designer Note
++
++Source:
++
++designer_note
++
++Requirements:
++
++* Render only when data exists.
++* Section should return null when missing.
++* Editorial presentation.
++* No placeholder text.
++
++---
++
++5. Product Details section
++
++---
++
++Create a new PDP section:
++
++The Details
++
++Source:
++
++details:
++
++* material
++* craft
++* origin
++* care
++* fit
++* delivery
++
++Requirements:
++
++* Render only populated fields.
++* Hide empty values.
++* Two-column specification layout on desktop.
++* Simple stacked layout on mobile.
++* Return null if all fields are empty.
++
++---
++
++6. Craft Story section
++
++---
++
++Create a new PDP section:
++
++The Craft
++
++Source:
++
++craft_story.title
++craft_story.description
++
++Requirements:
++
++* Render only when data exists.
++* Return null when missing.
++* Text-focused presentation.
++* No mock imagery.
++
++---
++
++7. About the Maison section
++
++---
++
++Create a new PDP section:
++
++About [Brand Name]
++
++Source:
++
++product.brand.story
++product.brand.founded_year
++product.brand.origin
++
++Requirements:
++
++* Render only available values.
++* Return null if no content exists.
++* Text-focused layout.
++* Do NOT create hero banners.
++* Do NOT use cover images yet.
++* Do NOT create large marketing blocks.
++
++Example structure:
++
++About Saffron Loom
++
++Founded 2014
++Jaipur, India
++
++Brand story...
++
++---
++
++8. More From Brand section
++
++---
++
++Source:
++
++recommendations.more_from_brand
++
++Requirements:
++
++* Reuse existing ProductCard.
++* Reuse existing product grid patterns.
++* Do not create a new card design.
++* Hide section entirely when array is empty.
++* Do not create mock products.
++
++---
++
++9. Request Quote interaction
++
++---
++
++Keep existing Request Quote CTA.
++
++Implement a lightweight UI only.
++
++Requirements:
++
++* Clicking Request Quote opens a modal or slide-over.
++* Collect:
++
++  * Name
++  * Email
++  * Phone
++  * Message
++
++For now:
++
++* No backend submission.
++* No API calls.
++* No form persistence.
++
++Submit button may simply close the modal and show a success state.
++
++This is a UX stub only.
++
++---
++
++10. Graceful Empty Handling
++
++---
++
++All new sections must:
++
++* Return null when required data is missing.
++* Never render empty headings.
++* Never render placeholder lorem ipsum.
++* Never render fake content.
++
++---
++
++11. Deliverables
++
++---
++
++After implementation provide:
++
++1. Files created.
++2. Files modified.
++3. Component tree of the PDP.
++4. Any assumptions made.
++
++Do not make backend changes.
++Do not change API responses.
++Do not redesign the page.
++Focus only on assembling the luxury editorial experience from existing payload data.
+
+# 2026-06-23 20:12:42.682656
++y
+
+# 2026-06-24 20:18:06.896655
 +n
 
-# 2026-06-20 15:58:14.582000
-+exit
+# 2026-06-24 20:18:16.721815
++/add app/(storefront)/products/page.tsx features/products/components/layout/ProductsPageContainer.tsx features/products/components/navigation/CategoryNavigation.tsx features/products/components/navigation/CategoryNavigation.tsx features/products/components/layout/ProductsHeader.tsx
 
-# 2026-06-20 15:58:21.888477
-+n
+# 2026-06-24 20:18:20.458655
++/add app/(storefront)/brands/page.tsx features/brands/components/layout/BrandsLayout.tsx features/brands/components/grid/FeaturedBrandCard.tsx features/brands/components/filters/BrandsFilters.tsx features/brands/components/filters/ActiveFiltersBar.tsx
+
+# 2026-06-24 20:18:44.121290
++Implement only these Brand Listing Page improvements:
++
++1. Reuse the exact filter visual language used on Product Listing Page
++
++   * Same ActiveFilters
++   * Same FilterSection styling
++   * Same selected state treatment
++   * Same Clear All behavior
++
++2. Collapse long filter groups
++
++   * Show first 5 items
++   * Add View All / Show Less toggle
++
++3. Change brand count copy
++
++   * "5 products" -> "5 pieces"
++
++4. Improve brand cards
++
++   * Display top product names under brand name
++   * Use existing top_products payload
++   * Keep typography subtle
++
++5. Replace top-right "Filters" button
++
++   * Match PLP behavior
++   * Hide Filters / Show Filters
++
++Do NOT:
++
++* Redesign layout
++* Add new sections
++* Change API contracts
++* Modify Brand Details Page
++* Add animations
++
++After implementation provide:
++
++1. Files changed
++2. Summary of changes
++3. Any follow-up work needed
+
+# 2026-06-24 20:33:44.636396
++/add app/(storefront)/brands/[slug]/page.tsx features/brand-details/layout/BrandDetailsLayout.tsx
+
+# 2026-06-24 20:33:52.098074
++Refactor the Brand Details Page (BDP) to improve editorial hierarchy without changing the overall visual design.
++
++Requirements:
++
++1. Add "About the Maison" section directly below the hero using brand.description.
++   - Use the same visual language as PDP CraftStory.
++   - Section title: ABOUT THE MAISON
++   - Max width ~2xl reading column.
++
++2. Replace the current Program section.
++   - Section title: CONVERSATIONS & EVENTS
++   - Show program name, description, session count, speaker count.
++   - Remove INVALID DATE output completely.
++   - Add a simple "Explore Program" link/button.
++   - Do not show full session list.
++
++3. Redesign the Start Conversation section.
++   - Use the first message from messages as a featured quote.
++   - Section title: FROM THE ATELIER
++   - Show message text in larger editorial typography.
++   - Show message title underneath.
++   - CTA becomes "Continue the Conversation".
++   - Keep existing conversation functionality.
++
++4. Convert themed product sections from horizontal scroll rails into responsive product grids.
++   - Reuse existing ProductCard component.
++   - Desktop: 4 columns.
++   - Tablet: 3 columns.
++   - Mobile: 2 columns.
++   - Remove horizontal scrolling.
++
++5. Keep Signature Looks section unchanged.
++
++6. Keep Discover More Designers unchanged.
++
++7. Use existing typography system and spacing tokens.
++   - No new design system.
++   - No new dependencies.
+
+# 2026-06-24 20:34:37.634776
++y

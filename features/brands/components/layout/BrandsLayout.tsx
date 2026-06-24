@@ -22,46 +22,36 @@ export function BrandsLayout({ data }: BrandsLayoutProps) {
   return (
     <div className="space-y-12">
 
+      <div className="space-y-8">
+        {/* Context + Hero */}
+        <div className="space-y-3">
+          <Title className="font-light text-neutral-900">
+            Discover Brands
+          </Title>
 
+          <Muted className="max-w-xl">
+            Curated designers redefining modern luxury.
+          </Muted>
+        </div>
 
-
-
-<div className="space-y-8">
-  {/* Context + Hero */}
-  <div className="space-y-3">
-    {/*<BrandsNavigation navigation={data.navigation} />*/}
-
-    <Title className="font-light text-neutral-900">
-      Discover Brands
-    </Title>
-
-    <Muted className="max-w-xl">
-      Curated designers redefining modern luxury.
-    </Muted>
-  </div>
-
-  {/* Toolbar */}
-  <BrandsToolbar
-    sorting={data.sorting}
-    rightSlot={
-      <button
-        onClick={() => setShowFilters((v) => !v)}
-        className="text-sm text-neutral-500 hover:text-neutral-900 transition"
-      >
-        {showFilters ? "Hide Filters" : "Show Filters"}
-      </button>
-    }
-  />
-</div>
-
-
+        {/* Toolbar */}
+        <BrandsToolbar
+          sorting={data.sorting}
+          rightSlot={
+            <button
+              onClick={() => setShowFilters((v) => !v)}
+              className="text-sm text-neutral-500 hover:text-neutral-900 transition"
+            >
+              {showFilters ? "Hide Filters" : "Show Filters"}
+            </button>
+          }
+        />
+      </div>
 
       {/* Featured */}
       {featured && (
         <section className="space-y-4">
-          <Caption>
-            Featured
-          </Caption>
+          <Caption>Featured</Caption>
 
           <div className="-mx-4 md:-mx-6">
             <div className="max-w-6xl mx-auto">
@@ -87,17 +77,14 @@ export function BrandsLayout({ data }: BrandsLayoutProps) {
         <main className="flex-1 min-w-0 space-y-6">
           {/* Header Row */}
           <div className="flex items-center justify-between">
-            <Caption>
-              All Brands
-            </Caption>
+            <Caption>All Brands</Caption>
 
             {/* Toggle */}
             <button
               onClick={() => setShowFilters((v) => !v)}
               className="text-sm text-neutral-500 hover:text-neutral-900 transition"
             >
-              Filters {showFilters ? "" : "→"}
-              {/*←*/}
+              {showFilters ? "Hide Filters" : "Show Filters"}
             </button>
           </div>
 

@@ -67,7 +67,7 @@ export function ActiveFiltersBar() {
   )
 }
 
-// Optional: format slug to readable label
+// Format slug to readable label
 function formatLabel(value: string) {
   return value
     .split("-")

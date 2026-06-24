@@ -1,5 +1,6 @@
 "use client"
 
+import { useState } from "react"
 import { useRouter, useSearchParams } from "next/navigation"
 import { Text, Caption } from "@/components/ui/Typography"
 
@@ -14,6 +15,8 @@ type Filters = {
   themes?: FilterItem[]
   occasions?: FilterItem[]
 }
+
+const COLLAPSED_COUNT = 5
 
 export function BrandsFilters({ filters }: { filters: Filters }) {
   const router = useRouter()
@@ -41,7 +44,7 @@ export function BrandsFilters({ filters }: { filters: Filters }) {
       params.set(key, Array.from(values).join(","))
     }
 
-    params.set("page", "1") // reset pagination
+    params.set("page", "1")
     router.push(`/brands?${params.toString()}`)
   }
 
@@ -49,23 +52,22 @@ export function BrandsFilters({ filters }: { filters: Filters }) {
     router.push("/brands")
   }
 
-  const hasActiveFilters =
-    ["category", "theme", "occasion"].some(
-      (key) => getValues(key).length > 0
-    )
+  const hasActiveFilters = ["category", "theme", "occasion"].some(
+    (key) => getValues(key).length > 0
+  )
 
   // --- UI ---
   return (
     <div className="space-y-8 text-sm">
       {/* Clear All */}
-      {/*{hasActiveFilters && (
+      {hasActiveFilters && (
         <button
           onClick={clearAll}
-          className="text-xs text-neutral-500 hover:text-neutral-900"
+          className="text-xs text-neutral-500 hover:text-neutral-900 transition"
         >
           Clear all
         </button>
-      )}*/}
+      )}
 
       {/* Sections */}
       <FilterSection
@@ -108,20 +110,22 @@ function FilterSection({
   getValues: (key: string) => string[]
   onToggle: (key: string, value: string) => void
 }) {
+  const [expanded, setExpanded] = useState(false)
+
   if (!items || items.length === 0) return null
 
   const activeValues = getValues(paramKey)
+  const hasMore = items.length > COLLAPSED_COUNT
+  const visibleItems = expanded ? items : items.slice(0, COLLAPSED_COUNT)
 
   return (
     <div className="space-y-3">
       {/* Section Title */}
-      <Caption>
-        {title}
-      </Caption>
+      <Caption>{title}</Caption>
 
       {/* Items */}
       <div className="space-y-2">
-        {items.map((item) => {
+        {visibleItems.map((item) => {
           const active = activeValues.includes(item.slug)
 
           return (
@@ -153,13 +157,21 @@ function FilterSection({
               </Text>
 
               {/* Count */}
-              <Caption>
-                ({item.count})
-              </Caption>
+              <Caption>({item.count})</Caption>
             </button>
           )
         })}
       </div>
+
+      {/* View All / Show Less toggle */}
+      {hasMore && (
+        <button
+          onClick={() => setExpanded((v) => !v)}
+          className="text-xs text-neutral-500 hover:text-neutral-900 transition"
+        >
+          {expanded ? "Show Less" : "View All"}
+        </button>
+      )}
     </div>
   )
 }
