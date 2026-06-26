@@ -3,7 +3,7 @@ import { SignatureLooks } from "@/features/brand-details/components/looks/Signat
 import { AboutTheMaison } from "@/features/brand-details/components/about/AboutTheMaison"
 import { FromTheJournal } from "@/features/brand-details/components/journal/FromTheJournal"
 import { FromTheAtelier } from "@/features/brand-details/components/connect/FromTheAtelier"
-import { ConversationsAndEvents } from "@/features/brand-details/components/programs/ConversationsAndEvents"
+import { ProgramSpotlight } from "@/features/programs/components/ProgramSpotlight"
 import DesignerCarousel from "@/components/sections/DesignerCarousel"
 
 export function BrandDetailsLayout({ data }: any) {
@@ -52,7 +52,12 @@ export function BrandDetailsLayout({ data }: any) {
       {/* CONVERSATIONS & EVENTS */}
       {programs.length > 0 && (
         <div className="py-32">
-          <ConversationsAndEvents programs={programs} />
+          <ProgramSpotlight
+            program={programs[0]}
+            showSessions
+            showBrand={false}
+            showDescription
+          />
         </div>
       )}
 
