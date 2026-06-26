@@ -2,35 +2,24 @@
 
 import { useState, useRef, useEffect } from "react"
 import Link from "next/link"
-import clsx from "clsx"
-
-// TODO: Replace with real auth state
-const IS_AUTHENTICATED = false
-
-const guestItems = [
-  { label: "Sign In", href: "/sign-in" },
-  { label: "Create Account", href: "/sign-up" },
-]
-
-const authenticatedItems = [
-  { label: "My Dashboard", href: "/dashboard" },
-  { label: "Saved Brands", href: "/dashboard/saved-brands" },
-  { label: "Saved Products", href: "/dashboard/saved-products" },
-  { label: "My Conversations", href: "/dashboard/conversations" },
-  { label: "Quote Requests", href: "/dashboard/quotes" },
-  { label: "Settings", href: "/dashboard/settings" },
-  { label: "Sign Out", href: "/sign-out" },
-]
+import { guestNav, authenticatedNav } from "@/lib/navigation"
+import { isAuthenticated } from "@/lib/auth"
+import { Body } from "@/components/ui/Typography"
 
 export function ProfileDropdown() {
   const [open, setOpen] = useState(false)
   const containerRef = useRef<HTMLDivElement>(null)
+  const buttonRef = useRef<HTMLButtonElement>(null)
 
-  const items = IS_AUTHENTICATED ? authenticatedItems : guestItems
+  const items = isAuthenticated ? authenticatedNav : guestNav
 
+  // Close on outside click
   useEffect(() => {
     function handleClickOutside(e: MouseEvent) {
-      if (containerRef.current && !containerRef.current.contains(e.target as Node)) {
+      if (
+        containerRef.current &&
+        !containerRef.current.contains(e.target as Node)
+      ) {
         setOpen(false)
       }
     }
@@ -42,10 +31,28 @@ export function ProfileDropdown() {
     return () => document.removeEventListener("mousedown", handleClickOutside)
   }, [open])
 
+  // Escape key closes dropdown
+  useEffect(() => {
+    if (!open) return
+
+    function handleKeyDown(e: KeyboardEvent) {
+      if (e.key === "Escape") {
+        setOpen(false)
+        buttonRef.current?.focus()
+      }
+    }
+
+    document.addEventListener("keydown", handleKeyDown)
+    return () => document.removeEventListener("keydown", handleKeyDown)
+  }, [open])
+
   return (
     <div ref={containerRef} className="relative">
       <button
+        ref={buttonRef}
         onClick={() => setOpen(!open)}
+        aria-expanded={open}
+        aria-haspopup="menu"
         className="flex items-center justify-center w-8 h-8 rounded-full transition-colors hover:bg-neutral-100"
         aria-label="Profile menu"
       >
@@ -68,15 +75,19 @@ export function ProfileDropdown() {
       </button>
 
       {open && (
-        <div className="absolute right-0 top-full mt-2 w-52 bg-white border border-neutral-200 shadow-sm py-2 z-50">
+        <div
+          role="menu"
+          className="absolute right-0 top-full mt-2 w-52 bg-white border border-neutral-200 shadow-sm py-2 z-50"
+        >
           {items.map((item) => (
             <Link
               key={item.href}
               href={item.href}
+              role="menuitem"
               onClick={() => setOpen(false)}
-              className="block px-5 py-2.5 text-sm text-neutral-700 hover:text-black hover:bg-neutral-50 tracking-wide transition-colors"
+              className="block px-5 py-2.5 hover:bg-neutral-50 transition-colors"
             >
-              {item.label}
+              <Body>{item.label}</Body>
             </Link>
           ))}
         </div>

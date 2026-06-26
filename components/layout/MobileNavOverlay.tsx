@@ -3,41 +3,22 @@
 import Link from "next/link"
 import { usePathname } from "next/navigation"
 import clsx from "clsx"
-import { useEffect } from "react"
-
-// TODO: Replace with real auth state
-const IS_AUTHENTICATED = false
-
-const primaryNav = [
-  { label: "Categories", href: "/categories" },
-  { label: "Brands", href: "/brands" },
-  { label: "Products", href: "/products" },
-  { label: "Programs", href: "/programs" },
-]
-
-const guestNav = [
-  { label: "Sign In", href: "/sign-in" },
-  { label: "Create Account", href: "/sign-up" },
-]
-
-const authenticatedNav = [
-  { label: "My Dashboard", href: "/dashboard" },
-  { label: "Saved Brands", href: "/dashboard/saved-brands" },
-  { label: "Saved Products", href: "/dashboard/saved-products" },
-  { label: "My Conversations", href: "/dashboard/conversations" },
-  { label: "Quote Requests", href: "/dashboard/quotes" },
-  { label: "Settings", href: "/dashboard/settings" },
-  { label: "Sign Out", href: "/sign-out" },
-]
+import { useEffect, useRef } from "react"
+import { primaryNav, guestNav, authenticatedNav } from "@/lib/navigation"
+import { isAuthenticated } from "@/lib/auth"
+import { SectionTitle, Body } from "@/components/ui/Typography"
 
 type MobileNavOverlayProps = {
+  id: string
   open: boolean
   onClose: () => void
 }
 
-export function MobileNavOverlay({ open, onClose }: MobileNavOverlayProps) {
+export function MobileNavOverlay({ id, open, onClose }: MobileNavOverlayProps) {
   const pathname = usePathname()
-  const secondaryNav = IS_AUTHENTICATED ? authenticatedNav : guestNav
+  const secondaryNav = isAuthenticated ? authenticatedNav : guestNav
+  const overlayRef = useRef<HTMLDivElement>(null)
+  const closeButtonRef = useRef<HTMLButtonElement>(null)
 
   // Lock body scroll when open
   useEffect(() => {
@@ -52,14 +33,77 @@ export function MobileNavOverlay({ open, onClose }: MobileNavOverlayProps) {
     }
   }, [open])
 
+  // Move focus into overlay when opened
+  useEffect(() => {
+    if (open) {
+      closeButtonRef.current?.focus()
+    }
+  }, [open])
+
+  // Escape key closes overlay
+  useEffect(() => {
+    if (!open) return
+
+    function handleKeyDown(e: KeyboardEvent) {
+      if (e.key === "Escape") {
+        onClose()
+      }
+    }
+
+    document.addEventListener("keydown", handleKeyDown)
+    return () => document.removeEventListener("keydown", handleKeyDown)
+  }, [open, onClose])
+
+  // Focus trap
+  useEffect(() => {
+    if (!open) return
+
+    const overlay = overlayRef.current
+    if (!overlay) return
+
+    function handleTab(e: KeyboardEvent) {
+      if (e.key !== "Tab") return
+
+      const focusableElements = overlay!.querySelectorAll<HTMLElement>(
+        'a[href], button, [tabindex]:not([tabindex="-1"])'
+      )
+
+      if (focusableElements.length === 0) return
+
+      const first = focusableElements[0]
+      const last = focusableElements[focusableElements.length - 1]
+
+      if (e.shiftKey) {
+        if (document.activeElement === first) {
+          e.preventDefault()
+          last.focus()
+        }
+      } else {
+        if (document.activeElement === last) {
+          e.preventDefault()
+          first.focus()
+        }
+      }
+    }
+
+    document.addEventListener("keydown", handleTab)
+    return () => document.removeEventListener("keydown", handleTab)
+  }, [open])
+
   return (
     <div
+      id={id}
+      ref={overlayRef}
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby="mobile-nav-title"
       className={clsx(
         "fixed inset-0 z-[100] flex flex-col bg-white transition-opacity duration-300",
         open
           ? "opacity-100 pointer-events-auto"
           : "opacity-0 pointer-events-none"
       )}
+      {...(!open && { inert: "" })}
     >
       {/* Top bar */}
       <div className="flex items-center justify-between px-6 h-20">
@@ -72,6 +116,7 @@ export function MobileNavOverlay({ open, onClose }: MobileNavOverlayProps) {
         </Link>
 
         <button
+          ref={closeButtonRef}
           onClick={onClose}
           className="text-sm tracking-wide text-neutral-700 hover:text-black transition-colors"
         >
@@ -80,7 +125,14 @@ export function MobileNavOverlay({ open, onClose }: MobileNavOverlayProps) {
       </div>
 
       {/* Navigation */}
-      <nav className="flex-1 flex flex-col justify-center px-10 -mt-20">
+      <nav
+        className="flex-1 flex flex-col justify-center px-10 -mt-20"
+        aria-label="Main navigation"
+      >
+        <h2 id="mobile-nav-title" className="sr-only">
+          Navigation
+        </h2>
+
         <ul className="space-y-8">
           {primaryNav.map((item) => {
             const active = pathname.startsWith(item.href)
@@ -91,11 +143,13 @@ export function MobileNavOverlay({ open, onClose }: MobileNavOverlayProps) {
                   href={item.href}
                   onClick={onClose}
                   className={clsx(
-                    "block text-3xl md:text-4xl tracking-wide transition-colors",
+                    "block transition-colors",
                     active ? "text-black" : "text-neutral-500 hover:text-black"
                   )}
                 >
-                  {item.label}
+                  <SectionTitle as="span" size="section">
+                    {item.label}
+                  </SectionTitle>
                 </Link>
               </li>
             )
@@ -111,9 +165,9 @@ export function MobileNavOverlay({ open, onClose }: MobileNavOverlayProps) {
               <Link
                 href={item.href}
                 onClick={onClose}
-                className="block text-lg tracking-wide text-neutral-500 hover:text-black transition-colors"
+                className="block text-neutral-500 hover:text-black transition-colors"
               >
-                {item.label}
+                <Body>{item.label}</Body>
               </Link>
             </li>
           ))}

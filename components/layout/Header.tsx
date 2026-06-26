@@ -2,20 +2,13 @@
 
 import Link from "next/link"
 import clsx from "clsx"
-import { useEffect, useState } from "react"
+import { useEffect, useRef, useState } from "react"
 import { usePathname } from "next/navigation"
 import { ProfileDropdown } from "@/components/layout/ProfileDropdown"
 import { MobileNavOverlay } from "@/components/layout/MobileNavOverlay"
+import { leftNav, rightNav } from "@/lib/navigation"
 
-const leftNav = [
-  { label: "Categories", href: "/categories" },
-  { label: "Brands", href: "/brands" },
-]
-
-const rightNav = [
-  { label: "Products", href: "/products" },
-  { label: "Programs", href: "/programs" },
-]
+const MOBILE_NAV_ID = "mobile-nav-overlay"
 
 export function Header({ brandName }: { brandName?: string }) {
   const pathname = usePathname()
@@ -23,6 +16,8 @@ export function Header({ brandName }: { brandName?: string }) {
   const [scrolled, setScrolled] = useState(false)
   const [showBrand, setShowBrand] = useState(false)
   const [mobileOpen, setMobileOpen] = useState(false)
+
+  const menuButtonRef = useRef<HTMLButtonElement>(null)
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 20)
@@ -54,6 +49,12 @@ export function Header({ brandName }: { brandName?: string }) {
   useEffect(() => {
     setMobileOpen(false)
   }, [pathname])
+
+  const handleMobileClose = () => {
+    setMobileOpen(false)
+    // Restore focus to the menu button
+    menuButtonRef.current?.focus()
+  }
 
   const navLink = (item: { label: string; href: string }) => {
     const active = pathname.startsWith(item.href)
@@ -129,7 +130,10 @@ export function Header({ brandName }: { brandName?: string }) {
         >
           {/* Menu trigger */}
           <button
+            ref={menuButtonRef}
             onClick={() => setMobileOpen(true)}
+            aria-expanded={mobileOpen}
+            aria-controls={MOBILE_NAV_ID}
             className="text-sm tracking-wide text-neutral-700 hover:text-black transition-colors"
           >
             Menu
@@ -154,13 +158,17 @@ export function Header({ brandName }: { brandName?: string }) {
             )}
           </div>
 
-          {/* Profile icon (mobile) */}
-          <ProfileDropdown />
+          {/* Empty spacer to maintain layout balance */}
+          <div className="w-8" />
         </div>
       </header>
 
       {/* Mobile overlay */}
-      <MobileNavOverlay open={mobileOpen} onClose={() => setMobileOpen(false)} />
+      <MobileNavOverlay
+        id={MOBILE_NAV_ID}
+        open={mobileOpen}
+        onClose={handleMobileClose}
+      />
     </>
   )
 }
