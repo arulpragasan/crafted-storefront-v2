@@ -3,7 +3,7 @@ import { API_BASE_URL } from "@/lib/config/publicUrls"
 export type CategorySubcategory = {
   id: number
   name: string
-  permalink: string
+  slug: string
   href: string
 }
 
@@ -12,7 +12,7 @@ export type Category = {
   position: number
 
   name: string
-  permalink: string
+  slug: string
   href: string
 
   description: string
@@ -36,14 +36,14 @@ type RawCategoryMedia = {
 type RawCategorySubcategory = {
   id: number
   name: string
-  permalink: string
+  slug: string
 }
 
 type RawCategory = {
   id: number
   position?: number | null
   name: string
-  permalink: string
+  slug: string
   description?: string | null
   media?: RawCategoryMedia
   subcategories?: RawCategorySubcategory[] | null
@@ -56,8 +56,8 @@ type CategoriesApiResponse = {
   }
 }
 
-function categoryHref(permalink: string) {
-  return permalink.startsWith("/") ? permalink : `/${permalink}`
+function categoryHref(slug: string) {
+  return `/categories/${slug}`
 }
 
 function categoryDescription(category: RawCategory) {
@@ -73,8 +73,8 @@ function transformCategory(category: RawCategory): Category {
     position: category.position ?? 0,
 
     name: category.name,
-    permalink: category.permalink,
-    href: categoryHref(category.permalink),
+    slug: category.slug,
+    href: categoryHref(category.slug),
 
     description: categoryDescription(category),
 
@@ -84,8 +84,8 @@ function transformCategory(category: RawCategory): Category {
       category.subcategories?.map((subcategory) => ({
         id: subcategory.id,
         name: subcategory.name,
-        permalink: subcategory.permalink,
-        href: categoryHref(subcategory.permalink),
+        slug: subcategory.slug,
+        href: categoryHref(subcategory.slug),
       })) ?? [],
   }
 }
@@ -121,7 +121,7 @@ export async function getCategories(): Promise<CategoriesPageData> {
 export type CategoryDetailSubcategory = {
   id: number
   name: string
-  permalink: string
+  slug: string
   description?: string | null
   image_url?: string | null
 }
@@ -129,7 +129,7 @@ export type CategoryDetailSubcategory = {
 export type CategoryDetail = {
   id: number
   name: string
-  permalink: string
+  slug: string
   description: string
 
   media?: {

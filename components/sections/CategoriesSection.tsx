@@ -21,7 +21,7 @@ export default function CategoriesSection({ items }) {
                 key={item.id}
                 title={item.name}
                 image={item.image_url}
-                href={`/categories/${item.slug}`}
+                href={`/${item.slug}`}
                 aspect="portrait"
                 sizes="(min-width: 1024px) 30vw, (min-width: 768px) 45vw, 100vw"
               />

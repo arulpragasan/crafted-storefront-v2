@@ -38,7 +38,7 @@ export default async function CategoryPage({ params }: PageProps) {
       {/* 4. Refine Entry */}
       <PageSection rhythm="editorial">
         <Container size="wide">
-          <RefineEntry href={`/products?category=${category.permalink}&refine=1`} />
+          <RefineEntry href={`/products?category=${category.slug}&refine=1`} />
         </Container>
       </PageSection>
     </main>

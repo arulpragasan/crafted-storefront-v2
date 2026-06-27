@@ -45,7 +45,7 @@ export default function ExploreSubcategories({
         {subcategories.map((subcategory) => (
           <Link
             key={subcategory.id}
-            href={`/products?category=${subcategory.slug}`}
+            href={`/products?subcategory=${subcategory.slug}`}
             className="group block"
           >
             <article className="space-y-5">
