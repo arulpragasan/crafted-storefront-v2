@@ -148,7 +148,7 @@ export function MobileNavOverlay({ id, open, onClose }: MobileNavOverlayProps) {
                     active ? "text-black" : "text-neutral-500 hover:text-black"
                   )}
                 >
-                  <SectionTitle as="span" size="section">
+                  <SectionTitle as="h3" size="section">
                     {item.label}
                   </SectionTitle>
                 </Link>

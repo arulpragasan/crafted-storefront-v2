@@ -35,7 +35,7 @@ export default function ExploreThemes({ slug, themes }: ExploreThemesProps) {
             <article className={cardContentSpacingClass.mediaToCopy}>
               <div className={clsx("relative aspect-[4/3]", surfacePresentationClass.imageTile)}>
                 <Image
-                  src={theme.image}
+                  src={theme.media?.cover_image?.url ?? "/images/placeholders/category.jpg"}
                   alt={theme.name}
                   fill
                   sizes="(min-width: 768px) 45vw, 100vw"
@@ -49,9 +49,9 @@ export default function ExploreThemes({ slug, themes }: ExploreThemesProps) {
 
               <div className={cardContentSpacingClass.copyStack}>
                 <CardHeading as="h3">{theme.name}</CardHeading>
-                {theme.descriptor && (
+                {theme.description && (
                   <Caption variant="plain" tone="secondary">
-                    {theme.descriptor}
+                    {theme.description}
                   </Caption>
                 )}
               </div>

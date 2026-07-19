@@ -13,8 +13,15 @@ import {
   ProductInfo
 } from "@/features/products/product-details"
 
-export default async function ProductDetailsPage({ params }) {
+type ProductDetailsPageProps = {
+  params: Promise<{
+    slug: string
+  }>
+}
 
+export default async function ProductDetailsPage({
+  params,
+}: ProductDetailsPageProps) {
   const { slug } = await params
   const data = await getProduct(slug)
 

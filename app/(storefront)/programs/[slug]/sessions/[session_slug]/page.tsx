@@ -38,7 +38,7 @@ export default async function SessionDetailsPage({
   }
 
   return (
-    <Section rhythm="compact">
+    <Section variant="tight">
       <Container size="wide">
         <div className="grid grid-cols-1 gap-10 lg:grid-cols-[minmax(0,1fr)_340px] lg:gap-12">
           {/* Main Column */}

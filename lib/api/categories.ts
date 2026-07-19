@@ -123,12 +123,31 @@ export type CategoryDetailSubcategory = {
   name: string
   slug: string
   description?: string | null
+  media?: RawCategoryMedia
+}
 
-  media?: {
-    cover_image?: {
-      url?: string | null
-    } | null
-  }
+export type Theme = {
+  id: number
+  name: string
+  slug: string
+  description?: string | null
+  media?: RawCategoryMedia
+}
+
+export type Occasion = {
+  id: number
+  name: string
+  slug: string
+  description?: string | null
+  media?: RawCategoryMedia
+}
+
+export type Brand = {
+  id: number
+  name: string
+  slug: string
+  description?: string | null
+  media?: RawCategoryMedia
 }
 
 export type CategoryDetail = {
@@ -137,11 +156,7 @@ export type CategoryDetail = {
   slug: string
   description: string
 
-  media?: {
-    cover_image?: {
-      url: string
-    }
-  }
+  media?: RawCategoryMedia
 
   editorial?: {
     introduction?: string
@@ -149,6 +164,9 @@ export type CategoryDetail = {
 
   explore: {
     subcategories: CategoryDetailSubcategory[]
+    themes: Theme[]
+    occasions: Occasion[]
+    brands: Brand[]
   }
 
   refine: {

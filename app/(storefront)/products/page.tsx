@@ -21,20 +21,16 @@ export default async function ProductsPage({ searchParams }: Props) {
 
   const query = parseProductsQuery(resolvedParams)
 
-  const { products, filters, meta, navigation } =
-    await getProducts(query)
+  const { products, filters, meta, navigation } = await getProducts(query)
 
   return (
     <section>
       <Container>
 
         <ProductsProvider
-          value={{ products, filters, meta, navigation }}
+          value={{ products, filters, meta }}
         >
-          <ProductsPageContainer
-            category={query.category}
-            subcategory={query.subcategory}
-          />
+          <ProductsPageContainer />
         </ProductsProvider>
 
       </Container>

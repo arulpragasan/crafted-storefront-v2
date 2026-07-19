@@ -45,14 +45,26 @@ export type ProductMeta = {
 export type ProductsResponse = {
   products: Product[]
   filters: ProductFilters
+  navigation: {
+    categories: {
+      slug: string
+      name: string
+    }[]
+    subcategories: {
+      slug: string
+      name: string
+    }[]
+  }
   meta: ProductMeta
 }
 
 type GetProductsParams = {
   category?: string
-  brand?: string
-  theme?: string
-  occasion?: string
+  subcategory?: string
+  brand?: string[]
+  theme?: string[]
+  occasion?: string[]
+  sort?: string
   page?: number
 }
 
@@ -62,9 +74,15 @@ export async function getProducts(
   const searchParams = new URLSearchParams()
 
   if (params.category) searchParams.set("category", params.category)
-  if (params.brand) searchParams.set("brand", params.brand)
-  if (params.theme) searchParams.set("theme", params.theme)
-  if (params.occasion) searchParams.set("occasion", params.occasion)
+  if (params.brand?.length) {
+    searchParams.set("brand", params.brand.join(","))
+  }
+  if (params.theme?.length) {
+    searchParams.set("theme", params.theme.join(","))
+  }
+  if (params.occasion?.length) {
+    searchParams.set("occasion", params.occasion.join(","))
+  }
   if (params.page) searchParams.set("page", params.page.toString())
 
   const url = `${API_BASE_URL}/api/v2/storefront/products?${searchParams.toString()}`
