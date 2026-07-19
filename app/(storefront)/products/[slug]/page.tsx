@@ -17,7 +17,7 @@ export default async function ProductDetailsPage({ params }) {
 
   const { slug } = await params
   const data = await getProduct(slug)
-console.log(data)
+
   if (!data?.product) {
     notFound()
   }
@@ -33,12 +33,6 @@ console.log(data)
     designer_note = null,
     recommendations = {},
   } = data
-
-  console.log("gallery", gallery)
-  console.log(
-    "mapped images",
-    gallery.map((g) => g.url)
-  )
 
   return (
     <main className="min-h-screen bg-stone-50">

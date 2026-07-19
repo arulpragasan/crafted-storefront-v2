@@ -22,18 +22,10 @@ export default async function ProgramsPage() {
 
   return (
     <>
-      {/* Hero — minimal, editorial, centered */}
-      <Section>
-        <Container size="wide">
-          <div className="flex flex-col items-center py-12 md:py-20 lg:py-28">
-            <Display className="text-center">Programs</Display>
-          </div>
-        </Container>
-      </Section>
 
       {/* Spotlight — the editorial centerpiece */}
       {spotlightProgram && (
-        <ProgramSection variant="spotlight" programs={[spotlightProgram]} />
+        <ProgramSection variant="spotlight" title="Featured Program" programs={[spotlightProgram]} />
       )}
 
       {/* Live now */}

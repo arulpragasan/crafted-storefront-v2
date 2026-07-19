@@ -34,7 +34,6 @@ export function BrandHero({ brand }: BrandHeroProps) {
       id="brand-hero"
       className="relative h-[92vh] min-h-[620px] w-full overflow-hidden"
     >
-      {/* Parallax Background */}
       <motion.div style={{ y: bgY }} className="absolute inset-0">
         <Image
           src={getImageUrl(brand.cover_image || brand.logo_url)}
@@ -45,66 +44,54 @@ export function BrandHero({ brand }: BrandHeroProps) {
         />
       </motion.div>
 
-      {/* Cinematic Gradient */}
       <div
         className="
-        absolute inset-0
-        bg-gradient-to-t
-        from-black/70
-        via-black/25
-        to-transparent
-      "
+          absolute inset-0
+          bg-gradient-to-t
+          from-black/70
+          via-black/35
+          to-transparent
+        "
       />
 
-      {/* Editorial Content */}
       <div className="absolute bottom-28 w-full">
-        <div className="max-w-[1280px] mx-auto px-6 md:px-12 text-white">
-          {/* Optional Logo */}
-          {brand.logo_url && (
-            <Reveal>
-              <img
-                src={getImageUrl(brand.logo_url)}
-                alt={`${brand.name} logo`}
-                className="h-12 mb-6 opacity-90"
-              />
-            </Reveal>
-          )}
+        <div className="max-w-7xl mx-auto px-6 md:px-12 text-white">
+          <div className="space-y-6">
+            {brand.logo_url && (
+              <Reveal>
+                <img
+                  src={getImageUrl(brand.logo_url)}
+                  alt={`${brand.name} logo`}
+                  className="h-12 opacity-90"
+                />
+              </Reveal>
+            )}
 
-          {/* Brand Name */}
-          <Reveal>
-            <motion.div
-              style={{
-                y: titleY,
-                scale: titleScale,
-                opacity: titleOpacity,
-              }}
-            >
-              <Title
-                className="text-white max-w-3xl"
-              >
-                {brand.name}
-              </Title>
-            </motion.div>
-          </Reveal>
-
-          {/* Tagline */}
-          {brand.tagline && (
             <Reveal>
-              <Text
-                className="
-                  mt-5
-                  text-white/90
-                  max-w-xl
-                "
+              <motion.div
+                style={{
+                  y: titleY,
+                  scale: titleScale,
+                  opacity: titleOpacity,
+                }}
               >
-                {brand.tagline}
-              </Text>
+                <Title className="text-white max-w-3xl">
+                  {brand.name}
+                </Title>
+              </motion.div>
             </Reveal>
-          )}
+
+            {brand.tagline && (
+              <Reveal>
+                <Text className="text-white/90 max-w-2xl">
+                  {brand.tagline}
+                </Text>
+              </Reveal>
+            )}
+          </div>
         </div>
       </div>
 
-      {/* Scroll Indicator */}
       <ScrollDiscover />
     </section>
   )

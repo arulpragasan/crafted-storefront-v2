@@ -11,7 +11,7 @@ export default function SponsorsSection({ items }) {
       <Container size="default">
 
         <SectionTitle align="center" className="mb-16">
-          Partners
+          Our Partners
         </SectionTitle>
 
         <Reveal>
@@ -23,17 +23,23 @@ export default function SponsorsSection({ items }) {
                 href={s.website}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="flex items-center justify-center"
+                className="flex h-16 w-full items-center justify-center px-4"
               >
                 {s.logo_url ? (
                   <img
                     src={s.logo_url}
                     alt={s.name}
                     className="
-                      max-h-10 object-contain
-                      grayscale opacity-60
-                      hover:grayscale-0 hover:opacity-100
-                      transition-all duration-300
+                      h-10
+                      w-auto
+                      max-w-full
+                      object-contain
+                      grayscale
+                      opacity-60
+                      transition-all
+                      duration-300
+                      hover:grayscale-0
+                      hover:opacity-100
                     "
                   />
                 ) : (

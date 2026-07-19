@@ -41,9 +41,7 @@ export function ImageTile({
       className={clsx(
         "group relative",
         surfacePresentationClass.imageTile,
-        aspectClass,
-        transitionClass.tileLift,
-        "hover:-translate-y-1 hover:shadow-xl"
+        aspectClass
       )}
     >
       {/* image */}

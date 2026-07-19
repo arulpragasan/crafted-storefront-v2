@@ -14,18 +14,20 @@
 // ─── Section vertical rhythm ─────────────────────────────────────────────────
 // These map 1-to-1 to Section variant spacing in Section.tsx.
 // Applied only via <Section variant="…"> — never set manually on a section.
-
 export const sectionSpacing = {
-  /** py-28 md:py-36 — standard editorial sections */
-  default: { mobile: "7rem",  desktop: "9rem"  },
-  /** py-24 md:py-32 — light-background sections */
-  muted:   { mobile: "6rem",  desktop: "8rem"  },
-  /** py-36 md:py-44 — storytelling / wide cinematic moments */
-  feature: { mobile: "9rem",  desktop: "11rem" },
-  /** py-16 md:py-20 — compact utility sections */
-  tight:   { mobile: "4rem",  desktop: "5rem"  },
-  /** no padding */
-  flush:   { mobile: "0",     desktop: "0"     },
+  /** py-20 md:py-28 — standard editorial sections */
+  default: { mobile: "5rem", desktop: "7rem" },
+
+  /** py-20 md:py-28 — light-background sections */
+  muted: { mobile: "5rem", desktop: "7rem" },
+
+  /** py-24 md:py-32 — storytelling / wide cinematic moments */
+  feature: { mobile: "6rem", desktop: "8rem" },
+
+  /** unchanged */
+  tight: { mobile: "4rem", desktop: "5rem" },
+
+  flush: { mobile: "0", desktop: "0" },
 } as const
 
 // ─── Page section rhythm classes ─────────────────────────────────────────────
@@ -34,11 +36,11 @@ export const sectionSpacing = {
 
 export const pageSectionSpacingClass = {
   /** py-28 md:py-36 — standard editorial sections */
-  default: "py-28 md:py-36",
+  default: "py-20 md:py-28",
   /** py-24 md:py-32 — light-background sections */
-  muted: "py-24 md:py-32",
+  muted: "py-20 md:py-28",
   /** py-36 md:py-44 — storytelling / cinematic sections */
-  feature: "py-36 md:py-44",
+  feature: "py-24 md:py-32",
   /** py-16 md:py-20 — compact sections */
   tight: "py-16 md:py-20",
   /** pt-20 pb-16 md:pt-24 md:pb-20 — first homepage section after hero */
@@ -64,11 +66,11 @@ export const sectionRhythmClass = {
   /** py-16 md:py-20 — compact utility sections */
   compact: "py-16 md:py-20",
   /** py-28 md:py-36 — standard editorial sections */
-  default: "py-28 md:py-36",
+  default: "py-20 md:py-28",
   /** py-24 md:py-32 — light-background sections (muted rhythm) */
-  muted: "py-24 md:py-32",
+  muted: "py-20 md:py-28",
   /** py-36 md:py-44 — storytelling / cinematic sections */
-  feature: "py-36 md:py-44",
+  feature: "py-24 md:py-32",
   /** py-24 — category detail editorial modules */
   editorial: "py-24",
   /** no vertical padding */

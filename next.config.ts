@@ -2,33 +2,28 @@ import type { NextConfig } from "next"
 
 const nextConfig: NextConfig = {
   images: {
+    dangerouslyAllowLocalIP: true,
+    minimumCacheTTL: 0,
+
     remotePatterns: [
       {
         protocol: "http",
         hostname: "127.0.0.1",
-        port: "3000",
+        port: "3002",
         pathname: "/**",
       },
       {
-        protocol: "http",
-        hostname: "127.0.0.1",
-        port: "3002",
-         pathname: "/**",
-       },
-      {
-        protocol: "http",
-        hostname: "127.0.0.1",
-        port: "3002",
-        pathname: "/rails/active_storage/**",
+        protocol: "https",
+        hostname: "api.craftedminds.in",
+        pathname: "/**",
       },
       {
         protocol: "https",
-        hostname: "images.unsplash.com"
+        hostname: "images.unsplash.com",
+        pathname: "/**",
       },
     ],
   },
 }
-
-
 
 export default nextConfig

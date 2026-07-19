@@ -13,30 +13,27 @@ type Props = {
 export default function DesignerCarousel({ items }: Props) {
   return (
     <Section variant="muted">
-
       <Container>
 
         <SectionTitle spacing="toGrid">
           Discover More Designers
         </SectionTitle>
 
-        <div className="flex gap-8 overflow-x-auto pb-6 scrollbar-hide">
-
+        <div className="flex gap-8 overflow-x-auto pb-6 pr-6 scrollbar-hide">
           {items.map((brand) => (
             <div key={brand.id} className="min-w-[220px] md:min-w-[260px]">
               <BrandCard
                 name={brand.name}
-                image={brand.logo_url}
+                image={brand.cover_image_url}
+                tagline={brand.tagline}
                 href={`/brands/${brand.slug || brand.id}`}
                 aspect="portrait"
               />
             </div>
           ))}
-
         </div>
 
       </Container>
-
     </Section>
   )
 }

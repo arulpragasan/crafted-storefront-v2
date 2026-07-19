@@ -106,7 +106,10 @@ export function Grid({
 
   const baseClass = clsx(layoutClass, gapClass, className)
 
-  if (!stagger) {
+  // Horizontal lookbook strips should not use stagger animations.
+  // Framer Motion transforms can temporarily increase the scroll width
+  // during the initial render, causing a brief horizontal scrollbar.
+  if (!stagger || variant === "lookbook") {
     return <div className={baseClass}>{children}</div>
   }
 

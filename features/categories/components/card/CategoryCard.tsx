@@ -1,11 +1,11 @@
 "use client"
 
-import { ImageTile } from "@/components/ui/ImageTile"
 import Link from "next/link"
-import clsx from "clsx"
 import React from "react"
+import clsx from "clsx"
 
-import { SectionTitle, Caption, Body } from "@/components/ui/Typography"
+import { ImageTile } from "@/components/ui/ImageTile"
+import { SectionTitle, Body } from "@/components/ui/Typography"
 import { cardContentSpacingClass } from "@/styles/design-system/spacing"
 
 type CategoryCardProps = {
@@ -31,10 +31,15 @@ export function CategoryCard({
 }: CategoryCardProps) {
   const Wrapper: React.ElementType = href ? Link : "div"
 
+  const wrapperProps = href ? { href } : {}
+  image = image + "?v=2"
   return (
     <Wrapper
-      href={href ?? ""}
-      className={clsx("group block focus:outline-none", className)}
+      {...wrapperProps}
+      className={clsx(
+        "group block focus:outline-none",
+        className
+      )}
     >
       <article className={cardContentSpacingClass.mediaToCopy}>
         <ImageTile
@@ -46,11 +51,18 @@ export function CategoryCard({
         />
 
         <div className={cardContentSpacingClass.copyStack}>
-          <SectionTitle as="h3" size="compact">
+          <SectionTitle
+            as="h3"
+            size="compact"
+          >
             {title}
           </SectionTitle>
 
-          {description && <Body>{description}</Body>}
+          {description && (
+            <Body>
+              {description}
+            </Body>
+          )}
         </div>
       </article>
     </Wrapper>

@@ -2,6 +2,9 @@ import Link from "next/link"
 import clsx from "clsx"
 import { Caption } from "@/components/ui/Typography"
 import { getImageUrl } from "@/lib/utils/getImageUrl"
+import { SectionTitle } from "@/components/ui/SectionTitle"
+import { Section } from "@/components/layout/Section"
+import { Container } from "@/components/layout/Container"
 
 type Blog = {
   id: number | string
@@ -30,12 +33,12 @@ export function FromTheJournal({ blogs, brandSlug }: Props) {
     : `/brands/${brandSlug}/journal/${featured.id}`
 
   return (
-    <section className="px-6 lg:px-8">
-      <div className="max-w-6xl mx-auto space-y-14">
-        {/* Section Title */}
-        <Caption className="uppercase tracking-widest text-neutral-400">
+
+    <Section>
+      <Container size="wide">
+        <SectionTitle className="mb-12">
           From the Journal
-        </Caption>
+        </SectionTitle>
 
         {/* Editorial Grid */}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16">
@@ -128,7 +131,7 @@ export function FromTheJournal({ blogs, brandSlug }: Props) {
             </div>
           )}
         </div>
-      </div>
-    </section>
+      </Container>
+    </Section>
   )
 }

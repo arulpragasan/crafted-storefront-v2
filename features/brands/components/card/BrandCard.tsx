@@ -1,14 +1,14 @@
 "use client"
 
-import { ImageTile } from "@/components/ui/ImageTile"
 import Link from "next/link"
 import clsx from "clsx"
+
+import { ImageTile } from "@/components/ui/ImageTile"
 import { SectionTitle, Caption } from "@/components/ui/Typography"
 
 type BrandCardProps = {
   name: string
   image: string
-  logo?: string
   href: string
   tagline?: string
   aspect?: "portrait" | "square" | "landscape"
@@ -18,7 +18,6 @@ type BrandCardProps = {
 export function BrandCard({
   name,
   image,
-  logo,
   href,
   tagline,
   aspect = "portrait",
@@ -27,51 +26,39 @@ export function BrandCard({
   return (
     <Link
       href={href}
-      className={clsx("group block relative overflow-hidden rounded-2xl", className)}
+      className={clsx("group block", className)}
     >
-
-      {/* Campaign image */}
-      <ImageTile
-        src={image}
-        alt={name}
-        aspect={aspect}
-      />
-
-      {/* Logo layer */}
-      {logo && false && (
-        <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
-          <img
-            src={logo}
-            alt={`${name} logo`}
-            className="
-              max-h-12
-              opacity-90
-              transition
-              duration-300
-              group-hover:scale-105
-            "
-          />
-        </div>
-      )}
-
-      {/* Hover info — renders on a dark gradient overlay; tone="inverse" governs all text */}
-      <div
-        className="
-        absolute bottom-0 left-0 right-0
-        p-6
-        bg-gradient-to-t from-black/70 to-transparent
-        opacity-0
-        group-hover:opacity-100
-        transition
-        "
-      >
-        <SectionTitle as="h4" tone="inverse">{name}</SectionTitle>
-
-        {tagline && (
-          <Caption tone="inverse">{tagline}</Caption>
-        )}
+      <div className="overflow-hidden rounded-2xl">
+        <ImageTile
+          src={image}
+          alt={name}
+          aspect={aspect}
+          className="
+            transition-transform
+            duration-700
+            ease-out
+            group-hover:scale-[1.015]
+          "
+        />
       </div>
 
+      <div className="mt-5 space-y-1.5">
+        <SectionTitle as="h4">
+          {name}
+        </SectionTitle>
+
+        {tagline && (
+          <Caption
+            className="
+              max-w-xs
+              line-clamp-2
+              text-balance
+            "
+          >
+            {tagline}
+          </Caption>
+        )}
+      </div>
     </Link>
   )
 }

@@ -22,14 +22,13 @@ export function SignatureLooks({ products }: Props) {
   const supportingLooks = products.slice(1, 5)
 
   return (
-    <Section className="relative">
+    <Section>
       <Container size="wide">
         <SectionTitle className="mb-12">
-          Signature Looks
+          Signature Collections
         </SectionTitle>
 
         <EditorialGrid className="grid-cols-2 md:grid-cols-4 gap-8">
-          {/* Hero Look — spans 2 columns and 2 rows on desktop */}
           {heroLook && (
             <ProductCard
               key={heroLook.slug}
@@ -42,7 +41,6 @@ export function SignatureLooks({ products }: Props) {
             />
           )}
 
-          {/* Supporting Looks */}
           {supportingLooks.map((product) => (
             <ProductCard
               key={product.slug}

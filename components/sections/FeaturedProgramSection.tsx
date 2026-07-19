@@ -9,7 +9,7 @@ export default function FeaturedProgramSection({ item }) {
       program={item}
       showBrand
       showDescription
-      showSessions={false}
+      showSessions
     />
   )
 }

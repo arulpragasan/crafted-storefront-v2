@@ -97,14 +97,15 @@ export function MobileNavOverlay({ id, open, onClose }: MobileNavOverlayProps) {
       role="dialog"
       aria-modal="true"
       aria-labelledby="mobile-nav-title"
+      inert={!open}
       className={clsx(
         "fixed inset-0 z-[100] flex flex-col bg-white transition-opacity duration-300",
         open
           ? "opacity-100 pointer-events-auto"
           : "opacity-0 pointer-events-none"
       )}
-      {...(!open && { inert: "" })}
     >
+
       {/* Top bar */}
       <div className="flex items-center justify-between px-6 h-20">
         <Link

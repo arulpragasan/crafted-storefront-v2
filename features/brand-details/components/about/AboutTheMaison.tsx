@@ -1,4 +1,7 @@
 import { Caption } from "@/components/ui/Typography"
+import { Container } from "@/components/layout/Container"
+import { Section } from "@/components/layout/Section"
+import { SectionTitle } from "@/components/ui/SectionTitle"
 
 type Props = {
   description: string
@@ -6,16 +9,16 @@ type Props = {
 
 export function AboutTheMaison({ description }: Props) {
   return (
-    <section className="px-6 lg:px-8">
-      <div className="max-w-3xl mx-auto space-y-8">
-        <Caption className="uppercase tracking-widest text-neutral-400">
-          About the Maison
-        </Caption>
+    <Section>
+      <Container size="narrow">
+          <SectionTitle>
+            About the Maison
+          </SectionTitle>
 
-        <p className="text-base md:text-lg text-neutral-700 leading-[1.85] whitespace-pre-line">
-          {description}
-        </p>
-      </div>
-    </section>
+          <p className="text-base md:text-lg text-neutral-700 leading-[1.85] whitespace-pre-line">
+            {description}
+          </p>
+      </Container>
+    </Section>
   )
 }

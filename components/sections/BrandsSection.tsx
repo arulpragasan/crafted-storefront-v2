@@ -19,8 +19,8 @@ export default function BrandsSection({ items }) {
             <BrandCard
               key={brand.id}
               name={brand.name}
-              tagline="Runway Collection"
-              image={brand.logo_url}
+              tagline={brand.tagline}
+              image={brand.cover_image_url}
               logo={brand.logo_url}
               href={`/brands/${brand.slug || brand.id}`}
               className={index === 0 ? "md:col-span-2 md:row-span-2" : ""}

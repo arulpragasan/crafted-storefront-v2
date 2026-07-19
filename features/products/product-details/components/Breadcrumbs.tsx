@@ -1,9 +1,8 @@
 import Link from "next/link"
 
 export function Breadcrumbs({ items }) {
-
+console.log("aaaaaaaaaaa",items)
   if (!items?.length) return null
-
   return (
     <nav className="text-sm text-neutral-500 mb-6">
 

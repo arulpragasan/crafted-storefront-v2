@@ -12,7 +12,7 @@ export default function CategoriesSection({ items }) {
   return (
     <Section variant="default">
       <Container>
-        <SectionTitle spacing="toGrid">Explore</SectionTitle>
+        <SectionTitle spacing="toGrid">Explore Experiences</SectionTitle>
 
         <Reveal>
           <EditorialGrid className="grid-cols-2 md:grid-cols-3 lg:grid-cols-3">
@@ -21,7 +21,7 @@ export default function CategoriesSection({ items }) {
                 key={item.id}
                 title={item.name}
                 image={item.image_url}
-                href={`/${item.slug}`}
+                href={`/categories/${item.slug}`}
                 aspect="portrait"
                 sizes="(min-width: 1024px) 30vw, (min-width: 768px) 45vw, 100vw"
               />
@@ -30,7 +30,7 @@ export default function CategoriesSection({ items }) {
         </Reveal>
 
         <div className="mt-14 flex justify-center md:mt-16">
-          <EditorialCTA href="/categories">Explore All Categories</EditorialCTA>
+          <EditorialCTA href="/categories">Explore All Experiences</EditorialCTA>
         </div>
       </Container>
     </Section>

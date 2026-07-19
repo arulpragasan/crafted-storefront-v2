@@ -15,7 +15,7 @@ export default function ProductsSection({ items }: ProductsSectionProps) {
         <Section variant="default">
             <Container size="wide">
                 <SectionTitle spacing="toGrid">
-                  Collections
+                  Featured Collections
                 </SectionTitle>
 
                 <Grid className="grid-cols-2 md:grid-cols-4 gap-8 md:gap-10">
