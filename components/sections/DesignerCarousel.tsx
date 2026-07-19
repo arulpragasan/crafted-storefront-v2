@@ -5,9 +5,10 @@ import { Section } from "@/components/layout/Section"
 import { Container } from "@/components/layout/Container"
 import { SectionTitle } from "@/components/ui/SectionTitle"
 import { BrandCard } from "@/features/brands/components/card/BrandCard"
+import type { FeaturedBrandsSection } from "@/types/homepage"
 
 type Props = {
-  items: HomepageResponse["featured_brands"]
+  items: FeaturedBrandsSection["items"]
 }
 
 export default function DesignerCarousel({ items }: Props) {
@@ -23,12 +24,21 @@ export default function DesignerCarousel({ items }: Props) {
           {items.map((brand) => (
             <div key={brand.id} className="min-w-[220px] md:min-w-[260px]">
               <BrandCard
+                key={brand.id}
+                name={brand.name}
+                tagline={brand.tagline ?? undefined}
+                image={brand.cover_image_url ?? undefined}
+                logo={brand.logo_url ?? undefined}
+                href={`/brands/${brand.slug}`}
+                className={index === 0 ? "md:col-span-2 md:row-span-2" : ""}
+              />
+              {/*<BrandCard
                 name={brand.name}
                 image={brand.cover_image_url}
                 tagline={brand.tagline}
                 href={`/brands/${brand.slug || brand.id}`}
                 aspect="portrait"
-              />
+              />*/}
             </div>
           ))}
         </div>

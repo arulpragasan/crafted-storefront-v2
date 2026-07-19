@@ -5,8 +5,15 @@ import { Reveal } from "@/components/motion/Reveal"
 import { EditorialGrid } from "@/components/layout/EditorialGrid"
 import { CategoryCard } from "@/features/categories/components/card/CategoryCard"
 import { EditorialCTA } from "@/components/ui/EditorialCTA"
+import type { HomepageCategory } from "@/types/homepage"
 
-export default function CategoriesSection({ items }) {
+type CategoriesSectionProps = {
+  items: HomepageCategory[]
+}
+
+export default function CategoriesSection({
+  items,
+}: CategoriesSectionProps) {
   const visibleItems = items.slice(0, 6)
 
   return (

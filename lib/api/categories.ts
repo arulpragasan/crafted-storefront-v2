@@ -1,4 +1,5 @@
 import { API_BASE_URL } from "@/lib/config/publicUrls"
+import type { HomepageBrand } from "@/types/homepage"
 
 export type CategorySubcategory = {
   id: number
@@ -172,6 +173,10 @@ export type CategoryDetail = {
   refine: {
     enabled: boolean
   }
+}
+
+type BrandsSectionProps = {
+  items: HomepageBrand[]
 }
 
 export async function getCategoryBySlug(

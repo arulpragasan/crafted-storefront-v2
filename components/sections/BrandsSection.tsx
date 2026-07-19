@@ -3,9 +3,15 @@ import { SectionTitle } from "@/components/ui/SectionTitle"
 import { Container } from "@/components/layout/Container"
 import { EditorialGrid } from "@/components/layout/EditorialGrid"
 import { BrandCard } from "@/features/brands/components/card/BrandCard"
+import type { HomepageBrand } from "@/types/homepage"
 
+type BrandsSectionProps = {
+  items: HomepageBrand[]
+}
 
-export default function BrandsSection({ items }) {
+export default function BrandsSection({
+  items,
+}: BrandsSectionProps) {
   return (
     <Section variant="default">
       <Container size="wide">
@@ -21,7 +27,6 @@ export default function BrandsSection({ items }) {
               name={brand.name}
               tagline={brand.tagline}
               image={brand.cover_image_url}
-              logo={brand.logo_url}
               href={`/brands/${brand.slug || brand.id}`}
               className={index === 0 ? "md:col-span-2 md:row-span-2" : ""}
             />
