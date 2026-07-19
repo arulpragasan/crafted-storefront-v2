@@ -123,7 +123,12 @@ export type CategoryDetailSubcategory = {
   name: string
   slug: string
   description?: string | null
-  image_url?: string | null
+
+  media?: {
+    cover_image?: {
+      url?: string | null
+    } | null
+  }
 }
 
 export type CategoryDetail = {

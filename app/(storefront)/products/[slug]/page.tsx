@@ -1,5 +1,5 @@
 import { notFound } from "next/navigation"
-import { getProduct } from "@/features/products/product-details/api/product/"
+import { getProduct } from "@/features/products/product-details/api/product"
 
 import {
   Breadcrumbs,
