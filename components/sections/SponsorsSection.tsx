@@ -3,6 +3,7 @@ import { SectionTitle } from "@/components/ui/SectionTitle"
 import { Container } from "@/components/layout/Container"
 import { Reveal } from "@/components/motion/Reveal"
 import { Caption } from "@/components/ui/Typography"
+import { getImageUrl } from "@/lib/utils/getImageUrl";
 import type { SponsorsSection as SponsorsSectionData } from "@/types/homepage"
 
 type SponsorsSectionProps = {
@@ -31,7 +32,7 @@ export default function SponsorsSection({ items }: SponsorsSectionProps) {
               >
                 {s.logo_url ? (
                   <img
-                    src={s.logo_url}
+                    src={getImageUrl(s.logo_url)}
                     alt={s.name}
                     className="
                       h-10

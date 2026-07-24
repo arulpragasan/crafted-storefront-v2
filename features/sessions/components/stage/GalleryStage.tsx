@@ -2,6 +2,7 @@
 
 import { useState, useCallback, useEffect } from "react";
 import Image from "next/image";
+import { getImageUrl } from "@/lib/utils/getImageUrl";
 import type { SessionMedia } from "@/features/sessions/types";
 
 type GalleryMedia = Extract<SessionMedia, { kind: "image_gallery" }>;
@@ -63,7 +64,7 @@ export function GalleryStage({ media, title }: GalleryStageProps) {
       <div className="relative w-full overflow-hidden rounded-3xl bg-gray-100 aspect-video">
         <Image
           className="object-cover"
-          src={currentImage.url}
+          src={getImageUrl(currentImage.url)}
           alt={altText}
           fill
           sizes="(max-width: 768px) 100vw, (max-width: 1200px) 80vw, 1100px"
@@ -112,7 +113,7 @@ export function GalleryStage({ media, title }: GalleryStageProps) {
             >
               <Image
                 className="object-cover"
-                src={image.url}
+                src={getImageUrl(image.url)}
                 alt={image.alt || title}
                 fill
                 sizes="96px"

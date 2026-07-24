@@ -1,5 +1,6 @@
 import { ProductGallery } from "./gallery/ProductGallery"
 import { ProductInfo } from "./ProductInfo"
+import { getImageUrl } from "@/lib/utils/getImageUrl"
 
 type Theme = {
   name: string
@@ -36,7 +37,9 @@ export function ProductHero({
   themes = [],
   occasions = [],
 }: Props) {
-  const galleryImages = gallery.map((image) => image.url)
+  const galleryImages = gallery.map((image) =>
+    getImageUrl(image.url)
+  )
 
   return (
     <div className="grid lg:grid-cols-[1fr_420px] gap-16">
