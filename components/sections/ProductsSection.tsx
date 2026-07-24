@@ -1,13 +1,13 @@
-import { HomepageResponse } from "@/types/homepage"
 import { Section } from "@/components/layout/Section"
 import { SectionTitle } from "@/components/ui/SectionTitle"
 import { Container } from "@/components/layout/Container"
 import { Grid } from "@/components/layout/Grid"
 import { ProductCard } from "@/features/products/components/card/ProductCard"
+import type { FeaturedProductsSection } from "@/types/homepage"
 
 
 interface ProductsSectionProps {
-    items: HomepageResponse["featured_products"]
+    items: FeaturedProductsSection["items"]
 }
 
 export default function ProductsSection({ items }: ProductsSectionProps) {
@@ -23,7 +23,6 @@ export default function ProductsSection({ items }: ProductsSectionProps) {
                         <ProductCard
                         key={product.id}
                         name={product.name}
-                        brand={product.brand}
                         image={product.image_url}
                         price={product.price}
                         href={`/products/${product.slug}`}

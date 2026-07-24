@@ -103,10 +103,6 @@ export function ProgramCard({
   const cover = getImageUrl(program.cover_image_url)
   const live = isLive(program.status)
 
-console.log("cover")
-console.log(program.cover_image_url)
-console.log(cover)
-
   const brandName = showBrand ? program.brand?.name : undefined
   const sessions = countLabel(program.session_count, "session")
   const speakers = countLabel(program.speaker_count, "speaker")

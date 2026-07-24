@@ -28,8 +28,8 @@ type Program = {
   slug: string
   name: string
 
-  description?: string
-  cover_image_url?: string
+  description?: string | null
+  cover_image_url?: string | null
 
   brand?: Brand
 

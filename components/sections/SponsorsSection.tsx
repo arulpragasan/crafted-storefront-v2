@@ -1,14 +1,18 @@
-import { HomepageResponse } from "@/types/homepage"
 import { Section } from "@/components/layout/Section"
 import { SectionTitle } from "@/components/ui/SectionTitle"
 import { Container } from "@/components/layout/Container"
 import { Reveal } from "@/components/motion/Reveal"
 import { Caption } from "@/components/ui/Typography"
+import type { SponsorsSection as SponsorsSectionData } from "@/types/homepage"
 
-export default function SponsorsSection({ items }) {
+type SponsorsSectionProps = {
+  items: SponsorsSectionData["items"]
+}
+
+export default function SponsorsSection({ items }: SponsorsSectionProps) {
   return (
     <Section variant="tight">
-      <Container size="default">
+      <Container>
 
         <SectionTitle align="center" className="mb-16">
           Our Partners
@@ -20,7 +24,7 @@ export default function SponsorsSection({ items }) {
             {items.map((s) => (
               <a
                 key={s.id}
-                href={s.website}
+                href={s.website ?? undefined}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="flex h-16 w-full items-center justify-center px-4"
@@ -44,7 +48,7 @@ export default function SponsorsSection({ items }) {
                   />
                 ) : (
                   <Caption>
-                    {s.name || (s as any).bane}
+                    {s.name}
                   </Caption>
                 )}
               </a>

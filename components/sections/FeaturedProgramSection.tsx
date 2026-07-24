@@ -1,11 +1,16 @@
 "use client"
 
 import { ProgramSpotlight } from "@/features/programs/components/ProgramSpotlight"
+import type { ProgramHighlightSection } from "@/types/homepage"
 
-export default function FeaturedProgramSection({ item }) {
+type FeaturedProgramSectionProps = {
+  item: ProgramHighlightSection["item"]
+}
+
+export default function FeaturedProgramSection({ item }: FeaturedProgramSectionProps) {
   return (
     <ProgramSpotlight
-      sectionLabel="Featured Program"
+      title="Featured Program"
       program={item}
       showBrand
       showDescription

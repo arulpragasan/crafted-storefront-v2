@@ -33,12 +33,6 @@ export function BrandCard({
           src={image}
           alt={name}
           aspect={aspect}
-          className="
-            transition-transform
-            duration-700
-            ease-out
-            group-hover:scale-[1.015]
-          "
         />
       </div>
 

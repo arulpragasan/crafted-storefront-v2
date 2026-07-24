@@ -27,8 +27,8 @@ export function DesignerSpotlight() {
 
   function handleSelect(slug: string) {
     if (activeBrands.includes(slug)) {
-      const updated = activeBrands.filter((b) => b !== slug)
-      setBrand(updated.length > 0 ? updated : null)
+      const updated = activeBrands.filter((brand) => brand !== slug)
+      setBrand(updated)
     } else {
       setBrand([...activeBrands, slug])
     }

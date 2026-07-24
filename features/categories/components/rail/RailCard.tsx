@@ -10,7 +10,12 @@ import {
   imagePresentationClass,
 } from "@/styles/design-system/presentation"
 import { cardContentSpacingClass } from "@/styles/design-system/spacing"
-import type { DiscoveryItem } from "@/lib/api/categories"
+
+export type DiscoveryItem = {
+  name: string
+  slug: string
+  image: string
+}
 
 type RailCardProps = {
   item: DiscoveryItem
@@ -28,8 +33,12 @@ export function RailCard({ item, href, className }: RailCardProps) {
       )}
     >
       <article className={cardContentSpacingClass.mediaToCopy}>
-        {/* Editorial rail media — zoom only */}
-        <div className={clsx("relative aspect-[4/3]", surfacePresentationClass.imageTile)}>
+        <div
+          className={clsx(
+            "relative aspect-[4/3]",
+            surfacePresentationClass.imageTile
+          )}
+        >
           <Image
             src={item.image}
             alt={item.name}

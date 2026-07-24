@@ -28,7 +28,10 @@ export function CategorySection({
             {categories.map((category, i) => (
               <CategoryCard
                 key={category.slug}
-                category={category}
+                title={category.name}
+                description={category.description}
+                image={category.imageUrl ?? "/images/placeholder.png"}
+                href={category.href}
                 priority={i < 3}
               />
             ))}

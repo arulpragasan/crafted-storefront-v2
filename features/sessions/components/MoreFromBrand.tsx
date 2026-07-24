@@ -31,7 +31,7 @@ export function MoreFromBrand({
               id: p.id,
               name: p.name,
               slug: p.slug,
-              cover_image_url: p.cover_image_url,
+              cover_image_url: p.cover_image_url ?? undefined,
               session_count: p.session_count,
               speaker_count: p.speaker_count,
             }}

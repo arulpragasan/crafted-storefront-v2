@@ -10,8 +10,6 @@ type Props = {
 export function ProductGallery({ images }: Props) {
   const [currentIndex, setCurrentIndex] = useState(0)
   
-  console.log("images prop", images)
-
   const validImages = images.filter(
     (image): image is string =>
       typeof image === "string" &&

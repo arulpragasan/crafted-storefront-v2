@@ -17,7 +17,7 @@ export function GalleryLayout() {
       <GalleryRail />
 
       <ProductImageZoom
-        src={getImageUrl(activeImage.url)}
+        src={getImageUrl(activeImage)}
         onClick={openFullscreen}
       />
 

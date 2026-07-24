@@ -1,21 +1,42 @@
 "use client"
 
-import { createContext, useContext, useState } from "react"
+import {
+  createContext,
+  useContext,
+  useState,
+  type ReactNode,
+} from "react"
 
-const GalleryContext = createContext(null)
+type GalleryContextValue = {
+  images: string[]
+  activeIndex: number
+  setActiveIndex: (index: number) => void
+  fullscreen: boolean
+  openFullscreen: () => void
+  closeFullscreen: () => void
+}
 
-export function GalleryProvider({ images, children }) {
+type GalleryProviderProps = {
+  images: string[]
+  children: ReactNode
+}
 
+const GalleryContext = createContext<GalleryContextValue | null>(null)
+
+export function GalleryProvider({
+  images,
+  children,
+}: GalleryProviderProps) {
   const [activeIndex, setActiveIndex] = useState(0)
   const [fullscreen, setFullscreen] = useState(false)
 
-  const value = {
+  const value: GalleryContextValue = {
     images,
     activeIndex,
     setActiveIndex,
     fullscreen,
     openFullscreen: () => setFullscreen(true),
-    closeFullscreen: () => setFullscreen(false)
+    closeFullscreen: () => setFullscreen(false),
   }
 
   return (
@@ -26,11 +47,11 @@ export function GalleryProvider({ images, children }) {
 }
 
 export function useGallery() {
-  const ctx = useContext(GalleryContext)
+  const context = useContext(GalleryContext)
 
-  if (!ctx) {
+  if (!context) {
     throw new Error("useGallery must be used inside GalleryProvider")
   }
 
-  return ctx
+  return context
 }

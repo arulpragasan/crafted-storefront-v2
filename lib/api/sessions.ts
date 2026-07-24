@@ -1,5 +1,4 @@
 import { API_BASE_URL } from "@/lib/config/publicUrls"
-console.log("API_BASE_URL", API_BASE_URL)
 
 export async function getSession(
   programSlug: string,

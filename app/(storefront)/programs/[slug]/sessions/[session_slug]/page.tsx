@@ -25,7 +25,6 @@ export default async function SessionDetailsPage({
 
   try {
     data = await getSession(slug, session_slug)
-    console.log(JSON.stringify(data, null, 2))
   } catch {
     notFound()
   }

@@ -20,6 +20,8 @@ type Brand = {
 }
 
 export function BrandCard({ brand }: { brand: Brand }) {
+  const topProducts = brand.top_products ?? []
+
   return (
     <Link
       href={`/brands/${brand.slug}`}
@@ -88,9 +90,9 @@ export function BrandCard({ brand }: { brand: Brand }) {
         </div>
 
         {/* Product previews */}
-        {brand.top_products?.length > 0 && (
+        {topProducts.length > 0 && (
           <div className="flex gap-2">
-            {brand.top_products.slice(0, 3).map((p, i) => (
+            {topProducts.slice(0, 3).map((p, i) => (
               <div
                 key={i}
                 className={clsx(

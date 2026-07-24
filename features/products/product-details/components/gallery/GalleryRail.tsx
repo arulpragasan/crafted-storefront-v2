@@ -21,7 +21,7 @@ export function GalleryRail() {
         >
 
           <Image
-            src={getImageUrl(img.url)}
+            src={getImageUrl(img)}
             alt=""
             fill
             sizes="72px"

@@ -85,7 +85,7 @@ export function SplitHero({ program }: SplitHeroProps) {
                 </Subtitle>
 
                 <Text>
-                  {program.name}
+                  {program.title}
                 </Text>
 
                 <Muted className="text-neutral-500">

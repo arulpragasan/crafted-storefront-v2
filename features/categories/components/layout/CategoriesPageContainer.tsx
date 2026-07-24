@@ -3,6 +3,7 @@ import { PageSection } from "@/components/layout/PageSection"
 import type { Category } from "@/lib/api/categories"
 import { CategoriesEditorialHero } from "../sections/CategoriesEditorialHero"
 import { PrimaryCategoryAtlas } from "../sections/PrimaryCategoryAtlas"
+import type { EditorialDiscoveryItem } from "../sections/EditorialDiscoverySection"
 
 type CategoriesPageContainerProps = {
   categories: Category[]
@@ -46,7 +47,6 @@ function createDiscoveryItems(categories: Category[]): EditorialDiscoveryItem[] 
 export function CategoriesPageContainer({
   categories,
 }: CategoriesPageContainerProps) {
-  console.log("categories", categories)
   return (
     <main>
       <PageSection rhythm="feature">

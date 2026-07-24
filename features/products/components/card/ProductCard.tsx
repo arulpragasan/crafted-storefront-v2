@@ -7,7 +7,7 @@ import { getImageUrl } from "@/lib/utils/getImageUrl"
 type ProductCardProps = {
   name: string
   image: string | null | undefined
-  price?: number | null
+  price?: number | string | null
   href: string
   aspect?: "portrait" | "square"
   brand?: string
@@ -26,6 +26,7 @@ export function ProductCard({
   className,
 }: ProductCardProps) {
   const aspectClass = aspect === "portrait" ? "aspect-[3/4]" : "aspect-square"
+  const formattedPrice = typeof price === "number" ? "$" + price.toLocaleString() : price
 
   return (
     <Link href={href} className={clsx("group block", className)}>
@@ -65,7 +66,7 @@ export function ProductCard({
 
         {showPrice && price != null && (
           <p className="text-sm text-neutral-500">
-            ${price.toLocaleString()}
+            {formattedPrice}
           </p>
         )}
       </div>

@@ -1,2 +1,1 @@
-export * from "./CategoryNavigation"
-export * from "./DesignerSpotlight"
+export * from "./BrandsNavigation"

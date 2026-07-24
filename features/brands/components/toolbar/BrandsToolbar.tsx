@@ -1,14 +1,19 @@
 "use client"
 
 import { useRouter, useSearchParams } from "next/navigation"
-import { Muted } from "@/components/ui/Typography"
+import type { ReactNode } from "react"
 
 /**
  * @deprecated Use BrandsSortDropdown directly in BrandsLayout.
  * This component is kept temporarily for backwards compatibility
  * but is no longer rendered in the BLP.
  */
-export function BrandsToolbar({ sorting, rightSlot }: { sorting: any[]; rightSlot?: React.ReactNode }) {
+type BrandSortOption = {
+  key: string
+  label: string
+}
+
+export function BrandsToolbar({ sorting, rightSlot }: { sorting: BrandSortOption[]; rightSlot?: ReactNode }) {
   const router = useRouter()
   const searchParams = useSearchParams()
 
@@ -21,7 +26,7 @@ export function BrandsToolbar({ sorting, rightSlot }: { sorting: any[]; rightSlo
 
   return (
     <div className="flex justify-between items-center">
-      <Muted></Muted>
+      <span aria-hidden="true" />
 
       <div className="flex items-center gap-4">
         <select
@@ -29,7 +34,7 @@ export function BrandsToolbar({ sorting, rightSlot }: { sorting: any[]; rightSlo
           onChange={(e) => handleChange(e.target.value)}
           className="text-sm text-neutral-600 hover:text-neutral-900 transition"
         >
-          {sorting?.map((s: any) => (
+          {sorting?.map((s) => (
             <option key={s.key} value={s.key}>
               {s.label}
             </option>

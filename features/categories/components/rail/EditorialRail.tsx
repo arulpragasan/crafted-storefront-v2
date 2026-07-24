@@ -1,8 +1,7 @@
 import { Section, Container, Grid } from "@/components/layout"
 import { Headline } from "@/components/ui/Typography"
 
-import { RailCard } from "./RailCard"
-import type { DiscoveryItem } from "@/lib/api/categories"
+import { RailCard, type DiscoveryItem } from "./RailCard"
 
 type EditorialRailProps<T extends DiscoveryItem> = {
   title: string

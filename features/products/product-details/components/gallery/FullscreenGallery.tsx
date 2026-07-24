@@ -98,7 +98,7 @@ export function FullscreenGallery() {
 
           <Image
             key={i}
-            src={getImageUrl(img.url)}
+            src={getImageUrl(img)}
             alt=""
             fill
             sizes="80vw"

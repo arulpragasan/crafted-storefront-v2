@@ -3,14 +3,21 @@
 import { createContext, useContext } from "react"
 import { useRouter, useSearchParams } from "next/navigation"
 
+import type {
+  Product,
+  ProductFilters,
+  ProductMeta,
+  ProductNavigation,
+} from "@/lib/api/products"
+
 import { parseProductsQuery } from "@/lib/utils/parseProductsQuery"
 import { buildProductsUrl } from "@/lib/utils/buildProductsUrl"
 
 type ProductsContextValue = {
-  products: any[]
-  filters: any
-  meta: any
-  navigation?: any
+  products: Product[]
+  filters: ProductFilters
+  meta: ProductMeta
+  navigation: ProductNavigation
 }
 
 const ProductsContext = createContext<ProductsContextValue | null>(null)
@@ -47,12 +54,12 @@ export function useProducts() {
 
   const query = parseProductsQuery(paramsObject)
 
-  function push(updates: Record<string, string[] | string | null>) {
+  function push(
+    updates: Record<string, string[] | string | null>
+  ) {
     const url = buildProductsUrl(searchParams, updates)
-    router.push(url, { scroll: false }) // 🔥 important
+    router.push(url, { scroll: false })
   }
-
-  // ✅ MULTI-SELECT SETTERS
 
   function setBrand(values: string[]) {
     push({ brand: values })
@@ -91,6 +98,7 @@ export function useProducts() {
 
   function goToPage(page: number) {
     const params = new URLSearchParams(searchParams)
+
     params.set("page", page.toString())
 
     router.push(`/products?${params.toString()}`)

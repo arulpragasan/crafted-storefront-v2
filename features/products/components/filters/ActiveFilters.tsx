@@ -2,46 +2,54 @@
 
 import { useProducts } from "@/features/products/context/products"
 
+type FilterKey = "brand" | "theme" | "occasion"
+
 export function ActiveFilters() {
   const { query, setBrand, setTheme, setOccasion } = useProducts()
 
-  const normalize = (val: string | string[] | undefined): string[] => {
+  const normalize = (
+    val: string | string[] | undefined
+  ): string[] => {
     if (!val) return []
+
     if (typeof val === "string") {
       return val.includes(",") ? val.split(",") : [val]
     }
+
     return val
   }
 
-  const filters = [
+  const filters: Array<{
+    key: FilterKey
+    values: string[]
+  }> = [
     { key: "brand", values: normalize(query.brand) },
     { key: "theme", values: normalize(query.theme) },
     { key: "occasion", values: normalize(query.occasion) },
   ]
 
-  const activeFilters = filters.flatMap((f) =>
-    f.values.map((value) => ({
-      key: f.key,
+  const activeFilters = filters.flatMap((filter) =>
+    filter.values.map((value) => ({
+      key: filter.key,
       value,
     }))
   )
 
   if (!activeFilters.length) return null
 
-  function removeFilter(key: string, value: string) {
-    const current = normalize(query[key as keyof typeof query])
-    const updated = current.filter((v) => v !== value)
-    const result = updated.length > 0 ? updated : null
+  function removeFilter(key: FilterKey, value: string) {
+    const current = normalize(query[key])
+    const updated = current.filter((item) => item !== value)
 
-    if (key === "brand") setBrand(result)
-    if (key === "theme") setTheme(result)
-    if (key === "occasion") setOccasion(result)
+    if (key === "brand") setBrand(updated)
+    if (key === "theme") setTheme(updated)
+    if (key === "occasion") setOccasion(updated)
   }
 
   function clearAll() {
-    setBrand(null)
-    setTheme(null)
-    setOccasion(null)
+    setBrand([])
+    setTheme([])
+    setOccasion([])
   }
 
   return (

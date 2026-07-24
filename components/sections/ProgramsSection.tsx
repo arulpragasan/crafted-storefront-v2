@@ -18,7 +18,7 @@ export default function ProgramsSection({ programs }: ProgramsSectionProps) {
   if (!programs?.length) return null
 
   return (
-    <Section variant="homeDefault">
+    <Section variant="default">
       <Container size="wide">
         <div className="grid md:grid-cols-2 gap-16">
 

@@ -4,22 +4,32 @@ export type Product = {
   id: number
   slug: string
   name: string
+
   brand: {
     name: string
     slug: string
   }
+
   category: {
     name: string
     slug: string
   }
+
+  subcategory: {
+    name: string
+    slug: string
+  }
+
   theme: {
     name: string
     slug: string
   }
+
   occasion: {
     name: string
     slug: string
   }
+
   image_url: string
 }
 
@@ -35,6 +45,16 @@ export type ProductFilters = {
   occasions: FilterOption[]
 }
 
+export type ProductNavigationItem = {
+  slug: string
+  name: string
+}
+
+export type ProductNavigation = {
+  categories: ProductNavigationItem[]
+  subcategories: ProductNavigationItem[]
+}
+
 export type ProductMeta = {
   page: number
   per_page: number
@@ -45,16 +65,7 @@ export type ProductMeta = {
 export type ProductsResponse = {
   products: Product[]
   filters: ProductFilters
-  navigation: {
-    categories: {
-      slug: string
-      name: string
-    }[]
-    subcategories: {
-      slug: string
-      name: string
-    }[]
-  }
+  navigation: ProductNavigation
   meta: ProductMeta
 }
 
@@ -73,22 +84,42 @@ export async function getProducts(
 ): Promise<ProductsResponse> {
   const searchParams = new URLSearchParams()
 
-  if (params.category) searchParams.set("category", params.category)
+  if (params.category) {
+    searchParams.set("category", params.category)
+  }
+
+  if (params.subcategory) {
+    searchParams.set("subcategory", params.subcategory)
+  }
+
   if (params.brand?.length) {
     searchParams.set("brand", params.brand.join(","))
   }
+
   if (params.theme?.length) {
     searchParams.set("theme", params.theme.join(","))
   }
+
   if (params.occasion?.length) {
     searchParams.set("occasion", params.occasion.join(","))
   }
-  if (params.page) searchParams.set("page", params.page.toString())
 
-  const url = `${API_BASE_URL}/api/v2/storefront/products?${searchParams.toString()}`
+  if (params.sort) {
+    searchParams.set("sort", params.sort)
+  }
+
+  if (params.page) {
+    searchParams.set("page", params.page.toString())
+  }
+
+  const queryString = searchParams.toString()
+
+  const url = `${API_BASE_URL}/api/v2/storefront/products${
+    queryString ? `?${queryString}` : ""
+  }`
 
   const res = await fetch(url, {
-    next: { revalidate: 60 } // cache for 60 seconds
+    next: { revalidate: 60 },
   })
 
   if (!res.ok) {

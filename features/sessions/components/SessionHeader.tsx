@@ -16,7 +16,7 @@ import type {
  *   SESSION TYPE             (Meta eyebrow; + media-type label when meaningful)
  *   Session Title            (Display on desktop, Headline on mobile — the focal point)
  */
-export function SessionHeader({ session }: { session: SessionDetails }) {
+export function SessionHeader({ session }: { session: SessionHeaderData }) {
   const { program } = session
   const mediaLabel = mediaTypeLabel(session.media_type)
 

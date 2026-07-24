@@ -1,21 +1,34 @@
-import { sectionRegistry } from "./section-registry"
+import type { HomepageSection } from "@/types/homepage"
+import CategoriesSection from "@/components/sections/CategoriesSection"
+import BrandsSection from "@/components/sections/BrandsSection"
+import ProductsSection from "@/components/sections/ProductsSection"
+import FeaturedProgramSection from "@/components/sections/FeaturedProgramSection"
+import SponsorsSection from "@/components/sections/SponsorsSection"
 
 type Props = {
-  sections: any[]
+  sections: HomepageSection[]
 }
 
 export default function SectionRenderer({ sections }: Props) {
   return (
     <>
       {sections.map((section, index) => {
-        const Component = sectionRegistry[section.type]
+        switch (section.type) {
+          case "categories":
+            return <CategoriesSection key={index} items={section.items} />
 
-        if (!Component) {
-          console.warn(`Unknown section type: ${section.type}`)
-          return null
+          case "featured_brands":
+            return <BrandsSection key={index} items={section.items} />
+
+          case "program_highlight":
+            return <FeaturedProgramSection key={index} item={section.item} />
+
+          case "featured_products":
+            return <ProductsSection key={index} items={section.items} />
+
+          case "sponsors":
+            return <SponsorsSection key={index} items={section.items} />
         }
-
-        return <Component key={index} {...section} />
       })}
     </>
   )

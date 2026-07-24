@@ -1,23 +1,35 @@
 import Link from "next/link"
 
-export function Breadcrumbs({ items }) {
-console.log("aaaaaaaaaaa",items)
-  if (!items?.length) return null
+export type BreadcrumbItem = {
+  slug: string
+  url: string
+  name: string
+}
+
+type BreadcrumbsProps = {
+  items: BreadcrumbItem[]
+}
+
+export function Breadcrumbs({ items }: BreadcrumbsProps) {
+  if (!items.length) return null
+
   return (
-    <nav className="text-sm text-neutral-500 mb-6">
-
-      {items.map((item, i) => (
+    <nav
+      aria-label="Breadcrumb"
+      className="mb-6 text-sm text-neutral-500"
+    >
+      {items.map((item, index) => (
         <span key={item.slug}>
-
-          <Link href={item.url} className="hover:text-black">
+          <Link
+            href={item.url}
+            className="hover:text-black"
+          >
             {item.name}
           </Link>
 
-          {i < items.length - 1 && " / "}
-
+          {index < items.length - 1 && " / "}
         </span>
       ))}
-
     </nav>
   )
 }

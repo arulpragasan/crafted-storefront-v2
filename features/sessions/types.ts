@@ -74,6 +74,10 @@ export type ProgramCardData = {
   name: string
   slug: string
   cover_image_url?: string | null
+
+  session_count?: number
+  speaker_count?: number
+
   brand?: {
     id: number
     name: string

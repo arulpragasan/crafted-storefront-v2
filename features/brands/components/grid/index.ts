@@ -1,3 +1,3 @@
-export * from "./Pagination"
-export * from "./ProductGrid"
-export * from "./SortBar"
+export * from "./BrandCard"
+export * from "./BrandsGrid"
+export * from "./FeaturedBrandCard"
